@@ -1,0 +1,25 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  DomainName:
+    Type: 'String'
+  ProjectTag:
+    Type: 'String'
+
+Resources:
+  Certificate:
+    Type: 'AWS::CertificateManager::Certificate'
+    Properties:
+      DomainName: !Ref DomainName
+      DomainValidationOptions:
+        - DomainName: !Ref DomainName
+          ValidationDomain: !Ref DomainName
+      Tags:
+        - Key: 'Project'
+          Value: !Ref ProjectTag
+
+Outputs:
+  CertificateId:
+    Value: !Ref Certificate
+...
