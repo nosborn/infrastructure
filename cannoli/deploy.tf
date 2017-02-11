@@ -4,6 +4,11 @@ resource "aws_iam_user" "deploy" {
 
 data "aws_iam_policy_document" "deploy" {
   statement {
+    actions   = ["cloudfront:CreateInvalidation", "cloudfront:getInvalidation"]
+    resources = ["*"]
+  }
+
+  statement {
     actions   = ["s3:ListBucket"]
     resources = ["${aws_s3_bucket.content.arn}"]
   }
