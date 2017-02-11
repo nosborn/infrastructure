@@ -42,3 +42,14 @@ resource "aws_route53_record" "MX" {
     "20 in2-smtp.messagingengine.com.",
   ]
 }
+
+resource "aws_route53_record" "TXT" {
+  zone_id = "${aws_route53_zone.cannoli.zone_id}"
+  name    = "${var.domain_name}"
+  type    = "TXT"
+  ttl     = 900
+
+  records = [
+    "keybase-site-verification=bgOD0nccVlahCce8OE-YA5B1Hmmf_1VaEd3aIX-lCSI"
+  ]
+}
