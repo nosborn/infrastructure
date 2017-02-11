@@ -2,6 +2,7 @@ resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {}
 
 resource "aws_cloudfront_distribution" "distribution" {
   aliases             = ["${var.domain_name}"]
+  comment             = "London Cannoli Map"
   default_root_object = "index.html"
   enabled             = true
   is_ipv6_enabled     = true
