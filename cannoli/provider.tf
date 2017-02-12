@@ -8,3 +8,5 @@ provider "aws" {
   allowed_account_ids = ["${data.terraform_remote_state.core.allowed_account_id}"]
   alias               = "us-east-1"
 }
+
+provider "statuscake" {}
