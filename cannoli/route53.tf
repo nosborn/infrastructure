@@ -31,11 +31,22 @@ resource "aws_route53_record" "AAAA" {
   }
 }
 
+resource "aws_route53_record" "CNAME" {
+  zone_id = "${aws_route53_zone.cannoli.zone_id}"
+  name    = "0f1893c5e1360b28dd07a5c0f317c7c3.${var.domain_name}"
+  type    = "CNAME"
+  ttl     = 3600
+
+  records = [
+    "verify.bing.com."
+  ]
+}
+
 resource "aws_route53_record" "MX" {
   zone_id = "${aws_route53_zone.cannoli.zone_id}"
   name    = "${var.domain_name}"
   type    = "MX"
-  ttl     = 900
+  ttl     = 3600
 
   records = [
     "10 in1-smtp.messagingengine.com.",
@@ -47,9 +58,10 @@ resource "aws_route53_record" "TXT" {
   zone_id = "${aws_route53_zone.cannoli.zone_id}"
   name    = "${var.domain_name}"
   type    = "TXT"
-  ttl     = 900
+  ttl     = 3600
 
   records = [
+    "google-site-verification=8otHDcgVRYHCq_1KfVQQxfnZeTwN_ZLTpzWbPgq9YZQ",
     "keybase-site-verification=bgOD0nccVlahCce8OE-YA5B1Hmmf_1VaEd3aIX-lCSI"
   ]
 }
