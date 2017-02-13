@@ -9,6 +9,7 @@
 resource "statuscake_test" "HTTP" {
   website_name  = "cannoli.london"
   website_url   = "https://cannoli.london/ping.txt"
+  check_rate    = 1200
   test_type     = "HTTP"
   confirmations = 2
 
