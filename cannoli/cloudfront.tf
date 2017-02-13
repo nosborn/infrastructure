@@ -12,8 +12,8 @@ resource "aws_cloudfront_distribution" "distribution" {
     allowed_methods        = ["GET", "HEAD", "OPTIONS"]
     cached_methods         = ["GET", "HEAD"]
     compress               = true
-    default_ttl            = 60
-    max_ttl                = 120
+    default_ttl            = 300
+    max_ttl                = 600
     min_ttl                = 0
     target_origin_id       = "S3-cannoli"
     viewer_protocol_policy = "redirect-to-https"
