@@ -8,13 +8,33 @@ resource "aws_cloudfront_distribution" "distribution" {
   is_ipv6_enabled     = true
   price_class         = "PriceClass_100"
 
+  cache_behavior {
+    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
+    cached_methods         = ["GET", "HEAD"]
+    compress               = true
+    default_ttl            = 3600
+    max_ttl                = 86400
+    min_ttl                = 300
+    path_pattern           = "sitemap.xml",
+    target_origin_id       = "S3-cannoli"
+    viewer_protocol_policy = "redirect-to-https"
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+  }
+
   default_cache_behavior {
     allowed_methods        = ["GET", "HEAD", "OPTIONS"]
     cached_methods         = ["GET", "HEAD"]
     compress               = true
     default_ttl            = 300
-    max_ttl                = 600
-    min_ttl                = 0
+    max_ttl                = 3600
+    min_ttl                = 60
     target_origin_id       = "S3-cannoli"
     viewer_protocol_policy = "redirect-to-https"
 
@@ -50,5 +70,11 @@ resource "aws_cloudfront_distribution" "distribution" {
     acm_certificate_arn      = "${aws_cloudformation_stack.certificate.outputs.CertificateId}"
     minimum_protocol_version = "TLSv1"
     ssl_support_method       = "sni-only"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      "default_root_object"
+    ]
   }
 }
