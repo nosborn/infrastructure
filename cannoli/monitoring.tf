@@ -11,6 +11,7 @@ resource "statuscake_test" "HTTP" {
   website_url   = "https://cannoli.london/ping.txt"
   check_rate    = 1200
   test_type     = "HTTP"
+  paused        = true
   confirmations = 2
 
   depends_on = [

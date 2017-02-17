@@ -4,7 +4,7 @@ resource "aws_iam_user" "deploy" {
 
 data "aws_iam_policy_document" "deploy" {
   statement {
-    actions   = ["cloudfront:CreateInvalidation", "cloudfront:getInvalidation"]
+    actions   = ["cloudfront:GetDistribution", "cloudfront:UpdateDistribution"]
     resources = ["*"]
   }
 
