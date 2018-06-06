@@ -5,3 +5,7 @@ output "deploy_access_key_id" {
 output "deploy_secret_access_key" {
   value = "${aws_iam_access_key.deploy.secret}"
 }
+
+output "name_servers" {
+  value = "${aws_route53_zone.main.name_servers}"
+}

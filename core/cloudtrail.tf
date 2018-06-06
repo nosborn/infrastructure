@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "cloudtrail" {
-  bucket = "${data.aws_iam_account_alias.current.account_alias}-cloudtrail"
+  bucket = "${aws_iam_account_alias.main.account_alias}-cloudtrail"
   acl    = "private"
   region = "eu-west-1"
 
@@ -8,8 +8,15 @@ resource "aws_s3_bucket" "cloudtrail" {
   }
 
   versioning {
-    enabled    = true
-  # mfa_delete = true
+    enabled = true
+  }
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
   }
 }
 

@@ -1,0 +1,175 @@
+locals {
+  records_MX = [
+    "10 in1-smtp.messagingengine.com.",
+    "20 in2-smtp.messagingengine.com.",
+  ]
+}
+
+resource "aws_route53_zone" "main" {
+  name = "${var.domain_name}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+}
+
+resource "aws_route53_record" "CAA" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "${var.domain_name}."
+  type    = "CAA"
+  ttl     = 3600
+  records = ["0 issue \"letsencrypt.org\""]
+}
+
+resource "aws_route53_record" "MX" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "${var.domain_name}."
+  type    = "MX"
+  ttl     = 3600
+  records = "${local.records_MX}"
+}
+
+resource "aws_route53_record" "TXT" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "${var.domain_name}."
+  type    = "TXT"
+  ttl     = 3600
+
+  records = [
+    "google-site-verification=7sk8qJzYVrVYBq6gk135CfGRaLAa2fH5hWhEVEBNgqI",
+    "keybase-site-verification=DUsdjmmiojklIHJHtov-XCzpmRm_iEfM8OxQIb-CINw",
+    "protonmail-verification=64d919e28849f07ef74e8c24881ad547805bab3e",
+    "v=spf1 include:spf.messagingengine.com ?all",
+  ]
+}
+
+# https://en.wikipedia.org/wiki/Author_Domain_Signing_Practices
+resource "aws_route53_record" "domainkey_adsp_TXT" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "_adsp._domainkey.${var.domain_name}."
+  type    = "CNAME"
+  ttl     = 3600
+  records = ["dkim=all"]
+}
+
+resource "aws_route53_record" "domainkey_fm_CNAME" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "fm${count.index + 1}._domainkey.${var.domain_name}."
+  type    = "CNAME"
+  ttl     = 3600
+  records = ["fm${count.index + 1}.${var.domain_name}.dkim.fmhosted.com."]
+
+  count = 3
+}
+
+resource "aws_route53_record" "domainkey_mesmtp_CNAME" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "mesmtp._domainkey.${var.domain_name}."
+  type    = "CNAME"
+  ttl     = 3600
+  records = ["mesmtp.${var.domain_name}.dkim.fmhosted.com."]
+}
+
+resource "aws_route53_record" "nick_MX" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "nick.${var.domain_name}."
+  type    = "MX"
+  ttl     = 3600
+  records = "${local.records_MX}"
+}
+
+resource "aws_route53_record" "tcp_caldav_SRV" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "_tcp._caldav.${var.domain_name}."
+  type    = "SRV"
+  ttl     = 3600
+  records = ["0 0 0 ."]
+}
+
+resource "aws_route53_record" "tcp_caldavs_SRV" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "_tcp._caldavs.${var.domain_name}."
+  type    = "SRV"
+  ttl     = 3600
+  records = ["0 1 443 caldav.fastmail.com."]
+}
+
+resource "aws_route53_record" "tcp_carddav_SRV" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "_tcp._carddav.${var.domain_name}."
+  type    = "SRV"
+  ttl     = 3600
+  records = ["0 0 0 ."]
+}
+
+resource "aws_route53_record" "tcp_carddavs_SRV" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "_tcp._carddavs.${var.domain_name}."
+  type    = "SRV"
+  ttl     = 3600
+  records = ["0 1 443 carddav.fastmail.com."]
+}
+
+resource "aws_route53_record" "tcp_imap_SRV" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "_tcp._imap.${var.domain_name}."
+  type    = "SRV"
+  ttl     = 3600
+  records = ["0 0 0 ."]
+}
+
+resource "aws_route53_record" "tcp_imaps_SRV" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "_tcp._imaps.${var.domain_name}."
+  type    = "SRV"
+  ttl     = 3600
+  records = ["0 1 993 imap.fastmail.com."]
+}
+
+resource "aws_route53_record" "tcp_pop3_SRV" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "_tcp._pop3.${var.domain_name}."
+  type    = "SRV"
+  ttl     = 3600
+  records = ["0 0 0 ."]
+}
+
+resource "aws_route53_record" "tcp_pop3s_SRV" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "_tcp._pop3s.${var.domain_name}."
+  type    = "SRV"
+  ttl     = 3600
+  records = ["0 1 995 pop.fastmail.com."]
+}
+
+resource "aws_route53_record" "tcp_submission_SRV" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "_tcp._submission.${var.domain_name}."
+  type    = "SRV"
+  ttl     = 3600
+  records = ["0 1 587 smtp.fastmail.com."]
+}
+
+resource "aws_route53_record" "tombstone_A" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "tombstone.${var.domain_name}."
+  type    = "A"
+  ttl     = 3600
+  records = ["82.69.5.150"]
+}
+
+# resource "aws_route53_record" "tombstone_AAAA" {
+#   zone_id = "${aws_route53_zone.main.zone_id}"
+#   name    = "tombstone.${var.domain_name}."
+#   type    = "AAAA"
+#   ttl     = 3600
+#   records = [""]
+# }
+
+resource "aws_route53_record" "tombstone_MX" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "tombstone.${var.domain_name}."
+  type    = "MX"
+  ttl     = 3600
+  records = "${local.records_MX}"
+}

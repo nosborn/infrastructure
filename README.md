@@ -2,4 +2,4 @@
 
 ## Tools
 
-* [Terraform](https://terraform.io) >= 0.9
+* [Terraform](https://terraform.io) >= 0.11

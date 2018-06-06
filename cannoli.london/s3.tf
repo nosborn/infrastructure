@@ -1,10 +1,18 @@
 resource "aws_s3_bucket" "content" {
-  bucket = "${data.terraform_remote_state.core.account_alias}-cannoli"
+  bucket = "${data.aws_iam_account_alias.current.account_alias}-cannoli"
   acl    = "private"
   region = "eu-west-2"
 
   tags {
     Project = "${var.project_tag}"
+  }
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
   }
 }
 
@@ -15,7 +23,7 @@ data "aws_iam_policy_document" "content_policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ["${aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn}"]
+      identifiers = ["${aws_cloudfront_origin_access_identity.main.iam_arn}"]
     }
   }
 
@@ -34,7 +42,7 @@ data "aws_iam_policy_document" "content_policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ["${aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn}"]
+      identifiers = ["${aws_cloudfront_origin_access_identity.main.iam_arn}"]
     }
   }
 }
