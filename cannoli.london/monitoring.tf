@@ -7,6 +7,6 @@ resource "statuscake_test" "HTTP" {
 
   depends_on = [
     "aws_route53_record.A",
-    "aws_route53_record.AAAA"
+    "aws_route53_record.AAAA",
   ]
 }
