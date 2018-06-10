@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "cloudtrail" {
-  bucket = "${aws_iam_account_alias.main.account_alias}-cloudtrail"
-  acl    = "private"
-  region = "eu-west-1"
+  bucket_prefix = "cloudtrail-"
+  acl           = "private"
+  region        = "eu-west-2"
 
   tags {
     Project = "${var.project_tag}"
@@ -9,6 +9,24 @@ resource "aws_s3_bucket" "cloudtrail" {
 
   versioning {
     enabled = true
+  }
+
+  lifecycle_rule {
+    enabled = true
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    noncurrent_version_expiration {
+      days = 90
+    }
+
+    noncurrent_version_transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
   }
 
   server_side_encryption_configuration {
@@ -61,8 +79,11 @@ resource "aws_cloudtrail" "cloudtrail" {
   enable_logging                = true
   include_global_service_events = true
   is_multi_region_trail         = true
+  enable_log_file_validation    = true
 
   tags {
     Project = "${var.project_tag}"
   }
+
+  depends_on = ["aws_s3_bucket_policy.cloudtrail"]
 }

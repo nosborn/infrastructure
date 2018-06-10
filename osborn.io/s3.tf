@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "content" {
-  bucket = "osborn-io-cannoli" # TODO: "${data.aws_iam_account_alias.current.account_alias}-cannoli"
-  acl    = "private"
-  region = "eu-west-2"
+  bucket_prefix = "osborn-io-"
+  acl           = "private"
+  region        = "eu-west-2"
 
   tags {
     Project = "${var.project_tag}"
