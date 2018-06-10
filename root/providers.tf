@@ -1,9 +1,3 @@
-data "aws_iam_account_alias" "current" {}
-
-provider "archive" {
-  version = "~> 1.0.3"
-}
-
 provider "aws" {
   version = "~> 1.22.0"
 
