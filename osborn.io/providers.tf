@@ -16,3 +16,7 @@ provider "aws" {
   allowed_account_ids = ["${var.aws_allowed_account_id}"]
   alias               = "us-east-1"
 }
+
+provider "gitlab" {
+  version = "~> 1.0.0"
+}
