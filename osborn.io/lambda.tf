@@ -1,4 +1,5 @@
 locals {
+  log_group_retention_in_days    = 7
   security_headers_function_name = "osborn-io-security-headers"
 }
 
@@ -25,11 +26,100 @@ resource "aws_lambda_function" "security_headers" {
 
 resource "aws_cloudwatch_log_group" "security_headers" {
   name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
-  retention_in_days = 7
+  retention_in_days = "${local.log_group_retention_in_days}"
 
   tags {
     Project = "${var.project_tag}"
   }
+
+  provider = "aws.us-east-1"
+}
+
+resource "aws_cloudwatch_log_group" "security_headers_CAN1" {
+  name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
+  retention_in_days = "${local.log_group_retention_in_days}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+
+  provider = "aws.ca-central-1"
+}
+
+resource "aws_cloudwatch_log_group" "security_headers_EU" {
+  name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
+  retention_in_days = "${local.log_group_retention_in_days}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+
+  provider = "aws.eu-west-1"
+}
+
+resource "aws_cloudwatch_log_group" "security_headers_EUC1" {
+  name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
+  retention_in_days = "${local.log_group_retention_in_days}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+
+  provider = "aws.eu-central-1"
+}
+
+
+resource "aws_cloudwatch_log_group" "security_headers_EUW2" {
+  name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
+  retention_in_days = "${local.log_group_retention_in_days}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+}
+
+resource "aws_cloudwatch_log_group" "security_headers_EUW3" {
+  name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
+  retention_in_days = "${local.log_group_retention_in_days}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+
+  provider = "aws.eu-west-3"
+}
+
+resource "aws_cloudwatch_log_group" "security_headers_USE2" {
+  name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
+  retention_in_days = "${local.log_group_retention_in_days}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+
+  provider = "aws.us-east-2"
+}
+
+resource "aws_cloudwatch_log_group" "security_headers_USW1" {
+  name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
+  retention_in_days = "${local.log_group_retention_in_days}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+
+  provider = "aws.us-west-1"
+}
+
+resource "aws_cloudwatch_log_group" "security_headers_USW2" {
+  name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
+  retention_in_days = "${local.log_group_retention_in_days}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+
+  provider = "aws.us-west-2"
 }
 
 resource "aws_iam_role" "lambda_exec" {
