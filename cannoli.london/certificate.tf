@@ -6,7 +6,8 @@ resource "aws_acm_certificate" "main" {
     Project = "${var.project_tag}"
   }
 
-  provider = "aws.us-east-1"
+  depends_on = ["aws_route53_record.CAA"]
+  provider   = "aws.us-east-1"
 }
 
 resource "aws_acm_certificate_validation" "main" {
