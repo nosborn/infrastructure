@@ -1,7 +1,5 @@
 'use strict';
 
-// TODO: remove 'self' from CSP style-src.
-
 exports.handler = (event, context, callback) => {
   // Get contents of response.
   const response = event.Records[0].cf.response;
@@ -10,7 +8,7 @@ exports.handler = (event, context, callback) => {
   // Set new headers.
   headers['content-security-policy'] = [{
     key: 'Content-Security-Policy',
-    value: 'default-src \'none\'; style-src \'self\' https://www.w3.org; upgrade-insecure-requests; report-uri https://nosborn.report-uri.com/r/d/csp/enforce'
+    value: 'default-src \'none\'; style-src https://www.w3.org; upgrade-insecure-requests; report-uri https://nosborn.report-uri.com/r/d/csp/enforce'
   }];
   headers['expect-ct'] = [{
     key: 'Expect-CT',

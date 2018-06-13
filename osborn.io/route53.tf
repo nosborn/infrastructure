@@ -3,9 +3,6 @@ locals {
     "10 in1-smtp.messagingengine.com.",
     "20 in2-smtp.messagingengine.com.",
   ]
-  tombstone_A = [
-    "82.69.5.150",
-  ]
 }
 
 resource "aws_route53_zone" "main" {
@@ -40,19 +37,12 @@ resource "aws_route53_record" "AAAA" {
   }
 }
 
-# resource "aws_route53_record" "A" {
-#   zone_id = "${aws_route53_zone.main.zone_id}"
-#   name    = "${var.domain_name}."
-#   type    = "A"
-#   ttl     = 86400
-#   records = "${local.tombstone_A}"
-# }
-
 resource "aws_route53_record" "CAA" {
   zone_id = "${aws_route53_zone.main.zone_id}"
   name    = "${var.domain_name}."
   type    = "CAA"
   ttl     = 86400
+
   records = [
     "0 issue \"amazon.com\"",
     "0 issue \"amazontrust.com\"",
@@ -81,6 +71,14 @@ resource "aws_route53_record" "TXT" {
     "protonmail-verification=64d919e28849f07ef74e8c24881ad547805bab3e",
     "v=spf1 include:spf.messagingengine.com ?all",
   ]
+}
+
+resource "aws_route53_record" "bing_CNAME" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "7f33c9bdcbfc881a50d3f5db24af19e9.${var.domain_name}."
+  type    = "CNAME"
+  ttl     = 86400
+  records = ["verify.bing.com."]
 }
 
 # https://en.wikipedia.org/wiki/Author_Domain_Signing_Practices
@@ -195,7 +193,7 @@ resource "aws_route53_record" "tombstone_A" {
   name    = "tombstone.${var.domain_name}."
   type    = "A"
   ttl     = 86400
-  records = "${local.tombstone_A}"
+  records = ["82.69.5.150"]
 }
 
 # resource "aws_route53_record" "tombstone_AAAA" {
