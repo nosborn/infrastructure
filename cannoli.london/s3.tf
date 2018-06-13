@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "content" {
-  bucket_prefix = "cannoli-london-"
+  bucket_prefix = "london-cannoli-content-"
   acl           = "private"
   region        = "eu-west-2"
 
