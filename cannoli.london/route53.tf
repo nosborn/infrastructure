@@ -68,3 +68,11 @@ resource "aws_route53_record" "TXT" {
     "v=spf1 include:spf.messagingengine.com ?all",
   ]
 }
+
+resource "aws_route53_record" "bing_CNAME" {
+  zone_id = "${aws_route53_zone.main.zone_id}"
+  name    = "0f1893c5e1360b28dd07a5c0f317c7c3.${var.domain_name}."
+  type    = "CNAME"
+  ttl     = 86400
+  records = ["verify.bing.com."]
+}
