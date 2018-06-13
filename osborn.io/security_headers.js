@@ -1,19 +1,21 @@
 'use strict';
 
+// TODO: remove 'self' from CSP style-src.
+
 exports.handler = (event, context, callback) => {
   // Get contents of response.
   const response = event.Records[0].cf.response;
   const headers = response.headers;
 
-  // Set new headers 
-  headers['content-security-policy'] = [{key: 'Content-Security-Policy', value: "default-src 'none'; style-src www.w3.org; upgrade-insecure-requests; referrer origin; report-uri https://nosborn.report-uri.com/r/d/csp/enforce"}];
-  headers['expect-ct'] = [{key: 'Expect-CT', value: 'report-uri="https://nosborn.report-uri.com/r/d/ct/enforce", enforce, max-age=86400'}]; 
-  headers['referrer-policy'] = [{key: 'Referrer-Policy', value: 'same-origin'}]; 
-  headers['strict-transport-security'] = [{key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubdomains; preload'}]; 
-  headers['x-content-type-options'] = [{key: 'X-Content-Type-Options', value: 'nosniff'}]; 
-  headers['x-frame-options'] = [{key: 'X-Frame-Options', value: 'DENY'}]; 
-  headers['x-xss-protection'] = [{key: 'X-XSS-Protection', value: '1; mode=block'}]; 
-    
+  // Set new headers.
+  headers['content-security-policy'] = [{key: 'Content-Security-Policy', value: "default-src 'none'; style-src 'self' www.w3.org; report-uri https://nosborn.report-uri.com/r/d/csp/enforce"}];
+  headers['expect-ct'] = [{key: 'Expect-CT', value: 'report-uri="https://nosborn.report-uri.com/r/d/ct/enforce", enforce, max-age=86400'}];
+  headers['referrer-policy'] = [{key: 'Referrer-Policy', value: 'same-origin'}];
+  headers['strict-transport-security'] = [{key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubdomains; preload'}];
+  headers['x-content-type-options'] = [{key: 'X-Content-Type-Options', value: 'nosniff'}];
+  headers['x-frame-options'] = [{key: 'X-Frame-Options', value: 'DENY'}];
+  headers['x-xss-protection'] = [{key: 'X-XSS-Protection', value: '1; mode=block'}];
+
   // Return modified response.
   callback(null, response);
 };
