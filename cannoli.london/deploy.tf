@@ -1,5 +1,5 @@
 resource "aws_iam_user" "deploy" {
-  name = "cannoli-deploy"
+  name = "london-cannoli-deploy"
 }
 
 resource "aws_iam_user_policy" "deploy" {

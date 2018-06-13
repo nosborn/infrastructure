@@ -1,5 +1,5 @@
 resource "aws_iam_user" "deploy" {
-  name = "osborn-io-deploy"
+  name = "io-osborn-deploy"
 }
 
 resource "aws_iam_user_policy" "deploy" {

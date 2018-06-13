@@ -1,6 +1,6 @@
 locals {
   log_group_retention_in_days    = 7
-  security_headers_function_name = "cannoli-security-headers"
+  security_headers_function_name = "london-cannoli-security-headers"
 }
 
 resource "aws_lambda_function" "security_headers" {

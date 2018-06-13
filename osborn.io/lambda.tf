@@ -1,6 +1,6 @@
 locals {
   log_group_retention_in_days    = 7
-  security_headers_function_name = "osborn-io-security-headers"
+  security_headers_function_name = "io-osborn-security-headers"
 }
 
 resource "aws_lambda_function" "security_headers" {

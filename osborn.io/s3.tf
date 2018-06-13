@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "content" {
-  bucket_prefix = "osborn-io-"
+  bucket_prefix = "io-osborn-content-"
   acl           = "private"
   region        = "eu-west-2"
 
@@ -23,6 +23,7 @@ resource "aws_s3_bucket_policy" "content" {
 
 data "aws_iam_policy_document" "content" {
   statement {
+    sid       = ""
     actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.content.arn}/*"]
 
