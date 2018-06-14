@@ -13,7 +13,11 @@ resource "aws_iam_access_key" "deploy" {
 
 data "aws_iam_policy_document" "deploy" {
   statement {
-    actions   = ["cloudfront:GetDistribution", "cloudfront:UpdateDistribution"]
+    actions = [
+      "cloudfront:GetDistribution",
+      "cloudfront:UpdateDistribution",
+    ]
+
     resources = ["*"]
   }
 
@@ -23,7 +27,16 @@ data "aws_iam_policy_document" "deploy" {
   }
 
   statement {
-    actions   = ["s3:DeleteObject", "s3:PutObject"]
+    actions = [
+      "s3:AbortMultipartUpload",
+      "s3:DeleteObject",
+      "s3:GetObject",
+      "s3:GetObjectAcl",
+      "s3:ListMultipartUploadParts",
+      "s3:PutObject",
+      "s3:PutObjectAcl",
+    ]
+
     resources = ["${aws_s3_bucket.content.arn}/*"]
   }
 }
