@@ -76,3 +76,7 @@ provider "aws" {
 provider "gitlab" {
   version = "~> 1.0.0"
 }
+
+provider "statuscake" {
+  version = "~> 0.1.0"
+}
