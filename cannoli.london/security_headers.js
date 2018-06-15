@@ -8,7 +8,7 @@ exports.handler = (event, context, callback) => {
   // Set new headers.
   headers['content-security-policy'] = [{
     key: 'Content-Security-Policy',
-    value: 'default-src \'none\'; script-src \'self\' \'unsafe-eval\' \'unsafe-inline\' cdnjs.cloudflare.com code.jquery.com maxcdn.bootstrapcdn.com https://nominatim.openstreetmap.org unpkg.com; style-src \'self\' \'unsafe-inline\' cdnjs.cloudflare.com maxcdn.bootstrapcdn.com unpkg.com; img-src \'self\' data: *.tiles.mapbox.com api.mapbox.com app.getsentry.com nominatim.openstreetmap.org unpkg.com; connect-src \'self\' *.tiles.mapbox.com sentry.io unpkg.com; font-src cdnjs.cloudflare.com maxcdn.bootstrapcdn.com; upgrade-insecure-requests; report-uri https://nosborn.report-uri.com/r/d/csp/enforce'
+    value: 'default-src \'none\'; script-src \'self\' \'unsafe-eval\' \'unsafe-inline\' cdnjs.cloudflare.com code.jquery.com maxcdn.bootstrapcdn.com https://nominatim.openstreetmap.org unpkg.com; style-src \'self\' \'unsafe-inline\' cdnjs.cloudflare.com maxcdn.bootstrapcdn.com unpkg.com; img-src \'self\' data: *.tiles.mapbox.com api.mapbox.com cdnjs.cloudflare.com nominatim.openstreetmap.org unpkg.com; connect-src \'self\' *.tiles.mapbox.com unpkg.com; font-src cdnjs.cloudflare.com maxcdn.bootstrapcdn.com; upgrade-insecure-requests; report-uri https://nosborn.report-uri.com/r/d/csp/enforce'
   }];
   headers['expect-ct'] = [{
     key: 'Expect-CT',
