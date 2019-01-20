@@ -220,22 +220,6 @@ resource "aws_route53_record" "tombstone_MX" {
   records = "${local.fastmail_MX}"
 }
 
-resource "aws_route53_record" "wormhole_A" {
-  zone_id = "${aws_route53_zone.main.zone_id}"
-  name    = "wormhole.${var.domain_name}"
-  type    = "A"
-  ttl     = 300
-  records = ["51.68.214.171"]
-}
-
-resource "aws_route53_record" "wormhole_AAAA" {
-  zone_id = "${aws_route53_zone.main.zone_id}"
-  name    = "wormhole.${var.domain_name}"
-  type    = "AAAA"
-  ttl     = 300
-  records = ["2001:41d0:801:2000::165b"]
-}
-
 resource "aws_route53_record" "www_A" {
   zone_id = "${aws_route53_zone.main.zone_id}"
   name    = "www.${var.domain_name}"
