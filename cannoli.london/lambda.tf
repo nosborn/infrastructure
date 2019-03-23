@@ -8,8 +8,7 @@ resource "aws_lambda_function" "security_headers" {
   function_name    = "${local.security_headers_function_name}"
   handler          = "security_headers.handler"
   role             = "${aws_iam_role.lambda_exec.arn}"
-  runtime          = "nodejs6.10"
-  publish          = true
+  runtime          = "nodejs8.10"
   source_code_hash = "${data.archive_file.security_headers.output_base64sha256}"
 
   tags {
@@ -20,7 +19,7 @@ resource "aws_lambda_function" "security_headers" {
   provider   = "aws.us-east-1"
 
   lifecycle {
-    ignore_changes = ["filename"]
+    ignore_changes = ["filename", "last_modified"]
   }
 }
 
