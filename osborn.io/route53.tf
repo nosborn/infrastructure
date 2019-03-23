@@ -5,6 +5,19 @@ locals {
   ]
 }
 
+resource "aws_iam_user" "dyndns" {
+  name = "io-osborn-dyndns"
+}
+
+resource "aws_iam_user_policy" "dyndns" {
+  policy = "${data.aws_iam_policy_document.dyndns.json}"
+  user   = "${aws_iam_user.dyndns.name}"
+}
+
+resource "aws_iam_access_key" "dyndns" {
+  user = "${aws_iam_user.dyndns.name}"
+}
+
 resource "aws_route53_zone" "main" {
   name = "${var.domain_name}"
 
@@ -67,6 +80,7 @@ resource "aws_route53_record" "TXT" {
 
   records = [
     "google-site-verification=7sk8qJzYVrVYBq6gk135CfGRaLAa2fH5hWhEVEBNgqI",
+    "have-i-been-pwned-verification=95d358d9d787ea1f5137f5dd4c207a8a",
     "keybase-site-verification=DUsdjmmiojklIHJHtov-XCzpmRm_iEfM8OxQIb-CINw",
     "protonmail-verification=64d919e28849f07ef74e8c24881ad547805bab3e",
     "v=spf1 include:spf.messagingengine.com ?all",
@@ -188,13 +202,13 @@ resource "aws_route53_record" "tcp_submission_SRV" {
   records = ["0 1 587 smtp.fastmail.com."]
 }
 
-resource "aws_route53_record" "tombstone_A" {
-  zone_id = "${aws_route53_zone.main.zone_id}"
-  name    = "tombstone.${var.domain_name}."
-  type    = "A"
-  ttl     = 86400
-  records = ["82.69.5.150"]
-}
+# resource "aws_route53_record" "tombstone_A" {
+#   zone_id = "${aws_route53_zone.main.zone_id}"
+#   name    = "tombstone.${var.domain_name}."
+#   type    = "A"
+#   ttl     = 86400
+#   records = ["82.69.5.150"]
+# }
 
 # resource "aws_route53_record" "tombstone_AAAA" {
 #   zone_id = "${aws_route53_zone.main.zone_id}"
@@ -241,5 +255,26 @@ resource "aws_route53_record" "www_AAAA" {
     name                   = "${aws_cloudfront_distribution.main.domain_name}"
     zone_id                = "${aws_cloudfront_distribution.main.hosted_zone_id}"
     evaluate_target_health = false
+  }
+}
+
+data "aws_iam_policy_document" "dyndns" {
+  statement {
+    actions = [
+      "route53:GetChange",
+      "route53:ListHostedZones",
+      "route53:ListHostedZonesByName"
+    ]
+
+    resources = ["*"]
+  }
+
+  statement {
+    actions = [
+      "route53:ChangeResourceRecordSets",
+      "route53:ListResourceRecordSets"
+    ]
+
+    resources = ["arn:aws:route53:::hostedzone/${aws_route53_zone.main.zone_id}"]
   }
 }
