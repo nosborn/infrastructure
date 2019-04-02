@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "cloudtrail" {
   bucket_prefix = "cloudtrail-"
   acl           = "private"
-  region        = "eu-west-2"
+  region        = "ap-southeast-1"
 
   tags {
     Project = "${var.project_tag}"
@@ -38,6 +38,33 @@ resource "aws_s3_bucket" "cloudtrail" {
   }
 }
 
+resource "aws_s3_bucket_policy" "cloudtrail" {
+  bucket = "${aws_s3_bucket.cloudtrail.id}"
+  policy = "${data.aws_iam_policy_document.cloudtrail.json}"
+}
+
+resource "aws_s3_bucket_public_access_block" "cloudtrail" {
+  bucket = "${aws_s3_bucket.cloudtrail.id}"
+
+  block_public_acls   = true
+  block_public_policy = true
+  ignore_public_acls  = true
+}
+
+resource "aws_cloudtrail" "cloudtrail" {
+  name                          = "Global"
+  s3_bucket_name                = "${aws_s3_bucket.cloudtrail.id}"
+  enable_logging                = true
+  include_global_service_events = true
+  is_multi_region_trail         = true
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+
+  depends_on = ["aws_s3_bucket_policy.cloudtrail"]
+}
+
 data "aws_iam_policy_document" "cloudtrail" {
   statement {
     sid       = "AWSCloudTrailAclCheck"
@@ -66,24 +93,4 @@ data "aws_iam_policy_document" "cloudtrail" {
       values   = ["bucket-owner-full-control"]
     }
   }
-}
-
-resource "aws_s3_bucket_policy" "cloudtrail" {
-  bucket = "${aws_s3_bucket.cloudtrail.id}"
-  policy = "${data.aws_iam_policy_document.cloudtrail.json}"
-}
-
-resource "aws_cloudtrail" "cloudtrail" {
-  name                          = "Global"
-  s3_bucket_name                = "${aws_s3_bucket.cloudtrail.id}"
-  enable_logging                = true
-  include_global_service_events = true
-  is_multi_region_trail         = true
-  enable_log_file_validation    = true
-
-  tags {
-    Project = "${var.project_tag}"
-  }
-
-  depends_on = ["aws_s3_bucket_policy.cloudtrail"]
 }

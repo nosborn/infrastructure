@@ -8,14 +8,17 @@ resource "aws_organizations_organization" "main" {
 #   iam_user_access_to_billing = "DENY"
 # }
 
+
 # resource "aws_organizations_account" "osborn_io" {
 #   name                       = "Osborn.IO"
 #   email                      = "aws-osborn-io@${var.organization_email_domain}"
 #   iam_user_access_to_billing = "DENY"
 # }
 
+
 # resource "aws_organizations_account" "osborn_ws" {
 #   name                       = "Osborn.WS"
 #   email                      = "aws-osborn-ws@${var.organization_email_domain}"
 #   iam_user_access_to_billing = "DENY"
 # }
+

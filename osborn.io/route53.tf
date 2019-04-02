@@ -263,7 +263,7 @@ data "aws_iam_policy_document" "dyndns" {
     actions = [
       "route53:GetChange",
       "route53:ListHostedZones",
-      "route53:ListHostedZonesByName"
+      "route53:ListHostedZonesByName",
     ]
 
     resources = ["*"]
@@ -272,7 +272,7 @@ data "aws_iam_policy_document" "dyndns" {
   statement {
     actions = [
       "route53:ChangeResourceRecordSets",
-      "route53:ListResourceRecordSets"
+      "route53:ListResourceRecordSets",
     ]
 
     resources = ["arn:aws:route53:::hostedzone/${aws_route53_zone.main.zone_id}"]

@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "content" {
   bucket_prefix = "io-osborn-content-"
   acl           = "private"
-  region        = "eu-west-2"
+  region        = "ap-southeast-1"
 
   tags {
     Project = "${var.project_tag}"
