@@ -21,7 +21,7 @@ resource "aws_lambda_function" "security_headers" {
   lifecycle {
     ignore_changes = [
       "filename",
-      "last_modified"
+      "last_modified",
     ]
   }
 }
@@ -34,7 +34,51 @@ resource "aws_cloudwatch_log_group" "security_headers" {
     Project = "${var.project_tag}"
   }
 
-  provider = "aws.us-east-1"
+  provider = "aws.us-east-1" # US East (N. Virginia) - Price Class 100
+}
+
+resource "aws_cloudwatch_log_group" "security_headers_APN1" {
+  name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
+  retention_in_days = "${local.log_group_retention_in_days}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+
+  provider = "aws.ap-northeast-1" # Asia Pacific (???) - Price Class 200
+}
+
+resource "aws_cloudwatch_log_group" "security_headers_APN2" {
+  name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
+  retention_in_days = "${local.log_group_retention_in_days}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+
+  provider = "aws.ap-northeast-2" # Asia Pacific (???) - Price Class 200
+}
+
+resource "aws_cloudwatch_log_group" "security_headers_APS1" {
+  name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
+  retention_in_days = "${local.log_group_retention_in_days}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+
+  provider = "aws.ap-southeast-1" # Asia Pacific (Singapore) - Price Class 200
+}
+
+resource "aws_cloudwatch_log_group" "security_headers_APS3" {
+  name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
+  retention_in_days = "${local.log_group_retention_in_days}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+
+  provider = "aws.ap-south-1" # Asia Pacific (Mumbai) - Price Class 200
 }
 
 resource "aws_cloudwatch_log_group" "security_headers_CAN1" {
@@ -45,7 +89,7 @@ resource "aws_cloudwatch_log_group" "security_headers_CAN1" {
     Project = "${var.project_tag}"
   }
 
-  provider = "aws.ca-central-1"
+  provider = "aws.ca-central-1" # Canada (Central) - Price Class 100
 }
 
 resource "aws_cloudwatch_log_group" "security_headers_EU" {
@@ -56,7 +100,7 @@ resource "aws_cloudwatch_log_group" "security_headers_EU" {
     Project = "${var.project_tag}"
   }
 
-  provider = "aws.eu-west-1"
+  provider = "aws.eu-west-1" # EU (Ireland) - Price Class 100
 }
 
 resource "aws_cloudwatch_log_group" "security_headers_EUC1" {
@@ -67,7 +111,18 @@ resource "aws_cloudwatch_log_group" "security_headers_EUC1" {
     Project = "${var.project_tag}"
   }
 
-  provider = "aws.eu-central-1"
+  provider = "aws.eu-central-1" # EU (Frankfurt) - Price Class 100
+}
+
+resource "aws_cloudwatch_log_group" "security_headers_EUN1" {
+  name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
+  retention_in_days = "${local.log_group_retention_in_days}"
+
+  tags {
+    Project = "${var.project_tag}"
+  }
+
+  provider = "aws.eu-north-1" # EU (Stockholm) - Price Class 100
 }
 
 resource "aws_cloudwatch_log_group" "security_headers_EUW2" {
@@ -77,6 +132,8 @@ resource "aws_cloudwatch_log_group" "security_headers_EUW2" {
   tags {
     Project = "${var.project_tag}"
   }
+
+  provider = "aws.eu-west-2" # EU (London) - Price Class 100
 }
 
 resource "aws_cloudwatch_log_group" "security_headers_EUW3" {
@@ -87,7 +144,7 @@ resource "aws_cloudwatch_log_group" "security_headers_EUW3" {
     Project = "${var.project_tag}"
   }
 
-  provider = "aws.eu-west-3"
+  provider = "aws.eu-west-3" # EU (Paris) - Price Class 100
 }
 
 resource "aws_cloudwatch_log_group" "security_headers_USE2" {
@@ -98,7 +155,7 @@ resource "aws_cloudwatch_log_group" "security_headers_USE2" {
     Project = "${var.project_tag}"
   }
 
-  provider = "aws.us-east-2"
+  provider = "aws.us-east-2" # US East (Ohio) - Price Class 100
 }
 
 resource "aws_cloudwatch_log_group" "security_headers_USW1" {
@@ -109,7 +166,7 @@ resource "aws_cloudwatch_log_group" "security_headers_USW1" {
     Project = "${var.project_tag}"
   }
 
-  provider = "aws.us-west-1"
+  provider = "aws.us-west-1" # US West (N. California) - Price Class 100
 }
 
 resource "aws_cloudwatch_log_group" "security_headers_USW2" {
@@ -120,7 +177,7 @@ resource "aws_cloudwatch_log_group" "security_headers_USW2" {
     Project = "${var.project_tag}"
   }
 
-  provider = "aws.us-west-2"
+  provider = "aws.us-west-2" # US West (Oregon) - Price Class 100
 }
 
 resource "aws_iam_role" "lambda_exec" {
