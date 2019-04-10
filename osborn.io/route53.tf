@@ -5,19 +5,6 @@ locals {
   ]
 }
 
-resource "aws_iam_user" "dyndns" {
-  name = "io-osborn-dyndns"
-}
-
-resource "aws_iam_user_policy" "dyndns" {
-  policy = "${data.aws_iam_policy_document.dyndns.json}"
-  user   = "${aws_iam_user.dyndns.name}"
-}
-
-resource "aws_iam_access_key" "dyndns" {
-  user = "${aws_iam_user.dyndns.name}"
-}
-
 resource "aws_route53_zone" "main" {
   name = "${var.domain_name}"
 
@@ -30,24 +17,8 @@ resource "aws_route53_record" "A" {
   zone_id = "${aws_route53_zone.main.zone_id}"
   name    = "${var.domain_name}"
   type    = "A"
-
-  alias {
-    name                   = "${aws_cloudfront_distribution.main.domain_name}"
-    zone_id                = "${aws_cloudfront_distribution.main.hosted_zone_id}"
-    evaluate_target_health = false
-  }
-}
-
-resource "aws_route53_record" "AAAA" {
-  zone_id = "${aws_route53_zone.main.zone_id}"
-  name    = "${var.domain_name}"
-  type    = "AAAA"
-
-  alias {
-    name                   = "${aws_cloudfront_distribution.main.domain_name}"
-    zone_id                = "${aws_cloudfront_distribution.main.hosted_zone_id}"
-    evaluate_target_health = false
-  }
+  ttl     = 300
+  records = ["104.198.14.52"] # https://www.netlify.com/docs/custom-domains/#manual
 }
 
 resource "aws_route53_record" "CAA" {
@@ -55,13 +26,7 @@ resource "aws_route53_record" "CAA" {
   name    = "${var.domain_name}."
   type    = "CAA"
   ttl     = 86400
-
-  records = [
-    "0 issue \"amazon.com\"",
-    "0 issue \"amazontrust.com\"",
-    "0 issue \"amazonaws.com\"",
-    "0 issue \"awstrust.com\"",
-  ]
+  records = ["0 issue \"letsencrypt.org\""]
 }
 
 resource "aws_route53_record" "MX" {
@@ -94,6 +59,22 @@ resource "aws_route53_record" "bing_CNAME" {
   ttl     = 86400
   records = ["verify.bing.com."]
 }
+
+#resource "aws_route53_record" "dnssd_browse_PTR" {
+#  zone_id = "${aws_route53_zone.main.zone_id}"
+#  name    = "b._dns-sd._udp.${var.domain_name}."
+#  type    = "PTR"
+#  ttl     = 86400
+#  records = ["${var.domain_name}."]
+#}
+
+#resource "aws_route53_record" "dnssd_legacy_browse_PTR" {
+#  zone_id = "${aws_route53_zone.main.zone_id}"
+#  name    = "lb._dns-sd._udp.${var.domain_name}."
+#  type    = "PTR"
+#  ttl     = 86400
+#  records = ["${var.domain_name}."]
+#}
 
 # https://en.wikipedia.org/wiki/Author_Domain_Signing_Practices
 resource "aws_route53_record" "domainkey_adsp_TXT" {
@@ -202,79 +183,10 @@ resource "aws_route53_record" "tcp_submission_SRV" {
   records = ["0 1 587 smtp.fastmail.com."]
 }
 
-# resource "aws_route53_record" "tombstone_A" {
-#   zone_id = "${aws_route53_zone.main.zone_id}"
-#   name    = "tombstone.${var.domain_name}."
-#   type    = "A"
-#   ttl     = 86400
-#   records = ["82.69.5.150"]
-# }
-
-# resource "aws_route53_record" "tombstone_AAAA" {
-#   zone_id = "${aws_route53_zone.main.zone_id}"
-#   name    = "tombstone.${var.domain_name}."
-#   type    = "AAAA"
-#   ttl     = 86400
-#   records = [""]
-# }
-
-resource "aws_route53_record" "tombstone_CAA" {
-  zone_id = "${aws_route53_zone.main.zone_id}"
-  name    = "tombstone.${var.domain_name}."
-  type    = "CAA"
-  ttl     = 86400
-  records = ["0 issue \"letsencrypt.org\""]
-}
-
-resource "aws_route53_record" "tombstone_MX" {
-  zone_id = "${aws_route53_zone.main.zone_id}"
-  name    = "tombstone.${var.domain_name}."
-  type    = "MX"
-  ttl     = 86400
-  records = "${local.fastmail_MX}"
-}
-
-resource "aws_route53_record" "www_A" {
+resource "aws_route53_record" "www_CNAME" {
   zone_id = "${aws_route53_zone.main.zone_id}"
   name    = "www.${var.domain_name}"
-  type    = "A"
-
-  alias {
-    name                   = "${aws_cloudfront_distribution.main.domain_name}"
-    zone_id                = "${aws_cloudfront_distribution.main.hosted_zone_id}"
-    evaluate_target_health = false
-  }
-}
-
-resource "aws_route53_record" "www_AAAA" {
-  zone_id = "${aws_route53_zone.main.zone_id}"
-  name    = "www.${var.domain_name}"
-  type    = "AAAA"
-
-  alias {
-    name                   = "${aws_cloudfront_distribution.main.domain_name}"
-    zone_id                = "${aws_cloudfront_distribution.main.hosted_zone_id}"
-    evaluate_target_health = false
-  }
-}
-
-data "aws_iam_policy_document" "dyndns" {
-  statement {
-    actions = [
-      "route53:GetChange",
-      "route53:ListHostedZones",
-      "route53:ListHostedZonesByName",
-    ]
-
-    resources = ["*"]
-  }
-
-  statement {
-    actions = [
-      "route53:ChangeResourceRecordSets",
-      "route53:ListResourceRecordSets",
-    ]
-
-    resources = ["arn:aws:route53:::hostedzone/${aws_route53_zone.main.zone_id}"]
-  }
+  type    = "CNAME"
+  ttl     = 300
+  records = ["${netlify_site.main.name}.netlify.com"]
 }
