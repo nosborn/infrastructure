@@ -80,7 +80,7 @@ resource "aws_route53_record" "bing_CNAME" {
 resource "aws_route53_record" "domainkey_adsp_TXT" {
   zone_id = "${aws_route53_zone.main.zone_id}"
   name    = "_adsp._domainkey.${var.domain_name}."
-  type    = "CNAME"
+  type    = "TXT"
   ttl     = 86400
   records = ["dkim=all"]
 }
