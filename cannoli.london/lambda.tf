@@ -67,7 +67,6 @@ resource "aws_cloudwatch_log_group" "security_headers_EUC1" {
   provider = "aws.eu-central-1"
 }
 
-
 resource "aws_cloudwatch_log_group" "security_headers_EUW2" {
   name              = "/aws/lambda/us-east-1.${local.security_headers_function_name}"
   retention_in_days = "${local.log_group_retention_in_days}"
