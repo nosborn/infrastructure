@@ -1,5 +1,5 @@
 provider "aws" {
-  version = "~> 2.5"
+  version = "~> 2.8"
 
   region              = "ap-southeast-1"
   allowed_account_ids = ["${var.aws_allowed_account_id}"]
@@ -7,4 +7,8 @@ provider "aws" {
 
 provider "netlify" {
   version = "~> 0.1"
+}
+
+provider "ns1" {
+  version = "~> 1.3"
 }
