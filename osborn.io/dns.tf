@@ -17,7 +17,7 @@ resource "ns1_record" "ALIAS" {
 #   zone   = "${ns1_zone.main.zone}"
 #   domain = "${var.domain_name}"
 #   type    = "CAA"
-#   ttl     = 86400
+#   ttl     = 3600
 #
 #   answers {
 #     answer = "0 issue \"letsencrypt.org\""
@@ -31,11 +31,11 @@ resource "ns1_record" "MX" {
   ttl    = 300                     # FIXME: 3600
 
   answers {
-    answer = "10 in1-smtp.messagingengine.com"
+    answer = "10 aspmx1.migadu.com."
   }
 
   answers {
-    answer = "20 in2-smtp.messagingengine.com"
+    answer = "20 aspmx2.migadu.com."
   }
 }
 
@@ -49,12 +49,12 @@ resource "ns1_record" "TXT" {
     answer = "google-site-verification=7sk8qJzYVrVYBq6gk135CfGRaLAa2fH5hWhEVEBNgqI"
   }
 
+  # answers {
+  #   answer = "protonmail-verification=64d919e28849f07ef74e8c24881ad547805bab3e"
+  # }
+
   answers {
-    answer = "protonmail-verification=64d919e28849f07ef74e8c24881ad547805bab3e"
-  }
-  # https://www.fastmail.com/help/receive/domains-advanced.html#dnslist
-  answers {
-    answer = "v=spf1 include:spf.messagingengine.com ?all"
+    answer = "v=spf1 mx a include:spf.migadu.com ~all"
   }
 }
 
@@ -69,93 +69,47 @@ resource "ns1_record" "bing_CNAME" {
   }
 }
 
-resource "ns1_record" "caldav_tcp_SRV" {
+resource "ns1_record" "dmarc_TXT" {
   zone   = "${ns1_zone.main.zone}"
-  domain = "_tcp._caldav.${var.domain_name}"
+  domain = "_dmarc.${var.domain_name}"
+  type   = "TXT"
+  ttl    = 300                         # FIXME: 3600
+
+  answers {
+    answer = "v=DMARC1; p=none; fo=1; rua=mailto:admin@${var.domain_name}"
+  }
+}
+
+resource "ns1_record" "domainkey_default_TXT" {
+  zone   = "${ns1_zone.main.zone}"
+  domain = "default._domainkey.${var.domain_name}"
+  type   = "TXT"
+  ttl    = 300                                     # FIXME: 3600
+
+  answers {
+    answer = "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFByJNY3YVaG7bw3C2+qjr1j0isGbHUZrJluhQWvl80v+szk7L7kWOmoKQFpm/ky9MZoIdMd3MMeVJuVhzP69W9g/qiQItb8An/vOBuxwBbSzZpE3VmXsHw5bgssn9BQKWvMmJGq+qTUE4kl9vV4HlfVw/TVT2sCuM+I9paLihOQIDAQAB"
+  }
+}
+
+resource "ns1_record" "imap_SRV" {
+  zone   = "${ns1_zone.main.zone}"
+  domain = "_imap._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 3600
+  ttl    = 300                             # FIXME: 3600
 
   answers {
     answer = "0 0 0 ."
   }
 }
 
-resource "ns1_record" "caldavs_tcp_SRV" {
+resource "ns1_record" "imaps_SRV" {
   zone   = "${ns1_zone.main.zone}"
-  domain = "_tcp._caldavs.${var.domain_name}"
+  domain = "_imaps._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 3600
+  ttl    = 300                              # FIXME: 3600
 
   answers {
-    answer = "0 1 443 caldav.fastmail.com"
-  }
-}
-
-resource "ns1_record" "carddav_tcp_SRV" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "_tcp._carddav.${var.domain_name}"
-  type   = "SRV"
-  ttl    = 3600
-
-  answers {
-    answer = "0 0 0 ."
-  }
-}
-
-resource "ns1_record" "carddavs_tcp_SRV" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "_tcp._carddavs.${var.domain_name}"
-  type   = "SRV"
-  ttl    = 3600
-
-  answers {
-    answer = "0 1 443 carddav.fastmail.com"
-  }
-}
-
-resource "ns1_record" "domainkey_fm_CNAME" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "fm${count.index + 1}._domainkey.${var.domain_name}"
-  type   = "CNAME"
-  ttl    = 3600
-
-  answers {
-    answer = "fm${count.index + 1}.${var.domain_name}.dkim.fmhosted.com."
-  }
-
-  count = 3
-}
-
-resource "ns1_record" "domainkey_mesmtp_CNAME" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "mesmtp._domainkey.${var.domain_name}"
-  type   = "CNAME"
-  ttl    = 3600
-
-  answers {
-    answer = "mesmtp.${var.domain_name}.dkim.fmhosted.com."
-  }
-}
-
-resource "ns1_record" "imap_tcp_SRV" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "_tcp._imap.${var.domain_name}"
-  type   = "SRV"
-  ttl    = 3600
-
-  answers {
-    answer = "0 0 0 ."
-  }
-}
-
-resource "ns1_record" "imaps_tcp_SRV" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "_tcp._imaps.${var.domain_name}"
-  type   = "SRV"
-  ttl    = 3600
-
-  answers {
-    answer = "0 1 993 imap.fastmail.com"
+    answer = "0 1 993 imap.migadu.com."
   }
 }
 
@@ -177,52 +131,58 @@ resource "ns1_record" "nick_MX" {
   link   = "${var.domain_name}"
 }
 
-# https://www.fastmail.com/help/receive/domains-advanced.html#dnslist
-resource "ns1_record" "mail_A" {
+resource "ns1_record" "nick_TXT" {
   zone   = "${ns1_zone.main.zone}"
-  domain = "mail.${var.domain_name}"
-  type   = "A"
-  ttl    = 3600
+  domain = "nick.${var.domain_name}"
+  type   = "TXT"
+  ttl    = 300                       # FIXME: 3600
 
   answers {
-    answer = "66.111.4.147"
-  }
-
-  answers {
-    answer = "66.111.4.148"
+    answer = "v=spf1 mx a include:spf.migadu.com ~all"
   }
 }
 
-resource "ns1_record" "pop3_tcp_SRV" {
+resource "ns1_record" "nick_domainkey_default_TXT" {
   zone   = "${ns1_zone.main.zone}"
-  domain = "_tcp._pop3.${var.domain_name}"
+  domain = "default._domainkey.nick.${var.domain_name}"
+  type   = "TXT"
+  ttl    = 300                                          # FIXME: 3600
+
+  answers {
+    answer = "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCsH9zwOVNT9NobOAvbZnB3N2rTaywltT2rxI4N7+SGEmDgbOmP4LRf0qIUcUskohrEAo76b/1Ogkw5Oq0eep5+vKi8AwJSW8uoykvWEDrswoKECvxriG0sByuFYi53RkYei1hDkL1tjnIJCjRUPAN2MyzeLzUcnoR0v3ha5xGINQIDAQAB"
+  }
+}
+
+resource "ns1_record" "pop3_SRV" {
+  zone   = "${ns1_zone.main.zone}"
+  domain = "_pop3._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 3600
+  ttl    = 300                             # FIXME: 3600
 
   answers {
     answer = "0 0 0 ."
   }
 }
 
-resource "ns1_record" "pop3s_tcp_SRV" {
+resource "ns1_record" "pop3s_SRV" {
   zone   = "${ns1_zone.main.zone}"
-  domain = "_tcp._pop3s.${var.domain_name}"
+  domain = "_pop3s._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 3600
+  ttl    = 300                              # FIXME: 3600
 
   answers {
-    answer = "0 1 995 pop.fastmail.com"
+    answer = "10 1 995 imap.migadu.com."
   }
 }
 
-resource "ns1_record" "submission_tcp_SRV" {
+resource "ns1_record" "submission_SRV" {
   zone   = "${ns1_zone.main.zone}"
-  domain = "_tcp._submission.${var.domain_name}"
+  domain = "_submission._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 3600
+  ttl    = 300                                   # FIXME: 3600
 
   answers {
-    answer = "0 1 587 smtp.fastmail.com"
+    answer = "0 1 587 smtp.migadu.com."
   }
 }
 
