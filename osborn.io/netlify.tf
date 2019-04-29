@@ -1,6 +1,6 @@
 resource "netlify_site" "main" {
   name          = "${replace(var.domain_name, ".", "-")}"
-  custom_domain = "www.${var.domain_name}"
+  custom_domain = "${var.domain_name}"
 
   repo {
     provider = "github"
