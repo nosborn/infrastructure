@@ -3,7 +3,7 @@ provider "archive" {
 }
 
 provider "aws" {
-  version = "~> 2.4"
+  version = "~> 2.8"
 
   region              = "ca-central-1"
   allowed_account_ids = ["${var.aws_allowed_account_id}"]
@@ -11,7 +11,7 @@ provider "aws" {
 }
 
 provider "aws" {
-  version = "~> 2.4"
+  version = "~> 2.8"
 
   region              = "eu-central-1"
   allowed_account_ids = ["${var.aws_allowed_account_id}"]
@@ -19,7 +19,7 @@ provider "aws" {
 }
 
 provider "aws" {
-  version = "~> 2.4"
+  version = "~> 2.8"
 
   region              = "eu-west-1"
   allowed_account_ids = ["${var.aws_allowed_account_id}"]
@@ -27,14 +27,14 @@ provider "aws" {
 }
 
 provider "aws" {
-  version = "~> 2.4"
+  version = "~> 2.8"
 
   region              = "eu-west-2"
   allowed_account_ids = ["${var.aws_allowed_account_id}"]
 }
 
 provider "aws" {
-  version = "~> 2.4"
+  version = "~> 2.8"
 
   region              = "eu-west-3"
   allowed_account_ids = ["${var.aws_allowed_account_id}"]
@@ -42,7 +42,7 @@ provider "aws" {
 }
 
 provider "aws" {
-  version = "~> 2.4"
+  version = "~> 2.8"
 
   region              = "us-east-1"
   allowed_account_ids = ["${var.aws_allowed_account_id}"]
@@ -50,7 +50,7 @@ provider "aws" {
 }
 
 provider "aws" {
-  version = "~> 2.4"
+  version = "~> 2.8"
 
   region              = "us-east-2"
   allowed_account_ids = ["${var.aws_allowed_account_id}"]
@@ -58,7 +58,7 @@ provider "aws" {
 }
 
 provider "aws" {
-  version = "~> 2.4"
+  version = "~> 2.8"
 
   region              = "us-west-1"
   allowed_account_ids = ["${var.aws_allowed_account_id}"]
@@ -66,7 +66,7 @@ provider "aws" {
 }
 
 provider "aws" {
-  version = "~> 2.4"
+  version = "~> 2.8"
 
   region              = "us-west-2"
   allowed_account_ids = ["${var.aws_allowed_account_id}"]
