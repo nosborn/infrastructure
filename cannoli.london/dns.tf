@@ -28,7 +28,7 @@ resource "ns1_record" "MX" {
   zone   = "${ns1_zone.main.zone}"
   domain = "${var.domain_name}"
   type   = "MX"
-  ttl    = 300                     # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "10 aspmx1.migadu.com."
@@ -43,7 +43,7 @@ resource "ns1_record" "TXT" {
   zone   = "${ns1_zone.main.zone}"
   domain = "${var.domain_name}"
   type   = "TXT"
-  ttl    = 300                     # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "google-site-verification=8otHDcgVRYHCq_1KfVQQxfnZeTwN_ZLTpzWbPgq9YZQ"
@@ -58,7 +58,7 @@ resource "ns1_record" "bing_CNAME" {
   zone   = "${ns1_zone.main.zone}"
   domain = "0f1893c5e1360b28dd07a5c0f317c7c3.${var.domain_name}"
   type   = "CNAME"
-  ttl    = 86400
+  ttl    = 3600
 
   answers {
     answer = "verify.bing.com"
@@ -80,7 +80,7 @@ resource "ns1_record" "domainkey_default_TXT" {
   zone   = "${ns1_zone.main.zone}"
   domain = "default._domainkey.${var.domain_name}"
   type   = "TXT"
-  ttl    = 300                                     # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDXql1/79wgfBgu3bYrS2Q/5u549MYT+iqn6zW0LrkaUXBV3FcOoJNZORGyjGjWZW3xw6TrTm9kXUHN8KChc5IxGYeaYoB/wyXrGPh0u0P1nd0Q+KnLXrmTQ+cib4GBgdOnYveFIphKOf+redZLz9W59N19UWFnuHem8t4dDRmshwIDAQAB"
@@ -91,7 +91,7 @@ resource "ns1_record" "imap_SRV" {
   zone   = "${ns1_zone.main.zone}"
   domain = "_imap._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 300                             # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "0 0 0 ."
@@ -102,7 +102,7 @@ resource "ns1_record" "imaps_SRV" {
   zone   = "${ns1_zone.main.zone}"
   domain = "_imaps._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 300                              # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "0 1 993 imap.migadu.com."
@@ -124,7 +124,7 @@ resource "ns1_record" "pop3_SRV" {
   zone   = "${ns1_zone.main.zone}"
   domain = "_pop3._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 300                             # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "0 0 0 ."
@@ -135,7 +135,7 @@ resource "ns1_record" "pop3s_SRV" {
   zone   = "${ns1_zone.main.zone}"
   domain = "_pop3s._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 300                              # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "10 1 995 imap.migadu.com."
@@ -146,7 +146,7 @@ resource "ns1_record" "submission_SRV" {
   zone   = "${ns1_zone.main.zone}"
   domain = "_submission._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 300                                   # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "0 1 587 smtp.migadu.com."

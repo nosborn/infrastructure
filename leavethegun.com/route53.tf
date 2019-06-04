@@ -1,7 +1,7 @@
 resource "aws_route53_zone" "main" {
   name = "${var.domain_name}"
 
-  tags {
+  tags = {
     Project = "${var.project_tag}"
   }
 }
