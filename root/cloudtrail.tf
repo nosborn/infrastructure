@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "cloudtrail" {
   acl           = "private"
   region        = "ap-southeast-1"
 
-  tags {
+  tags = {
     Project = "${var.project_tag}"
   }
 
@@ -58,7 +58,7 @@ resource "aws_cloudtrail" "cloudtrail" {
   include_global_service_events = true
   is_multi_region_trail         = true
 
-  tags {
+  tags = {
     Project = "${var.project_tag}"
   }
 

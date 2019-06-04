@@ -8,10 +8,10 @@ resource "aws_cloudwatch_metric_alarm" "billing" {
   statistic           = "Maximum"
   threshold           = 5
   alarm_actions       = ["arn:aws:sns:us-east-1:098453759506:NotifyMe"]
-  alarm_description   = "Created from CloudWatch console"               # TODO
+  alarm_description   = "Created from CloudWatch console" # TODO
   datapoints_to_alarm = 1
 
-  dimensions {
+  dimensions = {
     Currency = "USD"
   }
 

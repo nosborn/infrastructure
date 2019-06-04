@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "terraform" {
   acl           = "private"
   region        = "ap-southeast-1"
 
-  tags {
+  tags = {
     Project = "${var.project_tag}"
   }
 
@@ -43,4 +43,8 @@ resource "aws_s3_bucket_public_access_block" "terraform" {
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
+}
+
+terraform {
+  required_version = "~> 0.12"
 }

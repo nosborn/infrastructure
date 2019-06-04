@@ -28,7 +28,7 @@ resource "ns1_record" "MX" {
   zone   = "${ns1_zone.main.zone}"
   domain = "${var.domain_name}"
   type   = "MX"
-  ttl    = 300                     # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "10 aspmx1.migadu.com."
@@ -43,7 +43,7 @@ resource "ns1_record" "TXT" {
   zone   = "${ns1_zone.main.zone}"
   domain = "${var.domain_name}"
   type   = "TXT"
-  ttl    = 300                     # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "google-site-verification=7sk8qJzYVrVYBq6gk135CfGRaLAa2fH5hWhEVEBNgqI"
@@ -84,7 +84,7 @@ resource "ns1_record" "domainkey_default_TXT" {
   zone   = "${ns1_zone.main.zone}"
   domain = "default._domainkey.${var.domain_name}"
   type   = "TXT"
-  ttl    = 300                                     # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFByJNY3YVaG7bw3C2+qjr1j0isGbHUZrJluhQWvl80v+szk7L7kWOmoKQFpm/ky9MZoIdMd3MMeVJuVhzP69W9g/qiQItb8An/vOBuxwBbSzZpE3VmXsHw5bgssn9BQKWvMmJGq+qTUE4kl9vV4HlfVw/TVT2sCuM+I9paLihOQIDAQAB"
@@ -95,7 +95,7 @@ resource "ns1_record" "imap_SRV" {
   zone   = "${ns1_zone.main.zone}"
   domain = "_imap._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 300                             # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "0 0 0 ."
@@ -106,7 +106,7 @@ resource "ns1_record" "imaps_SRV" {
   zone   = "${ns1_zone.main.zone}"
   domain = "_imaps._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 300                              # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "0 1 993 imap.migadu.com."
@@ -135,7 +135,7 @@ resource "ns1_record" "nick_TXT" {
   zone   = "${ns1_zone.main.zone}"
   domain = "nick.${var.domain_name}"
   type   = "TXT"
-  ttl    = 300                       # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "v=spf1 mx a include:spf.migadu.com ~all"
@@ -146,7 +146,7 @@ resource "ns1_record" "nick_domainkey_default_TXT" {
   zone   = "${ns1_zone.main.zone}"
   domain = "default._domainkey.nick.${var.domain_name}"
   type   = "TXT"
-  ttl    = 300                                          # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCsH9zwOVNT9NobOAvbZnB3N2rTaywltT2rxI4N7+SGEmDgbOmP4LRf0qIUcUskohrEAo76b/1Ogkw5Oq0eep5+vKi8AwJSW8uoykvWEDrswoKECvxriG0sByuFYi53RkYei1hDkL1tjnIJCjRUPAN2MyzeLzUcnoR0v3ha5xGINQIDAQAB"
@@ -157,7 +157,7 @@ resource "ns1_record" "pop3_SRV" {
   zone   = "${ns1_zone.main.zone}"
   domain = "_pop3._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 300                             # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "0 0 0 ."
@@ -168,7 +168,7 @@ resource "ns1_record" "pop3s_SRV" {
   zone   = "${ns1_zone.main.zone}"
   domain = "_pop3s._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 300                              # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "10 1 995 imap.migadu.com."
@@ -179,10 +179,39 @@ resource "ns1_record" "submission_SRV" {
   zone   = "${ns1_zone.main.zone}"
   domain = "_submission._tcp.${var.domain_name}"
   type   = "SRV"
-  ttl    = 300                                   # FIXME: 3600
+  ttl    = 3600
 
   answers {
     answer = "0 1 587 smtp.migadu.com."
+  }
+}
+
+resource "ns1_record" "tombstone_MX" {
+  zone   = "${ns1_zone.main.zone}"
+  domain = "tombstone.${var.domain_name}"
+  type   = "MX"
+  link   = "${var.domain_name}"
+}
+
+resource "ns1_record" "tombstone_TXT" {
+  zone   = "${ns1_zone.main.zone}"
+  domain = "tombstone.${var.domain_name}"
+  type   = "TXT"
+  ttl    = 3600
+
+  answers {
+    answer = "v=spf1 mx a include:spf.migadu.com ~all"
+  }
+}
+
+resource "ns1_record" "tombstone_domainkey_default_TXT" {
+  zone   = "${ns1_zone.main.zone}"
+  domain = "default._domainkey.tombstone.${var.domain_name}"
+  type   = "TXT"
+  ttl    = 3600
+
+  answers {
+    answer = "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCwEQBLDX8DjNiVHYkc+znhgAeZx3ffIsm66y+i7y/Ocf+kWZXruClDJeijgaZ4V37Y3CTVeORwu2vSq1hju1K9/cToXvtMDtg7ItNcTpHB+WeyMt/QOVCiqPBibIAFbTIHj5S/SjTPu+2CHkvpBXV7vhdzbo1wG1SGkqA7UfGm/wIDAQAB"
   }
 }
 
