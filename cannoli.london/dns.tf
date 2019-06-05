@@ -69,7 +69,7 @@ resource "ns1_record" "dmarc_TXT" {
   zone   = "${ns1_zone.main.zone}"
   domain = "_dmarc.${var.domain_name}"
   type   = "TXT"
-  ttl    = 300                         # FIXME: 3600
+  ttl    = 300 # FIXME: 3600
 
   answers {
     answer = "v=DMARC1; p=none; fo=1; rua=mailto:admin@${var.domain_name}"
@@ -87,27 +87,27 @@ resource "ns1_record" "domainkey_default_TXT" {
   }
 }
 
-resource "ns1_record" "imap_SRV" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "_imap._tcp.${var.domain_name}"
-  type   = "SRV"
-  ttl    = 3600
+# resource "ns1_record" "imap_SRV" {
+#   zone   = "${ns1_zone.main.zone}"
+#   domain = "_imap._tcp.${var.domain_name}"
+#   type   = "SRV"
+#   ttl    = 3600
+#
+#   answers {
+#     answer = "0 0 0 ."
+#   }
+# }
 
-  answers {
-    answer = "0 0 0 ."
-  }
-}
-
-resource "ns1_record" "imaps_SRV" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "_imaps._tcp.${var.domain_name}"
-  type   = "SRV"
-  ttl    = 3600
-
-  answers {
-    answer = "0 1 993 imap.migadu.com."
-  }
-}
+# resource "ns1_record" "imaps_SRV" {
+#   zone   = "${ns1_zone.main.zone}"
+#   domain = "_imaps._tcp.${var.domain_name}"
+#   type   = "SRV"
+#   ttl    = 3600
+#
+#   answers {
+#     answer = "0 1 993 imap.migadu.com."
+#   }
+# }
 
 # resource "ns1_record" "keybase_TXT" {
 #   zone   = "${ns1_zone.main.zone}"
@@ -120,38 +120,38 @@ resource "ns1_record" "imaps_SRV" {
 #   }
 # }
 
-resource "ns1_record" "pop3_SRV" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "_pop3._tcp.${var.domain_name}"
-  type   = "SRV"
-  ttl    = 3600
+# resource "ns1_record" "pop3_SRV" {
+#   zone   = "${ns1_zone.main.zone}"
+#   domain = "_pop3._tcp.${var.domain_name}"
+#   type   = "SRV"
+#   ttl    = 3600
+#
+#   answers {
+#     answer = "0 0 0 ."
+#   }
+# }
 
-  answers {
-    answer = "0 0 0 ."
-  }
-}
+# resource "ns1_record" "pop3s_SRV" {
+#   zone   = "${ns1_zone.main.zone}"
+#   domain = "_pop3s._tcp.${var.domain_name}"
+#   type   = "SRV"
+#   ttl    = 3600
+#
+#   answers {
+#     answer = "10 1 995 imap.migadu.com."
+#   }
+# }
 
-resource "ns1_record" "pop3s_SRV" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "_pop3s._tcp.${var.domain_name}"
-  type   = "SRV"
-  ttl    = 3600
-
-  answers {
-    answer = "10 1 995 imap.migadu.com."
-  }
-}
-
-resource "ns1_record" "submission_SRV" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "_submission._tcp.${var.domain_name}"
-  type   = "SRV"
-  ttl    = 3600
-
-  answers {
-    answer = "0 1 587 smtp.migadu.com."
-  }
-}
+# resource "ns1_record" "submission_SRV" {
+#   zone   = "${ns1_zone.main.zone}"
+#   domain = "_submission._tcp.${var.domain_name}"
+#   type   = "SRV"
+#   ttl    = 3600
+#
+#   answers {
+#     answer = "0 1 587 smtp.migadu.com."
+#   }
+# }
 
 resource "ns1_record" "www_ALIAS" {
   zone   = "${ns1_zone.main.zone}"
