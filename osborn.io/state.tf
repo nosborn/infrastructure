@@ -5,12 +5,3 @@ terraform {
     region = "ap-southeast-1"
   }
 }
-
-# data "terraform_remote_state" "root" {
-#   backend = "local"
-#
-#   config = {
-#     path = "${path.module}/../root/terraform.tfstate"
-#   }
-# }
-

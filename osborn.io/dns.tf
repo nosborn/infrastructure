@@ -1,14 +1,26 @@
 resource "ns1_zone" "main" {
-  zone = "${var.domain_name}"
+  zone = var.domain_name
 }
 
-resource "ns1_record" "ALIAS" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "${var.domain_name}"
-  type   = "ALIAS"
+resource "ns1_record" "A" {
+  zone   = ns1_zone.main.zone
+  domain = var.domain_name
+  type   = "A"
 
   answers {
-    answer = "${netlify_site.main.name}.netlify.com"
+    answer = "185.199.108.153"
+  }
+
+  answers {
+    answer = "185.199.109.153"
+  }
+
+  answers {
+    answer = "185.199.110.153"
+  }
+
+  answers {
+    answer = "185.199.111.153"
   }
 }
 
@@ -25,8 +37,8 @@ resource "ns1_record" "ALIAS" {
 # }
 
 resource "ns1_record" "MX" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "${var.domain_name}"
+  zone   = ns1_zone.main.zone
+  domain = var.domain_name
   type   = "MX"
   ttl    = 3600
 
@@ -40,8 +52,8 @@ resource "ns1_record" "MX" {
 }
 
 resource "ns1_record" "TXT" {
-  zone   = "${ns1_zone.main.zone}"
-  domain = "${var.domain_name}"
+  zone   = ns1_zone.main.zone
+  domain = var.domain_name
   type   = "TXT"
   ttl    = 3600
 
@@ -59,7 +71,7 @@ resource "ns1_record" "TXT" {
 }
 
 resource "ns1_record" "bing_CNAME" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "7f33c9bdcbfc881a50d3f5db24af19e9.${var.domain_name}"
   type   = "CNAME"
   ttl    = 3600
@@ -70,10 +82,10 @@ resource "ns1_record" "bing_CNAME" {
 }
 
 resource "ns1_record" "dmarc_TXT" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "_dmarc.${var.domain_name}"
   type   = "TXT"
-  ttl    = 300                         # FIXME: 3600
+  ttl    = 300 # FIXME: 3600
 
   answers {
     answer = "v=DMARC1; p=none; fo=1; rua=mailto:admin@${var.domain_name}"
@@ -81,7 +93,7 @@ resource "ns1_record" "dmarc_TXT" {
 }
 
 resource "ns1_record" "domainkey_default_TXT" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "default._domainkey.${var.domain_name}"
   type   = "TXT"
   ttl    = 3600
@@ -92,7 +104,7 @@ resource "ns1_record" "domainkey_default_TXT" {
 }
 
 resource "ns1_record" "imap_SRV" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "_imap._tcp.${var.domain_name}"
   type   = "SRV"
   ttl    = 3600
@@ -103,7 +115,7 @@ resource "ns1_record" "imap_SRV" {
 }
 
 resource "ns1_record" "imaps_SRV" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "_imaps._tcp.${var.domain_name}"
   type   = "SRV"
   ttl    = 3600
@@ -114,7 +126,7 @@ resource "ns1_record" "imaps_SRV" {
 }
 
 resource "ns1_record" "keybase_TXT" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "_keybase.${var.domain_name}"
   type   = "TXT"
   ttl    = 3600
@@ -125,14 +137,14 @@ resource "ns1_record" "keybase_TXT" {
 }
 
 resource "ns1_record" "nick_MX" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "nick.${var.domain_name}"
   type   = "MX"
-  link   = "${var.domain_name}"
+  link   = var.domain_name
 }
 
 resource "ns1_record" "nick_TXT" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "nick.${var.domain_name}"
   type   = "TXT"
   ttl    = 3600
@@ -143,7 +155,7 @@ resource "ns1_record" "nick_TXT" {
 }
 
 resource "ns1_record" "nick_domainkey_default_TXT" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "default._domainkey.nick.${var.domain_name}"
   type   = "TXT"
   ttl    = 3600
@@ -154,7 +166,7 @@ resource "ns1_record" "nick_domainkey_default_TXT" {
 }
 
 resource "ns1_record" "pop3_SRV" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "_pop3._tcp.${var.domain_name}"
   type   = "SRV"
   ttl    = 3600
@@ -165,7 +177,7 @@ resource "ns1_record" "pop3_SRV" {
 }
 
 resource "ns1_record" "pop3s_SRV" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "_pop3s._tcp.${var.domain_name}"
   type   = "SRV"
   ttl    = 3600
@@ -176,7 +188,7 @@ resource "ns1_record" "pop3s_SRV" {
 }
 
 resource "ns1_record" "submission_SRV" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "_submission._tcp.${var.domain_name}"
   type   = "SRV"
   ttl    = 3600
@@ -187,14 +199,14 @@ resource "ns1_record" "submission_SRV" {
 }
 
 resource "ns1_record" "tombstone_MX" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "tombstone.${var.domain_name}"
   type   = "MX"
-  link   = "${var.domain_name}"
+  link   = var.domain_name
 }
 
 resource "ns1_record" "tombstone_TXT" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "tombstone.${var.domain_name}"
   type   = "TXT"
   ttl    = 3600
@@ -205,7 +217,7 @@ resource "ns1_record" "tombstone_TXT" {
 }
 
 resource "ns1_record" "tombstone_domainkey_default_TXT" {
-  zone   = "${ns1_zone.main.zone}"
+  zone   = ns1_zone.main.zone
   domain = "default._domainkey.tombstone.${var.domain_name}"
   type   = "TXT"
   ttl    = 3600
@@ -215,9 +227,25 @@ resource "ns1_record" "tombstone_domainkey_default_TXT" {
   }
 }
 
-resource "ns1_record" "www_ALIAS" {
-  zone   = "${ns1_zone.main.zone}"
+resource "ns1_record" "www_A" {
+  zone   = ns1_zone.main.zone
   domain = "www.${var.domain_name}"
-  type   = "ALIAS"
-  link   = "${var.domain_name}"
+  type   = "A"
+
+  answers {
+    answer = "185.199.108.153"
+  }
+
+  answers {
+    answer = "185.199.109.153"
+  }
+
+  answers {
+    answer = "185.199.110.153"
+  }
+
+  answers {
+    answer = "185.199.111.153"
+  }
 }
+
