@@ -3,10 +3,6 @@ resource "aws_s3_bucket" "cloudtrail" {
   acl           = "private"
   region        = "ap-southeast-1"
 
-  tags = {
-    Project = "${var.project_tag}"
-  }
-
   versioning {
     enabled = true
   }
@@ -39,13 +35,12 @@ resource "aws_s3_bucket" "cloudtrail" {
 }
 
 resource "aws_s3_bucket_policy" "cloudtrail" {
-  bucket = "${aws_s3_bucket.cloudtrail.id}"
-  policy = "${data.aws_iam_policy_document.cloudtrail.json}"
+  bucket = aws_s3_bucket.cloudtrail.id
+  policy = data.aws_iam_policy_document.cloudtrail.json
 }
 
 resource "aws_s3_bucket_public_access_block" "cloudtrail" {
-  bucket = "${aws_s3_bucket.cloudtrail.id}"
-
+  bucket              = aws_s3_bucket.cloudtrail.id
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
@@ -53,14 +48,10 @@ resource "aws_s3_bucket_public_access_block" "cloudtrail" {
 
 resource "aws_cloudtrail" "cloudtrail" {
   name                          = "Global"
-  s3_bucket_name                = "${aws_s3_bucket.cloudtrail.id}"
+  s3_bucket_name                = aws_s3_bucket.cloudtrail.id
   enable_logging                = true
   include_global_service_events = true
   is_multi_region_trail         = true
-
-  tags = {
-    Project = "${var.project_tag}"
-  }
 
   depends_on = ["aws_s3_bucket_policy.cloudtrail"]
 }
@@ -69,7 +60,7 @@ data "aws_iam_policy_document" "cloudtrail" {
   statement {
     sid       = "AWSCloudTrailAclCheck"
     actions   = ["s3:GetBucketAcl"]
-    resources = ["${aws_s3_bucket.cloudtrail.arn}"]
+    resources = [aws_s3_bucket.cloudtrail.arn]
 
     principals {
       type        = "Service"
