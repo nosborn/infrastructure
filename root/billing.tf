@@ -7,7 +7,7 @@ resource "aws_cloudwatch_metric_alarm" "billing" {
   period              = 21600
   statistic           = "Maximum"
   threshold           = 5
-  alarm_actions       = ["arn:aws:sns:us-east-1:098453759506:NotifyMe"]
+  alarm_actions       = ["arn:aws:sns:us-east-1:${data.aws_caller_identity.current.account_id}:NotifyMe"]
   alarm_description   = "Created from CloudWatch console" # TODO
   datapoints_to_alarm = 1
 
@@ -17,3 +17,5 @@ resource "aws_cloudwatch_metric_alarm" "billing" {
 
   provider = "aws.us-east-1"
 }
+
+data "aws_caller_identity" "current" {}

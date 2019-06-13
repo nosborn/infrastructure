@@ -1,5 +1,5 @@
 resource "aws_iam_account_alias" "main" {
-  account_alias = "${var.account_alias}"
+  account_alias = var.account_alias
 }
 
 resource "aws_iam_account_password_policy" "main" {
