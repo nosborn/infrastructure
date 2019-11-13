@@ -20,6 +20,10 @@ resource "cloudflare_zone" "main" {
   type = "full"
 }
 
+resource "cloudflare_zone_settings_override" "main" {
+  name = var.domain_name
+}
+
 resource "cloudflare_record" "CNAME" {
   domain  = var.domain_name
   name    = var.domain_name
@@ -101,6 +105,42 @@ resource "cloudflare_record" "keybase_TXT" {
   name   = "_keybase.${var.domain_name}"
   type   = "TXT"
   value  = "keybase-site-verification=H4Tg4vG9nr9YFoI-3bZoq6TTFU2s3ZKwRxA8I9GMBg4"
+}
+
+resource "cloudflare_record" "mediastreamer_A" {
+  domain  = var.domain_name
+  name    = "mediastreamer.${var.domain_name}"
+  type    = "A"
+  value   = "0.0.0.0"
+  proxied = false
+
+  lifecycle {
+    ignore_changes = ["value"]
+  }
+}
+
+resource "cloudflare_record" "mediastreamer_CAA_issue" {
+  domain = var.domain_name
+  name   = "mediastreamer.${var.domain_name}"
+  type   = "CAA"
+
+  data = {
+    flags = 0
+    tag   = "issue"
+    value = ";"
+  }
+}
+
+resource "cloudflare_record" "mediastreamer_CAA_issuewild" {
+  domain = var.domain_name
+  name   = "mediastreamer.${var.domain_name}"
+  type   = "CAA"
+
+  data = {
+    flags = 0
+    tag   = "issuewild"
+    value = ";"
+  }
 }
 
 resource "cloudflare_record" "nick_MX" {

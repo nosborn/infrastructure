@@ -1,5 +1,5 @@
 resource "cloudflare_worker_route" "main" {
-  zone    = var.domain_name
+  zone_id = cloudflare_zone.main.id
   pattern = "*${var.domain_name}/"
   enabled = true
 
@@ -7,6 +7,6 @@ resource "cloudflare_worker_route" "main" {
 }
 
 resource "cloudflare_worker_script" "main" {
-  zone    = var.domain_name
+  zone_id = cloudflare_zone.main.id
   content = "${file("worker.js")}"
 }
