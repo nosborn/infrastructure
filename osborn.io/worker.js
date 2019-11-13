@@ -13,6 +13,12 @@ async function handle(request) {
   let response = await fetch(request);
   response = new Response(response.body, response);
 
+  let url = new URL(request.url);
+  let wkdRegExp = new RegExp(/\.well-known\/openpgpkey\/hu\//);
+  if (wkdRegExp.test(url.pathname)) {
+    response.headers.set("Access-Control-Allow-Origin", "*");
+  }
+
   response.headers.set("Content-Security-Policy", csp.join("; "));
   response.headers.set("Referrer-Policy", "same-origin");
   response.headers.set("X-Frame-Options", "SAMEORIGIN");
