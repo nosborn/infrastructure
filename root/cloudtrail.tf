@@ -1,7 +1,5 @@
 resource "aws_s3_bucket" "cloudtrail" {
   bucket_prefix = "cloudtrail-"
-  acl           = "private"
-  region        = "ap-southeast-1"
 
   versioning {
     enabled = true
@@ -47,13 +45,13 @@ resource "aws_s3_bucket_public_access_block" "cloudtrail" {
 }
 
 resource "aws_cloudtrail" "cloudtrail" {
+  depends_on = [aws_s3_bucket_policy.cloudtrail]
+
   name                          = "Global"
   s3_bucket_name                = aws_s3_bucket.cloudtrail.id
   enable_logging                = true
   include_global_service_events = true
   is_multi_region_trail         = true
-
-  depends_on = ["aws_s3_bucket_policy.cloudtrail"]
 }
 
 data "aws_iam_policy_document" "cloudtrail" {

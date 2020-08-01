@@ -19,7 +19,7 @@ resource "aws_iam_user_policy" "deploy" {
 data "aws_iam_policy_document" "deploy" {
   statement {
     actions   = ["s3:ListBucket"]
-    resources = [aws_s3_bucket.content.arn]
+    resources = [module.content_bucket.arn]
   }
 
   statement {
@@ -33,6 +33,6 @@ data "aws_iam_policy_document" "deploy" {
       "s3:PutObjectAcl"
     ]
 
-    resources = ["${aws_s3_bucket.content.arn}/*"]
+    resources = ["${module.content_bucket.arn}/*"]
   }
 }

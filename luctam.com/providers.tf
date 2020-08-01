@@ -1,10 +1,10 @@
 provider "aws" {
-  version = "~> 2.35"
+  version = "~> 3.0"
 
   region              = "ap-southeast-1"
-  allowed_account_ids = ["${var.aws_allowed_account_id}"]
+  allowed_account_ids = [var.aws_allowed_account_id]
 }
 
 provider "cloudflare" {
-  version = "~> 1.18"
+  version = "~> 2.9"
 }

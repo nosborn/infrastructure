@@ -1,4 +1,6 @@
 resource "aws_cloudwatch_metric_alarm" "billing" {
+  provider = aws.us-east-1
+
   alarm_name          = "awsbilling-AWS-Service-Charges-total"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 1
@@ -14,8 +16,6 @@ resource "aws_cloudwatch_metric_alarm" "billing" {
   dimensions = {
     Currency = "USD"
   }
-
-  provider = "aws.us-east-1"
 }
 
 data "aws_caller_identity" "current" {}

@@ -20,17 +20,17 @@ resource "cloudflare_zone" "main" {
 }
 
 resource "cloudflare_record" "CNAME" {
-  domain  = var.domain_name
+  zone_id = cloudflare_zone.main.id
   name    = var.domain_name
   type    = "CNAME"
-  value   = aws_s3_bucket.content.website_endpoint
+  value   = module.content_bucket.website_endpoint
   proxied = true
 }
 
 resource "cloudflare_record" "CAA_issue" {
-  domain = var.domain_name
-  name   = var.domain_name
-  type   = "CAA"
+  zone_id = cloudflare_zone.main.id
+  name    = var.domain_name
+  type    = "CAA"
 
   data = {
     flags = 0
@@ -42,9 +42,9 @@ resource "cloudflare_record" "CAA_issue" {
 }
 
 resource "cloudflare_record" "CAA_issuewild" {
-  domain = var.domain_name
-  name   = var.domain_name
-  type   = "CAA"
+  zone_id = cloudflare_zone.main.id
+  name    = var.domain_name
+  type    = "CAA"
 
   data = {
     flags = 0
@@ -56,7 +56,7 @@ resource "cloudflare_record" "CAA_issuewild" {
 }
 
 resource "cloudflare_record" "MX" {
-  domain   = var.domain_name
+  zone_id  = cloudflare_zone.main.id
   name     = var.domain_name
   type     = "MX"
   value    = element(split(" ", local.mx[count.index]), 1)
@@ -66,32 +66,32 @@ resource "cloudflare_record" "MX" {
 }
 
 resource "cloudflare_record" "TXT" {
-  domain = var.domain_name
-  name   = var.domain_name
-  type   = "TXT"
-  value  = local.txt[count.index]
+  zone_id = cloudflare_zone.main.id
+  name    = var.domain_name
+  type    = "TXT"
+  value   = local.txt[count.index]
 
   count = length(local.txt)
 }
 
 resource "cloudflare_record" "dmarc_TXT" {
-  domain = var.domain_name
-  name   = "_dmarc.${var.domain_name}"
-  type   = "TXT"
-  value  = "v=DMARC1; p=none; fo=1; rua=mailto:nosborn-d@dmarc.report-uri.com"
+  zone_id = cloudflare_zone.main.id
+  name    = "_dmarc.${var.domain_name}"
+  type    = "TXT"
+  value   = "v=DMARC1; p=none; fo=1; rua=mailto:nosborn-d@dmarc.report-uri.com"
 }
 
 # resource "cloudflare_record" "domainkey_default_TXT" {
-#   domain = var.domain_name
-#   name   = "default._domainkey.${var.domain_name}"
-#   type   = "TXT"
-#   value  = "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDXql1/79wgfBgu3bYrS2Q/5u549MYT+iqn6zW0LrkaUXBV3FcOoJNZORGyjGjWZW3xw6TrTm9kXUHN8KChc5IxGYeaYoB/wyXrGPh0u0P1nd0Q+KnLXrmTQ+cib4GBgdOnYveFIphKOf+redZLz9W59N19UWFnuHem8t4dDRmshwIDAQAB"
+#   zone_id = cloudflare_zone.main.id
+#   name    = "default._domainkey.${var.domain_name}"
+#   type    = "TXT"
+#   value   = "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDXql1/79wgfBgu3bYrS2Q/5u549MYT+iqn6zW0LrkaUXBV3FcOoJNZORGyjGjWZW3xw6TrTm9kXUHN8KChc5IxGYeaYoB/wyXrGPh0u0P1nd0Q+KnLXrmTQ+cib4GBgdOnYveFIphKOf+redZLz9W59N19UWFnuHem8t4dDRmshwIDAQAB"
 # }
 
 resource "cloudflare_record" "www_CNAME" {
-  domain  = var.domain_name
+  zone_id = cloudflare_zone.main.id
   name    = "www.${var.domain_name}"
   type    = "CNAME"
-  value   = aws_s3_bucket.redirect.website_endpoint
+  value   = module.redirect_bucket.website_endpoint
   proxied = true
 }
