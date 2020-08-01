@@ -24,61 +24,61 @@ resource "cloudflare_zone" "main" {
 }
 
 resource "cloudflare_record" "CAA_issue" {
-  domain = var.domain_name
-  name   = var.domain_name
-  type   = "CAA"
+  count = length(local.caa)
+
+  zone_id = cloudflare_zone.main.id
+  name    = var.domain_name
+  type    = "CAA"
 
   data = {
     flags = 0
     tag   = "issue"
     value = local.caa[count.index]
   }
-
-  count = length(local.caa)
 }
 
 resource "cloudflare_record" "CAA_issuewild" {
-  domain = var.domain_name
-  name   = var.domain_name
-  type   = "CAA"
+  count = length(local.caa)
+
+  zone_id = cloudflare_zone.main.id
+  name    = var.domain_name
+  type    = "CAA"
 
   data = {
     flags = 0
     tag   = "issuewild"
     value = local.caa[count.index]
   }
-
-  count = length(local.caa)
 }
 
 resource "cloudflare_record" "MX" {
-  domain   = var.domain_name
+  count = length(local.mx)
+
+  zone_id  = cloudflare_zone.main.id
   name     = var.domain_name
   type     = "MX"
   value    = element(split(" ", local.mx[count.index]), 1)
   priority = element(split(" ", local.mx[count.index]), 0)
-
-  count = length(local.mx)
 }
 
 resource "cloudflare_record" "TXT" {
-  domain = var.domain_name
-  name   = var.domain_name
-  type   = "TXT"
-  value  = local.txt[count.index]
-
   count = length(local.txt)
+
+  zone_id = cloudflare_zone.main.id
+  name    = var.domain_name
+  type    = "TXT"
+  value   = local.txt[count.index]
 }
 
 resource "cloudflare_record" "domainkey_google_TXT" {
-  domain = var.domain_name
-  name   = "google._domainkey.${var.domain_name}"
-  type   = "TXT"
-  value  = "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtUP/vIbWUwcSdl9NHS878BrrvqFMmXkg5+wjq2BRak5vEy8a0OCdWuOwbXJ9n4qLr1WCKoejzISEMUtRtBcb/RFpMgTXFyvtlYXC4fWiV89ATeQWR3vhPLIVfZMXJmurlzvUYg+aLhWW56P5aU+qrc8dkC0uh91xdk8d7ZBNJkhXw2UqAUTPk\" \"PJtLOGCvfDxfaovvwKl8QAwYtoRA8PNRI88MamrZapYQR5jCIkizZbcSxhFAG0PUFmC+36Bj3kkgKns6r2eaqG3oofP9xgq1dPYSZxf0pcbC5GQzNTVTMiVG8ZA9DHEX3CtQfNz9R3Ct1741wARgvUGbXYFxznXKQIDAQAB"
+  zone_id = cloudflare_zone.main.id
+  name    = "google._domainkey.${var.domain_name}"
+  type    = "TXT"
+  value   = "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtUP/vIbWUwcSdl9NHS878BrrvqFMmXkg5+wjq2BRak5vEy8a0OCdWuOwbXJ9n4qLr1WCKoejzISEMUtRtBcb/RFpMgTXFyvtlYXC4fWiV89ATeQWR3vhPLIVfZMXJmurlzvUYg+aLhWW56P5aU+qrc8dkC0uh91xdk8d7ZBNJkhXw2UqAUTPk\" \"PJtLOGCvfDxfaovvwKl8QAwYtoRA8PNRI88MamrZapYQR5jCIkizZbcSxhFAG0PUFmC+36Bj3kkgKns6r2eaqG3oofP9xgq1dPYSZxf0pcbC5GQzNTVTMiVG8ZA9DHEX3CtQfNz9R3Ct1741wARgvUGbXYFxznXKQIDAQAB"
 }
 
 resource "cloudflare_record" "family_CNAME" {
-  domain  = var.domain_name
+  zone_id = cloudflare_zone.main.id
   name    = "family.${var.domain_name}"
   type    = "CNAME"
   value   = "ghs.googlehosted.com"
@@ -86,7 +86,7 @@ resource "cloudflare_record" "family_CNAME" {
 }
 
 resource "cloudflare_record" "lordbill47_CNAME" {
-  domain  = var.domain_name
+  zone_id = cloudflare_zone.main.id
   name    = "lordbill47.${var.domain_name}"
   type    = "CNAME"
   value   = "ghs.googlehosted.com"
@@ -94,7 +94,7 @@ resource "cloudflare_record" "lordbill47_CNAME" {
 }
 
 resource "cloudflare_record" "test_CNAME" {
-  domain  = var.domain_name
+  zone_id = cloudflare_zone.main.id
   name    = "test.${var.domain_name}"
   type    = "CNAME"
   value   = "ghs.googlehosted.com"
@@ -102,7 +102,7 @@ resource "cloudflare_record" "test_CNAME" {
 }
 
 resource "cloudflare_record" "ww1_CNAME" {
-  domain  = var.domain_name
+  zone_id = cloudflare_zone.main.id
   name    = "ww1.${var.domain_name}"
   type    = "CNAME"
   value   = "ghs.googlehosted.com"
@@ -110,7 +110,7 @@ resource "cloudflare_record" "ww1_CNAME" {
 }
 
 resource "cloudflare_record" "www_CNAME" {
-  domain  = var.domain_name
+  zone_id = cloudflare_zone.main.id
   name    = "www.${var.domain_name}"
   type    = "CNAME"
   value   = "ghs.googlehosted.com"

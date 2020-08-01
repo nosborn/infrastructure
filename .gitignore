@@ -2,4 +2,5 @@
 *.tfstate.*
 .envrc
 .terraform/
+[Pp][Ll][Aa][Nn]
 crash.log

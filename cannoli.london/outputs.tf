@@ -7,5 +7,6 @@ output "deploy_secret_access_key" {
 }
 
 output "name_servers" {
-  value = cloudflare_zone.main.name_servers
+  value       = cloudflare_zone.main.name_servers
+  description = "Cloudflare-assigned name servers."
 }
