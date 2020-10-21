@@ -120,25 +120,6 @@ resource "cloudflare_record" "dmarc_TXT" {
   value   = "v=DMARC1; p=reject;" # Reject 100% of non-aligned messages
 }
 
-resource "cloudflare_record" "diskstation_A" {
-  zone_id = cloudflare_zone.main.id
-  name    = "diskstation.${var.domain_name}"
-  type    = "A"
-  value   = "223.25.71.172"
-}
-
-resource "cloudflare_record" "diskstation_CAA_issuewild" {
-  zone_id = cloudflare_zone.main.id
-  name    = "diskstation.${var.domain_name}"
-  type    = "CAA"
-
-  data = {
-    flags = 0
-    tag   = "issuewild"
-    value = ";"
-  }
-}
-
 resource "cloudflare_record" "domainkey_CNAME" {
   count = 3
 
