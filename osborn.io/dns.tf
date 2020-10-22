@@ -26,7 +26,6 @@ locals {
 resource "cloudflare_zone" "main" {
   zone = var.domain_name
   plan = "free"
-  type = "full"
 }
 
 resource "cloudflare_zone_settings_override" "main" {
@@ -37,16 +36,19 @@ resource "cloudflare_zone_settings_override" "main" {
     automatic_https_rewrites = "on"
     email_obfuscation        = "on"
     hotlink_protection       = "on"
-    ssl                      = "flexible" # TODO: "full"
+    http2                    = "on"
+    http3                    = "on"
+    ipv6                     = "on"
+    ssl                      = "flexible"
     tls_1_3                  = "on"
     websockets               = "off"
 
     security_header {
       enabled            = true
-      include_subdomains = true
-      max_age            = 31536000
-      nosniff            = true
       preload            = true
+      max_age            = 31536000
+      include_subdomains = true
+      nosniff            = true
     }
   }
 }
