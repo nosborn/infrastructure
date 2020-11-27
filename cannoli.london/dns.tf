@@ -87,7 +87,7 @@ resource "cloudflare_record" "dmarc_TXT" {
   zone_id = cloudflare_zone.main.id
   name    = "_dmarc.${var.domain_name}"
   type    = "TXT"
-  value   = "v=DMARC1; p=reject;" # Reject 100% of non-aligned messages
+  value   = "v=DMARC1; p=reject; rua=mailto:${var.dmarc_xml_reporting_address};" # Reject 100% of non-aligned messages
 }
 
 resource "cloudflare_record" "domainkey_CNAME" {
