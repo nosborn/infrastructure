@@ -1,11 +1,11 @@
 # yamllint disable rule:line-length
 ---
-name: pre-commit
+name: Pull Request
 
 on:  # yamllint disable rule:truthy
   pull_request:
-  push:
-  # branches: [master]
+    branches:
+      - main
 
 jobs:
   pre-commit:
