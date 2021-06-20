@@ -1,12 +1,11 @@
-output "deploy_access_key_id" {
-  value = aws_iam_access_key.deploy.id
+output "tombstone_cloudflare_api_token" {
+  value       = cloudflare_api_token.tombstone.value
+  description = "The value of the API Token for Tombstone."
+  sensitive   = true
 }
 
-output "deploy_secret_access_key" {
-  value = aws_iam_access_key.deploy.secret
-}
-
-output "name_servers" {
-  value       = cloudflare_zone.main.name_servers
-  description = "Cloudflare-assigned name servers."
-}
+# output "wormhole_cloudflare_api_token" {
+#   value       = cloudflare_api_token.wormhole.value
+#   description = "The value of the API Token for Wormhole."
+#   sensitive   = true
+# }

@@ -3,5 +3,6 @@ variable "domain_name" {
 }
 
 variable "tags" {
-  type = map(string)
+  type    = map(string)
+  default = {}
 }

@@ -4,10 +4,6 @@ resource "aws_iam_access_key" "deploy" {
 
 resource "aws_iam_user" "deploy" {
   name = "io-osborn-deploy"
-
-  tags = {
-    Project = var.domain_name
-  }
 }
 
 resource "aws_iam_user_policy" "deploy" {

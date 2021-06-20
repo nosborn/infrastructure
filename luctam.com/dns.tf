@@ -1,65 +1,75 @@
-locals {
-  caa = [
-    ";",
-  ]
-  txt = [
-    "v=spf1 -all",
-  ]
-}
-
 resource "cloudflare_zone" "main" {
-  zone = var.domain_name
+  zone = "luctam.com"
   plan = "free"
-  type = "full"
 }
 
-resource "cloudflare_record" "CAA_issue" {
-  count = length(local.caa)
+resource "cloudflare_zone_dnssec" "main" {
+  zone_id = cloudflare_zone.main.id
+}
+
+resource "cloudflare_zone_settings_override" "main" {
+  zone_id = cloudflare_zone.main.id
+
+  settings {
+    ssl           = "off"
+    universal_ssl = "off"
+
+    security_header {
+      enabled            = true
+      preload            = false
+      max_age            = 0
+      include_subdomains = true
+      nosniff            = true
+    }
+  }
+}
+
+resource "cloudflare_record" "CAA" {
+  for_each = toset(["issue", "issuewild"])
 
   zone_id = cloudflare_zone.main.id
-  name    = var.domain_name
+  name    = cloudflare_zone.main.zone
   type    = "CAA"
 
   data = {
     flags = 0
-    tag   = "issue"
-    value = local.caa[count.index]
+    tag   = each.key
+    value = ";"
   }
 }
 
-resource "cloudflare_record" "CAA_issuewild" {
-  count = length(local.caa)
-
-  zone_id = cloudflare_zone.main.id
-  name    = var.domain_name
-  type    = "CAA"
-
-  data = {
-    flags = 0
-    tag   = "issuewild"
-    value = local.caa[count.index]
-  }
+resource "cloudflare_record" "MX" {
+  zone_id  = cloudflare_zone.main.id
+  name     = cloudflare_zone.main.zone
+  type     = "MX"
+  value    = "."
+  priority = 0
 }
 
 resource "cloudflare_record" "TXT" {
-  count = length(local.txt)
-
   zone_id = cloudflare_zone.main.id
-  name    = var.domain_name
+  name    = cloudflare_zone.main.zone
   type    = "TXT"
-  value   = local.txt[count.index]
+  value   = "v=spf1 -all"
 }
 
 resource "cloudflare_record" "dmarc_TXT" {
   zone_id = cloudflare_zone.main.id
-  name    = "_dmarc.${var.domain_name}"
+  name    = "_dmarc.${cloudflare_zone.main.zone}"
   type    = "TXT"
-  value   = "v=DMARC1; p=reject; adkim=s; aspf=s; rua=mailto:${var.dmarc_xml_reporting_address};"
+  value   = "v=DMARC1; p=reject; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s; aspf=s; sp=none;"
 }
 
 resource "cloudflare_record" "domainkey_wildcard_TXT" {
   zone_id = cloudflare_zone.main.id
-  name    = "*._domainkey.${var.domain_name}"
+  name    = "*._domainkey.${cloudflare_zone.main.zone}"
   type    = "TXT"
   value   = "v=DKIM1; p="
+}
+
+resource "cloudflare_record" "wildcard_TXT" {
+  zone_id = cloudflare_zone.main.id
+  name    = "*.${cloudflare_zone.main.zone}"
+  type    = "TXT"
+  value   = "v=spf1 -all"
 }

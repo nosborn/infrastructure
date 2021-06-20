@@ -3,6 +3,11 @@ output "arn" {
   description = "The ARN of the bucket."
 }
 
+output "id" {
+  value       = aws_s3_bucket.this.id
+  description = "The name of the bucket."
+}
+
 output "website_endpoint" {
   value       = aws_s3_bucket.this.website_endpoint
   description = "The domain of the website endpoint. This is used to create Route 53 alias records."

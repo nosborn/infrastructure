@@ -4,28 +4,15 @@ locals {
     "digicert.com",
     "letsencrypt.org",
   ]
-  mx = [
-    "10 aspmx1.migadu.com",
-    "20 aspmx2.migadu.com",
-  ]
-  txt = [
-    "google-site-verification=7sk8qJzYVrVYBq6gk135CfGRaLAa2fH5hWhEVEBNgqI",
-    "hosted-email-verify=8dqgaz7q", # Migadu verification record
-    "v=spf1 include:spf.migadu.com -all",
-  ]
-  txt_nick = [
-    "hosted-email-verify=z8sz4kpr", # Migadu verification record
-    "v=spf1 include:spf.migadu.com -all",
-  ]
-  txt_tombstone = [
-    "hosted-email-verify=5g43axig", # Migadu verification record
-    "v=spf1 include:spf.migadu.com -all",
-  ]
 }
 
 resource "cloudflare_zone" "main" {
-  zone = var.domain_name
+  zone = "osborn.io"
   plan = "free"
+}
+
+resource "cloudflare_zone_dnssec" "main" {
+  zone_id = cloudflare_zone.main.id
 }
 
 resource "cloudflare_zone_settings_override" "main" {
@@ -40,8 +27,9 @@ resource "cloudflare_zone_settings_override" "main" {
     http3                    = "on"
     ipv6                     = "on"
     ssl                      = "flexible"
-    tls_1_3                  = "on"
+    tls_1_3                  = "zrt"
     websockets               = "off"
+    zero_rtt                 = "on"
 
     security_header {
       enabled            = true
@@ -53,19 +41,11 @@ resource "cloudflare_zone_settings_override" "main" {
   }
 }
 
-resource "cloudflare_record" "CNAME" {
-  zone_id = cloudflare_zone.main.id
-  name    = var.domain_name
-  type    = "CNAME"
-  value   = module.content_bucket.website_endpoint
-  proxied = true
-}
-
 resource "cloudflare_record" "CAA_issue" {
   count = length(local.caa)
 
   zone_id = cloudflare_zone.main.id
-  name    = var.domain_name
+  name    = cloudflare_zone.main.zone
   type    = "CAA"
 
   data = {
@@ -76,155 +56,93 @@ resource "cloudflare_record" "CAA_issue" {
 }
 
 resource "cloudflare_record" "CAA_issuewild" {
-  count = length(local.caa)
-
   zone_id = cloudflare_zone.main.id
-  name    = var.domain_name
+  name    = cloudflare_zone.main.zone
   type    = "CAA"
 
   data = {
     flags = 0
     tag   = "issuewild"
-    value = local.caa[count.index]
+    value = ";"
   }
 }
 
-resource "cloudflare_record" "MX" {
-  count = length(local.mx)
-
-  zone_id  = cloudflare_zone.main.id
-  name     = var.domain_name
-  type     = "MX"
-  value    = element(split(" ", local.mx[count.index]), 1)
-  priority = element(split(" ", local.mx[count.index]), 0)
-}
-
-resource "cloudflare_record" "TXT" {
-  count = length(local.txt)
-
+resource "cloudflare_record" "bing_verification" {
   zone_id = cloudflare_zone.main.id
-  name    = var.domain_name
-  type    = "TXT"
-  value   = local.txt[count.index]
-}
-
-resource "cloudflare_record" "bing_CNAME" {
-  zone_id = cloudflare_zone.main.id
-  name    = "7f33c9bdcbfc881a50d3f5db24af19e9.${var.domain_name}"
+  name    = "7f33c9bdcbfc881a50d3f5db24af19e9"
   type    = "CNAME"
   value   = "verify.bing.com"
 }
 
-resource "cloudflare_record" "dmarc_TXT" {
+resource "cloudflare_record" "google_verification" {
   zone_id = cloudflare_zone.main.id
-  name    = "_dmarc.${var.domain_name}"
+  name    = "@"
   type    = "TXT"
-  value   = "v=DMARC1; p=reject; rua=mailto:${var.dmarc_xml_reporting_address};" # Reject 100% of non-aligned messages
+  value   = "google-site-verification=7sk8qJzYVrVYBq6gk135CfGRaLAa2fH5hWhEVEBNgqI"
 }
 
-resource "cloudflare_record" "domainkey_CNAME" {
-  count = 3
-
+resource "cloudflare_record" "keybase_verification" {
   zone_id = cloudflare_zone.main.id
-  name    = "key${count.index + 1}._domainkey.${var.domain_name}"
-  type    = "CNAME"
-  value   = "key${count.index + 1}.${var.domain_name}._domainkey.migadu.com"
-}
-
-resource "cloudflare_record" "domainkey_default_TXT" { # Legacy but do not remove
-  zone_id = cloudflare_zone.main.id
-  name    = "default._domainkey.${var.domain_name}"
-  type    = "TXT"
-  value   = "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFByJNY3YVaG7bw3C2+qjr1j0isGbHUZrJluhQWvl80v+szk7L7kWOmoKQFpm/ky9MZoIdMd3MMeVJuVhzP69W9g/qiQItb8An/vOBuxwBbSzZpE3VmXsHw5bgssn9BQKWvMmJGq+qTUE4kl9vV4HlfVw/TVT2sCuM+I9paLihOQIDAQAB"
-}
-
-resource "cloudflare_record" "keybase_TXT" {
-  zone_id = cloudflare_zone.main.id
-  name    = "_keybase.${var.domain_name}"
+  name    = "_keybase.${cloudflare_zone.main.zone}"
   type    = "TXT"
   value   = "keybase-site-verification=H4Tg4vG9nr9YFoI-3bZoq6TTFU2s3ZKwRxA8I9GMBg4"
 }
 
-resource "cloudflare_record" "nick_MX" {
-  count = length(local.mx)
-
-  zone_id  = cloudflare_zone.main.id
-  name     = "nick.${var.domain_name}"
-  type     = "MX"
-  value    = element(split(" ", local.mx[count.index]), 1)
-  priority = element(split(" ", local.mx[count.index]), 0)
-}
-
-resource "cloudflare_record" "nick_TXT" {
-  count = length(local.txt_nick)
-
-  zone_id = cloudflare_zone.main.id
-  name    = "nick.${var.domain_name}"
-  type    = "TXT"
-  value   = local.txt_nick[count.index]
-}
-
-resource "cloudflare_record" "nick_dmarc_TXT" {
-  zone_id = cloudflare_zone.main.id
-  name    = "_dmarc.nick.${var.domain_name}"
-  type    = "TXT"
-  value   = "v=DMARC1; p=reject;" # Reject 100% of non-aligned messages
-}
-
-resource "cloudflare_record" "nick_domainkey_CNAME" {
-  count = 3
-
-  zone_id = cloudflare_zone.main.id
-  name    = "key${count.index + 1}._domainkey.nick.${var.domain_name}"
-  type    = "CNAME"
-  value   = "key${count.index + 1}.nick.${var.domain_name}._domainkey.migadu.com"
-}
-
 resource "cloudflare_record" "tombstone_A" {
   zone_id = cloudflare_zone.main.id
-  name    = "tombstone.${var.domain_name}"
+  name    = "tombstone.${cloudflare_zone.main.zone}"
   type    = "A"
-  value   = "223.25.71.172"
+  value   = "127.0.0.1" # initial value only
+  ttl     = 60
+
+  lifecycle {
+    ignore_changes = [
+      value,
+    ]
+  }
 }
 
-resource "cloudflare_record" "tombstone_MX" {
-  count = length(local.mx)
-
-  zone_id  = cloudflare_zone.main.id
-  name     = "tombstone.${var.domain_name}"
-  type     = "MX"
-  value    = element(split(" ", local.mx[count.index]), 1)
-  priority = element(split(" ", local.mx[count.index]), 0)
-}
-
-resource "cloudflare_record" "tombstone_TXT" {
-  count = length(local.txt_tombstone)
-
+resource "cloudflare_record" "tombstone_AAAA" {
   zone_id = cloudflare_zone.main.id
-  name    = "tombstone.${var.domain_name}"
-  type    = "TXT"
-  value   = local.txt_tombstone[count.index]
+  name    = "tombstone.${cloudflare_zone.main.zone}"
+  type    = "AAAA"
+  value   = "::1" # initial value only
+  ttl     = 60
+
+  lifecycle {
+    ignore_changes = [
+      value,
+    ]
+  }
 }
 
-resource "cloudflare_record" "tombstone_dmarc_TXT" {
+resource "cloudflare_record" "tombstone_CAA_issue" {
   zone_id = cloudflare_zone.main.id
-  name    = "_dmarc.tombstone.${var.domain_name}"
-  type    = "TXT"
-  value   = "v=DMARC1; p=reject;" # Reject 100% of non-aligned messages
+  name    = "tombstone.${cloudflare_zone.main.zone}"
+  type    = "CAA"
+
+  data = {
+    flags = 0
+    tag   = "issue"
+    value = "letsencrypt.org"
+  }
 }
 
-resource "cloudflare_record" "tombstone_domainkey_CNAME" {
-  count = 3
-
+resource "cloudflare_record" "tombstone_CAA_issuewild" {
   zone_id = cloudflare_zone.main.id
-  name    = "key${count.index + 1}._domainkey.tombstone.${var.domain_name}"
-  type    = "CNAME"
-  value   = "key${count.index + 1}.tombstone.${var.domain_name}._domainkey.migadu.com"
+  name    = "tombstone.${cloudflare_zone.main.zone}"
+  type    = "CAA"
+
+  data = {
+    flags = 0
+    tag   = "issuewild"
+    value = ";"
+  }
 }
 
 resource "cloudflare_record" "unifi_CAA_issue" {
   zone_id = cloudflare_zone.main.id
-  name    = "unifi.${var.domain_name}"
+  name    = "unifi.${cloudflare_zone.main.zone}"
   type    = "CAA"
 
   data = {
@@ -236,7 +154,7 @@ resource "cloudflare_record" "unifi_CAA_issue" {
 
 resource "cloudflare_record" "unifi_CAA_issuewild" {
   zone_id = cloudflare_zone.main.id
-  name    = "unifi.${var.domain_name}"
+  name    = "unifi.${cloudflare_zone.main.zone}"
   type    = "CAA"
 
   data = {
@@ -244,12 +162,4 @@ resource "cloudflare_record" "unifi_CAA_issuewild" {
     tag   = "issuewild"
     value = ";"
   }
-}
-
-resource "cloudflare_record" "www_CNAME" {
-  zone_id = cloudflare_zone.main.id
-  name    = "www.${var.domain_name}"
-  type    = "CNAME"
-  value   = module.content_bucket.website_endpoint
-  proxied = true
 }
