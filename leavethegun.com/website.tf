@@ -1,5 +1,5 @@
 module "content_bucket" {
-  source = "../modules/content_bucket"
+  source = "../modules/content-bucket"
 
   domain_name = var.domain_name
 
@@ -9,7 +9,7 @@ module "content_bucket" {
 }
 
 module "redirect_bucket" {
-  source = "../modules/redirect_bucket"
+  source = "../modules/redirect-bucket"
 
   domain_name = var.domain_name
 
