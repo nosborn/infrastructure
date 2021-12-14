@@ -25,15 +25,13 @@ resource "cloudflare_zone_settings_override" "main" {
 }
 
 resource "cloudflare_record" "CAA" {
-  for_each = toset(["issue", "issuewild"])
-
   zone_id = cloudflare_zone.main.id
   name    = cloudflare_zone.main.zone
   type    = "CAA"
 
-  data = {
+  data {
     flags = 0
-    tag   = each.key
+    tag   = "issue"
     value = ";"
   }
 }
@@ -57,19 +55,12 @@ resource "cloudflare_record" "dmarc_TXT" {
   zone_id = cloudflare_zone.main.id
   name    = "_dmarc.${cloudflare_zone.main.zone}"
   type    = "TXT"
-  value   = "v=DMARC1; p=reject; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s; aspf=s; sp=none;"
+  value   = "v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s;"
 }
 
-resource "cloudflare_record" "domainkey_wildcard_TXT" {
+resource "cloudflare_record" "domainkey_TXT" {
   zone_id = cloudflare_zone.main.id
   name    = "*._domainkey.${cloudflare_zone.main.zone}"
   type    = "TXT"
   value   = "v=DKIM1; p="
-}
-
-resource "cloudflare_record" "wildcard_TXT" {
-  zone_id = cloudflare_zone.main.id
-  name    = "*.${cloudflare_zone.main.zone}"
-  type    = "TXT"
-  value   = "v=spf1 -all"
 }

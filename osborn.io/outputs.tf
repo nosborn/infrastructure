@@ -8,7 +8,8 @@ output "hyperbackup_application_key_id" {
 }
 
 output "hyperbackup_bucket_name" {
-  value = b2_bucket.hyperbackup.bucket_name
+  value       = b2_bucket.hyperbackup.bucket_name
+  description = "The name of the bucket."
 }
 
 output "tombstone_cloudflare_api_token" {

@@ -30,7 +30,7 @@ resource "cloudflare_record" "CAA_issue" {
   name    = var.domain_name
   type    = "CAA"
 
-  data = {
+  data {
     flags = 0
     tag   = "issue"
     value = local.caa[count.index]
@@ -44,7 +44,7 @@ resource "cloudflare_record" "CAA_issuewild" {
   name    = var.domain_name
   type    = "CAA"
 
-  data = {
+  data {
     flags = 0
     tag   = "issuewild"
     value = local.caa[count.index]
