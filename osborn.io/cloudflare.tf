@@ -3,9 +3,9 @@ resource "cloudflare_zone" "main" {
   plan = "free"
 }
 
-# resource "cloudflare_zone_dnssec" "main" {
-#   zone_id = cloudflare_zone.main.id
-# }
+resource "cloudflare_zone_dnssec" "main" {
+  zone_id = cloudflare_zone.main.id
+}
 
 resource "cloudflare_zone_settings_override" "main" {
   zone_id = cloudflare_zone.main.id
