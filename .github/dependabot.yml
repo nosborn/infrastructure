@@ -6,3 +6,23 @@ updates:
     directory: /
     schedule:
       interval: daily
+
+  - package-ecosystem: terraform
+    directory: /luctam.com
+    schedule:
+      interval: daily
+
+  - package-ecosystem: terraform
+    directory: /osborn.io
+    schedule:
+      interval: daily
+
+  - package-ecosystem: terraform
+    directory: /osborn.ws
+    schedule:
+      interval: daily
+
+  - package-ecosystem: terraform
+    directory: /root
+    schedule:
+      interval: daily
