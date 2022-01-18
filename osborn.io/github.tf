@@ -10,9 +10,9 @@ resource "github_repository" "mta_sts" {
   topics                 = ["mta-sts", "static-website"]
 }
 
-resource "github_branch_protection" "mta_sts_master" {
+resource "github_branch_protection" "mta_sts_main" {
   repository_id           = github_repository.mta_sts.id
-  pattern                 = "master"
+  pattern                 = "main"
   enforce_admins          = true
   require_signed_commits  = true
   required_linear_history = true
@@ -30,9 +30,9 @@ resource "github_repository" "www" {
   topics                 = ["static-website"]
 }
 
-resource "github_branch_protection" "www_master" {
+resource "github_branch_protection" "www_main" {
   repository_id           = github_repository.www.id
-  pattern                 = "master"
+  pattern                 = "main"
   enforce_admins          = true
   require_signed_commits  = true
   required_linear_history = true
