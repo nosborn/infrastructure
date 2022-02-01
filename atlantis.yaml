@@ -1,0 +1,25 @@
+---
+version: 3
+automerge: true
+delete_source_branch_on_merge: true
+projects:
+  - dir: luctam.com
+    apply_requirements:
+      - approved
+      - mergeable
+      - undiverged
+  - dir: osborn.io
+    apply_requirements:
+      - approved
+      - mergeable
+      - undiverged
+  - dir: osborn.ws
+    apply_requirements:
+      - approved
+      - mergeable
+      - undiverged
+  - dir: root
+    apply_requirements:
+      - approved
+      - mergeable
+      - undiverged
