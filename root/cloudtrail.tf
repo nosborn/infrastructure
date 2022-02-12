@@ -10,35 +10,49 @@ resource "aws_cloudtrail" "cloudtrail" {
 
 resource "aws_s3_bucket" "cloudtrail" {
   bucket_prefix = "cloudtrail-"
+}
 
-  versioning {
-    enabled = true
-  }
+resource "aws_s3_bucket_lifecycle_configuration" "cloudtrail" {
+  bucket                = aws_s3_bucket.cloudtrail.id
+  expected_bucket_owner = data.aws_caller_identity.current.account_id
 
-  lifecycle_rule {
-    enabled = true
+  rule {
+    id     = "config"
+    status = "Enabled"
+
+    noncurrent_version_expiration {
+      noncurrent_days = 90
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
 
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
+  }
+}
 
-    noncurrent_version_expiration {
-      days = 90
-    }
+resource "aws_s3_bucket_server_side_encryption_configuration" "cloudtrail" {
+  bucket                = aws_s3_bucket.cloudtrail.id
+  expected_bucket_owner = data.aws_caller_identity.current.account_id
 
-    noncurrent_version_transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
     }
   }
+}
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
+resource "aws_s3_bucket_versioning" "cloudtrail" {
+  bucket                = aws_s3_bucket.cloudtrail.id
+  expected_bucket_owner = data.aws_caller_identity.current.account_id
+
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
