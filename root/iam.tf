@@ -10,3 +10,17 @@ resource "aws_iam_account_password_policy" "main" {
   require_uppercase_characters   = true
   require_symbols                = true
 }
+
+resource "aws_iam_user" "atlantis" {
+  name = "atlantis"
+}
+
+resource "aws_iam_user_policy_attachment" "atlantis" {
+  user       = aws_iam_user.atlantis.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
+
+resource "aws_iam_access_key" "atlantis" {
+  pgp_key = var.pgp_key
+  user    = aws_iam_user.atlantis.name
+}
