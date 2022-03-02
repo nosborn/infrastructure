@@ -16,6 +16,8 @@ repos:
       - id: check-yaml
       - id: destroyed-symlinks
       - id: detect-aws-credentials
+        args:
+          - --allow-missing-credentials
       - id: detect-private-key
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
@@ -28,6 +30,11 @@ repos:
       - id: sort-simple-yaml
         exclude: .github/workflows/
       - id: trailing-whitespace
+
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.26.3
+    hooks:
+      - id: yamllint
 
   - repo: https://github.com/rhysd/actionlint.git
     rev: v1.6.9

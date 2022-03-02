@@ -1,14 +1,14 @@
-resource "cloudflare_zone" "main" {
+resource "cloudflare_zone" "this" {
   zone = "osborn.io"
   plan = "free"
 }
 
-resource "cloudflare_zone_dnssec" "main" {
-  zone_id = cloudflare_zone.main.id
+resource "cloudflare_zone_dnssec" "this" {
+  zone_id = cloudflare_zone.this.id
 }
 
-resource "cloudflare_zone_settings_override" "main" {
-  zone_id = cloudflare_zone.main.id
+resource "cloudflare_zone_settings_override" "this" {
+  zone_id = cloudflare_zone.this.id
 
   settings {
     always_use_https         = "on"
@@ -42,7 +42,7 @@ resource "cloudflare_record" "caa_issue" {
     "letsencrypt.org",
   ])
 
-  zone_id = cloudflare_zone.main.id
+  zone_id = cloudflare_zone.this.id
   name    = "@"
   type    = "CAA"
 
@@ -61,7 +61,7 @@ resource "cloudflare_record" "caa_issuewild" {
     "letsencrypt.org",
   ])
 
-  zone_id = cloudflare_zone.main.id
+  zone_id = cloudflare_zone.this.id
   name    = "@"
   type    = "CAA"
 
@@ -78,7 +78,7 @@ resource "cloudflare_record" "mx" {
     "in2-smtp.messagingengine.com" = 20
   }
 
-  zone_id  = cloudflare_zone.main.id
+  zone_id  = cloudflare_zone.this.id
   name     = "@"
   type     = "MX"
   value    = each.key
@@ -92,21 +92,21 @@ resource "cloudflare_record" "txt" {
     "v=spf1 include:spf.messagingengine.com -all",
   ])
 
-  zone_id = cloudflare_zone.main.id
+  zone_id = cloudflare_zone.this.id
   name    = "@"
   type    = "TXT"
   value   = each.key
 }
 
 resource "cloudflare_record" "bing_cname" {
-  zone_id = cloudflare_zone.main.id
+  zone_id = cloudflare_zone.this.id
   name    = "7f33c9bdcbfc881a50d3f5db24af19e9"
   type    = "CNAME"
   value   = "verify.bing.com"
 }
 
 resource "cloudflare_record" "dmarc_txt" {
-  zone_id = cloudflare_zone.main.id
+  zone_id = cloudflare_zone.this.id
   name    = "_dmarc"
   type    = "TXT"
   value   = "v=DMARC1; p=reject; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s; aspf=s;"
@@ -115,21 +115,21 @@ resource "cloudflare_record" "dmarc_txt" {
 resource "cloudflare_record" "fastmail_dkim_cname" {
   count = 3
 
-  zone_id = cloudflare_zone.main.id
+  zone_id = cloudflare_zone.this.id
   name    = format("fm%d._domainkey", count.index + 1)
   type    = "CNAME"
   value   = format("fm%d.osborn.io.dkim.fmhosted.com", count.index + 1)
 }
 
 resource "cloudflare_record" "keybase_txt" {
-  zone_id = cloudflare_zone.main.id
+  zone_id = cloudflare_zone.this.id
   name    = "_keybase"
   type    = "TXT"
   value   = "keybase-site-verification=H4Tg4vG9nr9YFoI-3bZoq6TTFU2s3ZKwRxA8I9GMBg4"
 }
 
 resource "cloudflare_record" "mta_sts_txt" {
-  zone_id = cloudflare_zone.main.id
+  zone_id = cloudflare_zone.this.id
   name    = "_mta-sts"
   type    = "TXT"
   value   = "v=STSv1; id=20210925114437Z;"
@@ -141,7 +141,7 @@ resource "cloudflare_record" "nick_mx" {
     "in2-smtp.messagingengine.com" = 20
   }
 
-  zone_id  = cloudflare_zone.main.id
+  zone_id  = cloudflare_zone.this.id
   name     = "nick"
   type     = "MX"
   value    = each.key
@@ -149,7 +149,7 @@ resource "cloudflare_record" "nick_mx" {
 }
 
 resource "cloudflare_record" "smtp_tls_txt" {
-  zone_id = cloudflare_zone.main.id
+  zone_id = cloudflare_zone.this.id
   name    = "_smtp._tls"
   type    = "TXT"
   value   = "v=TLSRPTv1; rua=mailto:${var.tls_json_reporting_address}"
@@ -160,7 +160,7 @@ resource "cloudflare_record" "tombstone_a" {
     ignore_changes = [value]
   }
 
-  zone_id = cloudflare_zone.main.id
+  zone_id = cloudflare_zone.this.id
   name    = "tombstone"
   type    = "A"
   value   = "127.0.0.1" # set by ddclient

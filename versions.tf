@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.1"
+  required_version = "~> 1.1.7"
 
   required_providers {
     aws = {
@@ -7,9 +7,19 @@ terraform {
       version = "4.3.0"
     }
 
+    b2 = {
+      source  = "Backblaze/b2"
+      version = "0.7.1"
+    }
+
     cloudflare = {
       source  = "cloudflare/cloudflare"
       version = "3.9.1"
+    }
+
+    github = {
+      source  = "integrations/github"
+      version = "4.20.0"
     }
   }
 }
