@@ -1,25 +1,37 @@
-# See https://pre-commit.com for more information
-# See https://pre-commit.com/hooks.html for more hooks
 ---
-minimum_pre_commit_version: !!str 2.16
-
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:
-      - id: check-merge-conflict
       - id: check-added-large-files
-      - id: mixed-line-ending
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-vcs-permalinks
+      - id: check-xml
       - id: check-yaml
+      - id: destroyed-symlinks
+      - id: detect-aws-credentials
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+      - id: forbid-new-submodules
+      - id: mixed-line-ending
+        args:
+          - --fix=no
+      - id: pretty-format-json
+      - id: requirements-txt-fixer
       - id: sort-simple-yaml
         exclude: .github/workflows/
+      - id: trailing-whitespace
 
-  - repo: https://github.com/antonbabenko/pre-commit-terraform.git
-    rev: v1.62.3
+  - repo: https://github.com/rhysd/actionlint.git
+    rev: v1.6.9
     hooks:
-      - id: terraform_fmt
-      - id: terraform_tflint
-        types:
-          - directory
+      - id: actionlint
+
+minimum_pre_commit_version: !!str 2.16
