@@ -1,0 +1,72 @@
+# yamllint disable rule:line-length
+---
+name: Terraform Plan
+
+on: # yamllint disable-line rule:truthy
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  terraform-plan:
+    permissions:
+      contents: read
+      id-token: write
+      # issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    concurrency: ci-${{ github.repository }}-terraform
+    env:
+      CHECKPOINT_DISABLE: 1
+      TF_IN_AUTOMATION: 1
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3.0.0
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1.3.2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1.6.1
+        with:
+          aws-region: ap-southeast-1
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+
+      - name: Initialise Terraform
+        run: |
+          terraform init -input=false -lock-timeout=60s
+        env:
+          B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
+          B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
+          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+          GITHUB_TOKEN: ${{ secrets.TF_GITHUB_TOKEN }}
+
+      - name: Create the plan
+        run: |
+          terraform plan -compact-warnings -input=false -lock-timeout=60s \
+            --out=terraform.tfplan
+        env:
+          B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
+          B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
+          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+          GITHUB_TOKEN: ${{ secrets.TF_GITHUB_TOKEN }}
+
+      - id: show
+        name: Read the plan
+        run: |
+          terraform show -no-color terraform.tfplan
+
+      - name: Comment on the PR
+        uses: unsplash/comment-on-pr@v1.3.0
+        with:
+          msg: |
+            ```hcl
+            ${{ steps.show.outputs.stdout }}
+            ```
+          check_for_duplicate_msg: false
+          delete_prev_regex_msg: Terraform will perform the following actions:|Changes to Outputs:|Your infrastructure matches the configuration\.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

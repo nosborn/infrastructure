@@ -1,7 +1,10 @@
+*.log
+*.tfbackend
+*.tfplan
 *.tfstate
 *.tfstate.*
+.DS_Store
 .envrc
 .terraform/
+.terraform.d/
 .terraform.lock.hcl
-[Pp][Ll][Aa][Nn]
-crash.log

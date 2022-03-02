@@ -1,8 +1,8 @@
 ---
 name: Dependabot auto-merge
 
-on:  # yamllint disable-line rule:truthy
-  pull_request_target:
+on: # yamllint disable-line rule:truthy
+  pull_request:
     branches:
       - main
 
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   dependabot:
-    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
+    if: ${{ github.actor == 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - id: metadata
@@ -22,7 +22,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Enable auto-merge for Dependabot PRs
         run: |
-          gh pr merge --auto --rebase "${PR_URL}"
+          gh pr merge --auto --rebase '${{github.event.pull_request.html_url}}'
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          PR_URL: ${{github.event.pull_request.html_url}}
