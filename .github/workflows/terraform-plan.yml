@@ -7,15 +7,15 @@ on: # yamllint disable-line rule:truthy
     branches:
       - main
 
+concurrency: ci-${{ github.repository }}-terraform
+
 jobs:
   terraform-plan:
     permissions:
       contents: read
       id-token: write
-      # issues: write
       pull-requests: write
     runs-on: ubuntu-latest
-    concurrency: ci-${{ github.repository }}-terraform
     env:
       CHECKPOINT_DISABLE: 1
       TF_IN_AUTOMATION: 1
