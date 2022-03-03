@@ -78,7 +78,7 @@ data "aws_iam_policy_document" "terraform_state" {
     ]
 
     resources = [
-      "${aws_s3_bucket.terraform.arn}/*",
+      "${aws_s3_bucket.terraform.arn}/terraform.tfstate",
     ]
   }
 }

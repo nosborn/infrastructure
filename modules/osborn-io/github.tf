@@ -1,3 +1,4 @@
+# tfsec:ignore:github-repositories-private
 resource "github_repository" "mta_sts" {
   name                   = "mta-sts.osborn.io"
   description            = "Source for [https://mta-sts.osborn.io]."
@@ -8,6 +9,7 @@ resource "github_repository" "mta_sts" {
   archive_on_destroy     = true
   delete_branch_on_merge = true
   topics                 = ["mta-sts", "static-website"]
+  vulnerability_alerts   = true
 }
 
 resource "github_branch_protection" "mta_sts_main" {
@@ -18,6 +20,7 @@ resource "github_branch_protection" "mta_sts_main" {
   required_linear_history = true
 }
 
+# tfsec:ignore:github-repositories-private
 resource "github_repository" "www" {
   name                   = "www.osborn.io"
   description            = "Source for [https://www.osborn.io]."
@@ -28,6 +31,7 @@ resource "github_repository" "www" {
   archive_on_destroy     = true
   delete_branch_on_merge = true
   topics                 = ["static-website"]
+  vulnerability_alerts   = true
 }
 
 resource "github_branch_protection" "www_main" {
