@@ -1,3 +1,7 @@
+module "go_teddit_net" {
+  source = "./modules/go-teddit-net"
+}
+
 module "osborn_io" {
   source = "./modules/osborn-io"
 

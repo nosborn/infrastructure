@@ -1,3 +1,8 @@
+output "go_teddit_net_name_servers" {
+  value       = module.go_teddit_net.name_servers
+  description = "Cloudflare-assigned name servers."
+}
+
 output "hyperbackup_application_key_id" {
   value       = b2_application_key.hyperbackup.application_key_id
   description = "The ID of the newly created key."
