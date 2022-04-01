@@ -1,4 +1,5 @@
 *.log
+*.sarif
 *.tfbackend
 *.tfplan
 *.tfstate
