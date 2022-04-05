@@ -5,6 +5,12 @@ resource "cloudflare_zone" "this" {
 
 resource "cloudflare_zone_dnssec" "this" {
   zone_id = cloudflare_zone.this.id
+
+  lifecycle {
+    ignore_changes = [
+      modified_on,
+    ]
+  }
 }
 
 resource "cloudflare_zone_settings_override" "this" {
