@@ -154,6 +154,25 @@ resource "cloudflare_record" "nick_mx" {
   priority = each.value
 }
 
+resource "cloudflare_record" "registry_caa_issue" {
+  for_each = toset([
+    "amazon.com",
+    "amazontrust.com",
+    "awstrust.com",
+    "amazonaws.com",
+  ])
+
+  zone_id = cloudflare_zone.this.id
+  name    = "registry"
+  type    = "CAA"
+
+  data {
+    flags = 0
+    tag   = "issue"
+    value = each.key
+  }
+}
+
 resource "cloudflare_record" "smtp_tls_txt" {
   zone_id = cloudflare_zone.this.id
   name    = "_smtp._tls"
