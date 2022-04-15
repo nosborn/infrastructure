@@ -120,13 +120,16 @@ data "aws_iam_policy_document" "cloudtrail" {
     }
   }
 }
+
 data "aws_iam_policy_document" "cloudtrail_logs" {
+  # tfsec:ignore:aws-iam-no-policy-wildcards
   statement {
     sid       = "AWSCloudTrailCreateLogStream2014110"
     actions   = ["logs:CreateLogStream"]
     resources = ["${aws_cloudwatch_log_group.cloudtrail.arn}:log-stream:*"]
   }
 
+  # tfsec:ignore:aws-iam-no-policy-wildcards
   statement {
     sid       = "AWSCloudTrailPutLogEvents20141101"
     actions   = ["logs:PutLogEvents"]
