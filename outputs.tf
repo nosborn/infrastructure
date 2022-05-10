@@ -24,9 +24,3 @@ output "osborn_ws_name_servers" {
   value       = module.osborn_ws.name_servers
   description = "Cloudflare-assigned name servers."
 }
-
-output "tombstone_cloudflare_api_token" {
-  value       = cloudflare_api_token.tombstone.value
-  description = "The value of the API Token."
-  sensitive   = true
-}

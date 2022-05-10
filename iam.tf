@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "assume_github_actions_workflow" {
 
     condition {
       test     = "StringLike"
-      values   = ["repo:${data.github_user.current.login}/infrastructure:*"]
+      values   = ["repo:${data.github_user.current.login}/e-test:*", "repo:${data.github_user.current.login}/infrastructure:*"]
       variable = "token.actions.githubusercontent.com:sub"
     }
 

@@ -181,12 +181,15 @@ resource "cloudflare_record" "smtp_tls_txt" {
 }
 
 resource "cloudflare_record" "tombstone_a" {
-  lifecycle {
-    ignore_changes = [value]
-  }
-
   zone_id = cloudflare_zone.this.id
   name    = "tombstone"
   type    = "A"
-  value   = "127.0.0.1" # set by ddclient
+  value   = var.tombstone_ipv4_address
 }
+
+# resource "cloudflare_record" "tombstone_aaaa" {
+#   zone_id = cloudflare_zone.this.id
+#   name    = "tombstone"
+#   type    = "AAAA"
+#   value   = var.tombstone.ipv6_address
+# }
