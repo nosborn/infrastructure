@@ -17,3 +17,8 @@ resource "b2_application_key" "hyperbackup" {
   key_name     = "HyperBackup"
   bucket_id    = b2_bucket.hyperbackup.bucket_id
 }
+
+resource "b2_application_key" "dependabot" {
+  capabilities = ["listAllBucketNames", "listBuckets", "listKeys", "readBucketEncryption", "readBucketRetentions", "readBuckets"]
+  key_name     = "Dependabot"
+}

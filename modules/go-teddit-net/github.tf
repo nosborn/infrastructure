@@ -36,8 +36,7 @@ resource "github_branch_protection" "main" {
 
     contexts = [
       "CodeQL",
-      "Linter",
-      "Security",
+      "golangci",
     ]
   }
 
