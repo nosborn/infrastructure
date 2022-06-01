@@ -11,12 +11,6 @@ resource "cloudflare_api_token" "dependabot" {
       "com.cloudflare.api.account.zone.*" = "*"
     }
   }
-
-  condition {
-    request_ip {
-      in = data.github_ip_ranges.main.dependabot
-    }
-  }
 }
 
 data "cloudflare_api_token_permission_groups" "main" {}
