@@ -1,11 +1,12 @@
 # Infrastructure
 
-[![Pull Request Workflow Status](https://github.com/nosborn/infrastructure/actions/workflows/pull_request.yml/badge.svg)](https://github.com/nosborn/infrastructure/actions/workflows/pull_request.yml)
-[![Push Workflow Status](https://github.com/nosborn/infrastructure/actions/workflows/push.yml/badge.svg)](https://github.com/nosborn/infrastructure/actions/workflows/push.yml)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![Terraform Plan Workflow Status](https://github.com/nosborn/infrastructure/actions/workflows/terraform-plan.yml/badge.svg)](https://github.com/nosborn/infrastructure/actions/workflows/terraform-plan.yml)
+[![tfsec Workflow Status](https://github.com/nosborn/infrastructure/actions/workflows/tfsec.yml/badge.svg)](https://github.com/nosborn/infrastructure/actions/workflows/tfsec.yml)
 
 ## Tools
 
-- [Terraform](https://terraform.io) 1.1
+- [Terraform](https://terraform.io) 1.2
 
 ## License
 
