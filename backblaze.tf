@@ -1,5 +1,5 @@
-resource "b2_bucket" "hyperbackup" {
-  bucket_name = "io-osborn-hyperbackup"
+resource "b2_bucket" "diskstation" {
+  bucket_name = "io-osborn-diskstation"
   bucket_type = "allPrivate"
 
   default_server_side_encryption {
@@ -10,12 +10,6 @@ resource "b2_bucket" "hyperbackup" {
     file_name_prefix             = ""
     days_from_hiding_to_deleting = 1 # "Keep only the last version"
   }
-}
-
-resource "b2_application_key" "hyperbackup" {
-  capabilities = ["deleteFiles", "listAllBucketNames", "listBuckets", "listFiles", "readBuckets", "readFiles", "writeFiles"]
-  key_name     = "HyperBackup"
-  bucket_id    = b2_bucket.hyperbackup.bucket_id
 }
 
 resource "b2_application_key" "dependabot" {
