@@ -7,10 +7,10 @@ terraform {
       version = "4.20.1"
     }
 
-    b2 = {
-      source  = "Backblaze/b2"
-      version = "0.8.1"
-    }
+    # b2 = {
+    #   source  = "Backblaze/b2"
+    #   version = "0.8.1"
+    # }
 
     cloudflare = {
       source  = "cloudflare/cloudflare"

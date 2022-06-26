@@ -180,6 +180,13 @@ resource "cloudflare_record" "smtp_tls_txt" {
   value   = "v=TLSRPTv1; rua=mailto:${var.tls_json_reporting_address}"
 }
 
+resource "cloudflare_record" "teleport_a" {
+  zone_id = cloudflare_zone.this.id
+  name    = "teleport"
+  type    = "A"
+  value   = cloudflare_record.tombstone_a.value
+}
+
 resource "cloudflare_record" "tombstone_a" {
   zone_id = cloudflare_zone.this.id
   name    = "tombstone"
@@ -193,3 +200,10 @@ resource "cloudflare_record" "tombstone_a" {
 #   type    = "AAAA"
 #   value   = var.tombstone.ipv6_address
 # }
+
+resource "cloudflare_record" "wildcard_teleport_a" {
+  zone_id = cloudflare_zone.this.id
+  name    = "*.teleport"
+  type    = "A"
+  value   = cloudflare_record.tombstone_a.value
+}
