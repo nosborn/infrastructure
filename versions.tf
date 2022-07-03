@@ -7,10 +7,10 @@ terraform {
       version = "4.21.0"
     }
 
-    # b2 = {
-    #   source  = "Backblaze/b2"
-    #   version = "0.8.1"
-    # }
+    b2 = {
+      source  = "Backblaze/b2"
+      version = "0.8.1"
+    }
 
     cloudflare = {
       source  = "cloudflare/cloudflare"
@@ -20,6 +20,16 @@ terraform {
     github = {
       source  = "integrations/github"
       version = "4.26.1"
+    }
+
+    http = {
+      source  = "hashicorp/http"
+      version = "2.2.0"
+    }
+
+    tls = {
+      source  = "hashicorp/tls"
+      version = "3.4.0"
     }
   }
 }

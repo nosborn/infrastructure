@@ -22,7 +22,7 @@ resource "aws_iam_openid_connect_provider" "github" {
   ]
 
   thumbprint_list = [
-    "6938fd4d98bab03faadb97b34396831e3780aea1",
+    data.tls_certificate.jwks.certificates[0].sha1_fingerprint,
   ]
 }
 
@@ -87,4 +87,12 @@ data "aws_iam_policy_document" "terraform_state" {
 
 data "github_user" "current" {
   username = ""
+}
+
+data "http" "openid_configuration" {
+  url = "https://token.actions.githubusercontent.com/.well-known/openid-configuration"
+}
+
+data "tls_certificate" "jwks" {
+  url = jsondecode(data.http.openid_configuration.response_body).jwks_uri
 }

@@ -11,7 +11,7 @@
 #     days_from_hiding_to_deleting = 1 # "Keep only the last version"
 #   }
 # }
-#
+
 # resource "b2_application_key" "dependabot" {
 #   capabilities = ["listAllBucketNames", "listBuckets", "listKeys", "readBucketEncryption", "readBucketRetentions", "readBuckets"]
 #   key_name     = "Dependabot"
