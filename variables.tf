@@ -11,6 +11,10 @@ variable "cloudflare_account_id" {
   sensitive = true
 }
 
+variable "dependabot_secret_tf_github_token" {
+  type = string
+}
+
 variable "pgp_key" {
   type = string
 }

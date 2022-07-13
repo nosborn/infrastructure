@@ -104,6 +104,15 @@ resource "cloudflare_record" "txt" {
   value   = each.key
 }
 
+resource "cloudflare_record" "aws_ns" {
+  count = 4
+
+  zone_id = cloudflare_zone.this.id
+  name    = "aws"
+  type    = "NS"
+  value   = aws_route53_zone.aws.name_servers[count.index]
+}
+
 resource "cloudflare_record" "bing_cname" {
   zone_id = cloudflare_zone.this.id
   name    = "7f33c9bdcbfc881a50d3f5db24af19e9"

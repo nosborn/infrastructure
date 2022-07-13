@@ -52,10 +52,10 @@ resource "github_dependabot_secret" "cloudflare_api_token" {
   plaintext_value = cloudflare_api_token.dependabot.value
 }
 
-# resource "github_dependabot_secret" "tf_github_token" {
-#   repository      = "infrastructure"
-#   secret_name     = "TF_GITHUB_TOKEN"
-#   plaintext_value = "DO THIS MANUALLY"
-# }
+resource "github_dependabot_secret" "tf_github_token" {
+  repository      = "infrastructure"
+  secret_name     = "TF_GITHUB_TOKEN"
+  encrypted_value = var.dependabot_secret_tf_github_token
+}
 
 data "github_ip_ranges" "main" {}

@@ -9,7 +9,3 @@ variable "tls_json_reporting_address" {
 variable "tombstone_ipv4_address" {
   type = string
 }
-
-variable "tombstone_ipv6_address" {
-  type = string
-}
