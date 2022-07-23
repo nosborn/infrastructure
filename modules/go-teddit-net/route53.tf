@@ -1,5 +1,5 @@
 resource "aws_route53domains_registered_domain" "this" {
-  domain_name = "osborn.io"
+  domain_name = "go-teddit.net"
   tags        = var.tags
 
   dynamic "name_server" {
@@ -9,20 +9,20 @@ resource "aws_route53domains_registered_domain" "this" {
       name = name_server.value
     }
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_zone" "this" {
-  name          = "osborn.io"
+  name          = "go-teddit.net"
   force_destroy = true
   tags          = var.tags
-}
 
-resource "aws_route53_record" "bing_cname" {
-  zone_id = aws_route53_zone.this.id
-  name    = "7f33c9bdcbfc881a50d3f5db24af19e9"
-  type    = "CNAME"
-  ttl     = 3600
-  records = ["verify.bing.com"]
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_record" "caa" {
@@ -40,14 +40,10 @@ resource "aws_route53_record" "caa" {
     "0 issuewild \"amazontrust.com\"",
     "0 issuewild \"awstrust.com\"",
   ]
-}
 
-resource "aws_route53_record" "dmarc_txt" {
-  zone_id = aws_route53_zone.this.id
-  name    = "_dmarc"
-  type    = "TXT"
-  ttl     = 3600
-  records = ["v=DMARC1; p=reject; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s; aspf=s;"]
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_record" "fastmail_dkim_cname" {
@@ -57,15 +53,23 @@ resource "aws_route53_record" "fastmail_dkim_cname" {
   name    = format("fm%d._domainkey", count.index + 1)
   type    = "CNAME"
   ttl     = 3600
-  records = [format("fm%d.osborn.io.dkim.fmhosted.com", count.index + 1)]
+  records = [format("fm%d.go-teddit.net.dkim.fmhosted.com", count.index + 1)]
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
-resource "aws_route53_record" "keybase_txt" {
+resource "aws_route53_record" "dmarc_txt" {
   zone_id = aws_route53_zone.this.id
-  name    = "_keybase"
+  name    = "_dmarc"
   type    = "TXT"
   ttl     = 3600
-  records = ["keybase-site-verification=H4Tg4vG9nr9YFoI-3bZoq6TTFU2s3ZKwRxA8I9GMBg4"]
+  records = ["v=DMARC1; p=reject; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s; aspf=s;"]
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_record" "mx" {
@@ -73,42 +77,26 @@ resource "aws_route53_record" "mx" {
   name    = ""
   type    = "MX"
   ttl     = 3600
-  records = ["10 in1-smtp.messagingengine.com.", "20 in2-smtp.messagingengine.com."]
-}
+  records = [
+    "10 in1-smtp.messagingengine.com.",
+    "20 in2-smtp.messagingengine.com.",
+  ]
 
-resource "aws_route53_record" "nick_mx" {
-  zone_id = aws_route53_zone.this.id
-  name    = "nick"
-  type    = "MX"
-  ttl     = 3600
-  records = ["10 in1-smtp.messagingengine.com.", "20 in2-smtp.messagingengine.com."]
+  lifecycle {
+    prevent_destroy = true
+  }
 }
-
-resource "aws_route53_record" "tombstone_a" {
-  zone_id = aws_route53_zone.this.id
-  name    = "tombstone"
-  type    = "A"
-  ttl     = 3600
-  records = [var.tombstone_ipv4_address]
-}
-
-# resource "aws_route53_record" "tombstone_aaaa" {
-#   zone_id = aws_route53_zone.this.id
-#   name    = "tombstone"
-#   type    = "AAAA"
-#   records = [var.tombstone_ipv6_address]
-# }
 
 resource "aws_route53_record" "txt" {
   zone_id = aws_route53_zone.this.id
   name    = ""
   type    = "TXT"
   ttl     = 3600
-  records = [
-    "google-site-verification=7sk8qJzYVrVYBq6gk135CfGRaLAa2fH5hWhEVEBNgqI",
-    "hosted-email-verify=8dqgaz7q",
-    "v=spf1 include:spf.messagingengine.com -all",
-  ]
+  records = ["v=spf1 include:spf.messagingengine.com -all"]
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_hosted_zone_dnssec" "this" {

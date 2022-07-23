@@ -1,20 +1,19 @@
 terraform {
-  required_version = "~> 1.2"
-
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.21"
-    }
-
-    cloudflare = {
-      source  = "cloudflare/cloudflare"
-      version = "~> 3.18"
+      source                = "hashicorp/aws"
+      version               = ">= 4.23"
+      configuration_aliases = [aws.us-east-1]
     }
 
     github = {
       source  = "integrations/github"
-      version = "~> 4.26"
+      version = ">= 4.26"
+    }
+
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.3"
     }
   }
 }

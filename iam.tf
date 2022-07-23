@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "assume_github_actions_workflow" {
 
     condition {
       test     = "StringLike"
-      values   = ["repo:${data.github_user.current.login}/e-test:*", "repo:${data.github_user.current.login}/infrastructure:*"]
+      values   = ["repo:${data.github_user.current.login}/infrastructure:*"]
       variable = "token.actions.githubusercontent.com:sub"
     }
 
@@ -64,7 +64,17 @@ data "aws_iam_policy_document" "assume_github_actions_workflow" {
 data "aws_iam_policy_document" "terraform_state" {
   statement {
     actions = [
-      "s3:PutObject",
+      "kms:Decrypt",
+      "kms:GenerateDataKey"
+    ]
+
+    # resources = ["arn:aws:kms:example-region-1:123456789098:key/111aa2bb-333c-4d44-5555-a111bb2c33dd"]
+    resources = ["*"]
+  }
+
+  statement {
+    actions = [
+      "s3:ListBucket",
     ]
 
     resources = [
@@ -74,7 +84,6 @@ data "aws_iam_policy_document" "terraform_state" {
 
   statement {
     actions = [
-      "s3:DeleteObject",
       "s3:GetObject",
       "s3:PutObject",
     ]
