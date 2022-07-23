@@ -6,15 +6,16 @@ variable "aws_allowed_account_id" {
   type = string
 }
 
-variable "cloudflare_account_id" {
+variable "cloudflare_api_token" {
   type      = string
   sensitive = true
 }
 
-variable "dependabot_secret_tf_github_token" {
+variable "pgp_key" {
   type = string
 }
 
-variable "pgp_key" {
-  type = string
+variable "tf_github_token" {
+  type      = string
+  sensitive = true
 }
