@@ -100,13 +100,17 @@ resource "aws_route53_record" "txt" {
 }
 
 resource "aws_route53_hosted_zone_dnssec" "this" {
-  hosted_zone_id = aws_route53_key_signing_key.this.hosted_zone_id
+  depends_on = [
+    aws_route53_key_signing_key.this
+  ]
+
+  hosted_zone_id = aws_route53_zone.this.id
 }
 
 resource "aws_route53_key_signing_key" "this" {
   hosted_zone_id             = aws_route53_zone.this.id
   key_management_service_arn = var.key_management_service_arn
-  name                       = random_string.ksk.id
+  name                       = random_string.ksk.result
 
   lifecycle {
     create_before_destroy = true
@@ -121,4 +125,8 @@ resource "random_string" "ksk" {
 
   length  = 32
   special = false
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
