@@ -16,6 +16,7 @@ module "acm_certificate" {
   zone_id                   = var.zone_id
 }
 
+# tfsec:ignore:aws-cloudfront-enable-waf
 resource "aws_cloudfront_distribution" "this" {
   depends_on = [
     module.acm_certificate,
