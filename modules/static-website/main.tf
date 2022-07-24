@@ -23,12 +23,13 @@ resource "aws_cloudfront_distribution" "this" {
     module.content_bucket,
   ]
 
-  aliases         = compact(concat([var.domain_name], var.redirect_domain_names))
-  comment         = var.domain_name
-  enabled         = true
-  is_ipv6_enabled = true
-  price_class     = "PriceClass_100"
-  tags            = var.tags
+  aliases             = compact(concat([var.domain_name], var.redirect_domain_names))
+  comment             = var.domain_name
+  default_root_object = var.default_root_object
+  enabled             = true
+  is_ipv6_enabled     = true
+  price_class         = "PriceClass_100"
+  tags                = var.tags
 
   default_cache_behavior {
     allowed_methods            = ["GET", "HEAD"]
@@ -87,7 +88,7 @@ resource "aws_cloudfront_response_headers_policy" "this" {
 
   security_headers_config {
     content_security_policy {
-      content_security_policy = "default-src 'none'; report-uri https://osborn.report-uri.com/r/d/csp/enforce"
+      content_security_policy = var.content_security_policy
       override                = true
     }
 
@@ -109,7 +110,7 @@ resource "aws_cloudfront_response_headers_policy" "this" {
       access_control_max_age_sec = 31536000
       include_subdomains         = true
       override                   = true
-      preload                    = true
+      preload                    = var.strict_transport_security_preload
     }
 
     xss_protection {

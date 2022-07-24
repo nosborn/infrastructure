@@ -6,10 +6,11 @@ module "website" {
     aws.us-east-1 = aws.us-east-1
   }
 
-  content_security_policy = "default-src 'none'; report-uri https://osborn.report-uri.com/r/d/csp/enforce"
-  domain_name             = "mta-sts.${var.domain_name}"
-  tags                    = var.tags
-  zone_id                 = var.zone_id
+  content_security_policy           = "default-src 'none'; report-uri https://osborn.report-uri.com/r/d/csp/enforce"
+  domain_name                       = "mta-sts.${var.domain_name}"
+  strict_transport_security_preload = var.strict_transport_security_preload
+  tags                              = var.tags
+  zone_id                           = var.zone_id
 }
 
 resource "aws_route53_record" "mta_sts" {

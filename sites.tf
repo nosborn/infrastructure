@@ -23,10 +23,11 @@ module "osborn_io" {
     aws.us-east-1 = aws.us-east-1
   }
 
-  dmarc_aggregate_reporting_address = "em4yo1kb@ag.ap.dmarcian.com"
-  key_management_service_arn        = aws_kms_key.dnssec.arn
-  tombstone_ipv4_address            = "132.147.105.245"
-  tls_json_reporting_address        = "em4yo1kb@tls.ap.dmarcian.com"
+  dmarc_aggregate_reporting_address  = "em4yo1kb@ag.ap.dmarcian.com"
+  github_openid_connect_provider_arn = aws_iam_openid_connect_provider.github.arn
+  key_management_service_arn         = aws_kms_key.dnssec.arn
+  tombstone_ipv4_address             = "132.147.105.245"
+  tls_json_reporting_address         = "em4yo1kb@tls.ap.dmarcian.com"
 
   tags = {
     Site = "osborn.io"

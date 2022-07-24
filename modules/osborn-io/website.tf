@@ -10,7 +10,8 @@ module "website" {
     aws.us-east-1 = aws.us-east-1
   }
 
-  content_security_policy = "default-src 'none'; report-uri https://osborn.report-uri.com/r/d/csp/enforce"
+  content_security_policy = "default-src 'none'; style-src 'self'; img-src 'self'; manifest-src 'self'; report-uri https://osborn.report-uri.com/r/d/csp/enforce"
+  default_root_object     = "index.html"
   domain_name             = "www.osborn.io"
   redirect_domain_names   = ["osborn.io"]
   tags                    = var.tags

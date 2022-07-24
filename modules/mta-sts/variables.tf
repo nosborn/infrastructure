@@ -11,6 +11,11 @@ variable "id" {
   }
 }
 
+variable "strict_transport_security_preload" {
+  default = true
+  type    = bool
+}
+
 variable "tags" {
   default = {}
   type    = map(string)
