@@ -1,7 +1,7 @@
 # tfsec:ignore:github-repositories-private
 resource "github_repository" "www" {
   name                   = "www.osborn.io"
-  description            = "Source for [https://www.osborn.io]."
+  description            = "Source for [https://osborn.io]."
   allow_merge_commit     = false
   allow_squash_merge     = false
   delete_branch_on_merge = true
@@ -34,6 +34,7 @@ resource "github_repository_environment" "www_live" {
   }
 }
 
+# tfsec:ignore:github-actions-no-plain-text-action-secrets
 resource "github_actions_environment_secret" "www_live_bucket_name" {
   repository      = github_repository.www.name
   environment     = github_repository_environment.www_live.environment
@@ -41,6 +42,7 @@ resource "github_actions_environment_secret" "www_live_bucket_name" {
   plaintext_value = module.website.content_bucket_id
 }
 
+# tfsec:ignore:github-actions-no-plain-text-action-secrets
 resource "github_actions_environment_secret" "www_live_cloudfront_distribution_id" {
   repository      = github_repository.www.name
   environment     = github_repository_environment.www_live.environment
@@ -48,6 +50,7 @@ resource "github_actions_environment_secret" "www_live_cloudfront_distribution_i
   plaintext_value = module.website.cloudfront_distribution_id
 }
 
+# tfsec:ignore:github-actions-no-plain-text-action-secrets
 resource "github_actions_environment_secret" "www_live_role_to_assume" {
   repository      = github_repository.www.name
   environment     = github_repository_environment.www_live.environment

@@ -25,6 +25,7 @@ data "aws_iam_policy_document" "github_actions" {
     resources = [module.website.content_bucket_arn]
   }
 
+  # tfsec:ignore:aws-iam-no-policy-wildcards
   statement {
     actions   = ["s3:DeleteObject", "s3:GetObject", "s3:PutObject"]
     resources = ["${module.website.content_bucket_arn}/*"]

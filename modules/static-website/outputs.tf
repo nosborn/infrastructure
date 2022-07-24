@@ -15,9 +15,9 @@ output "cloudfront_hosted_zone_id" {
 }
 
 output "content_bucket_arn" {
-  value = module.content_bucket.arn
+  value = aws_s3_bucket.this.arn
 }
 
 output "content_bucket_id" {
-  value = module.content_bucket.id
+  value = aws_s3_bucket.this.id
 }

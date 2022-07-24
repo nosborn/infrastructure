@@ -22,10 +22,6 @@ terraform {
       version = "2.2.0"
     }
 
-    namecheap = {
-      source = "namecheap/namecheap"
-    }
-
     random = {
       source  = "hashicorp/random"
       version = "3.3.2"

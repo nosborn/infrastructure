@@ -5,5 +5,10 @@ terraform {
       version               = ">= 4.23"
       configuration_aliases = [aws.us-east-1]
     }
+
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.3.2"
+    }
   }
 }
