@@ -28,7 +28,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2.0.0
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1.6.1
+        uses: aws-actions/configure-aws-credentials@v1.7.0
         with:
           aws-region: ap-southeast-1
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
