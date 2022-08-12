@@ -64,6 +64,18 @@ resource "aws_route53_record" "dmarc_txt" {
   }
 }
 
+resource "aws_route53_record" "github_pages_txt" {
+  zone_id = aws_route53_zone.this.id
+  name    = "_github-pages-challenge-nosborn"
+  type    = "TXT"
+  ttl     = 3600
+  records = ["e8257f895251dd0482c291a3bbfe51"]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "aws_route53_record" "mx" {
   zone_id = aws_route53_zone.this.id
   name    = ""

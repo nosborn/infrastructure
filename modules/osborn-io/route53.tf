@@ -9,12 +9,20 @@ resource "aws_route53domains_registered_domain" "this" {
       name = name_server.value
     }
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_zone" "this" {
   name          = "osborn.io"
   force_destroy = true
   tags          = var.tags
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_record" "bing_cname" {
@@ -23,6 +31,10 @@ resource "aws_route53_record" "bing_cname" {
   type    = "CNAME"
   ttl     = 3600
   records = ["verify.bing.com"]
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_record" "caa" {
@@ -40,6 +52,10 @@ resource "aws_route53_record" "caa" {
     "0 issuewild \"amazontrust.com\"",
     "0 issuewild \"awstrust.com\"",
   ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_record" "dmarc_txt" {
@@ -48,6 +64,10 @@ resource "aws_route53_record" "dmarc_txt" {
   type    = "TXT"
   ttl     = 3600
   records = ["v=DMARC1; p=reject; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s; aspf=s;"]
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_record" "fastmail_dkim_cname" {
@@ -58,6 +78,22 @@ resource "aws_route53_record" "fastmail_dkim_cname" {
   type    = "CNAME"
   ttl     = 3600
   records = [format("fm%d.osborn.io.dkim.fmhosted.com", count.index + 1)]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_route53_record" "github_pages_txt" {
+  zone_id = aws_route53_zone.this.id
+  name    = "_github-pages-challenge-nosborn"
+  type    = "TXT"
+  ttl     = 3600
+  records = ["87a77c9df408562ad10e043fcab8d5"]
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_record" "keybase_txt" {
@@ -66,6 +102,10 @@ resource "aws_route53_record" "keybase_txt" {
   type    = "TXT"
   ttl     = 3600
   records = ["keybase-site-verification=H4Tg4vG9nr9YFoI-3bZoq6TTFU2s3ZKwRxA8I9GMBg4"]
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_record" "mx" {
@@ -74,6 +114,10 @@ resource "aws_route53_record" "mx" {
   type    = "MX"
   ttl     = 3600
   records = ["10 in1-smtp.messagingengine.com.", "20 in2-smtp.messagingengine.com."]
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_record" "nick_mx" {
@@ -82,6 +126,10 @@ resource "aws_route53_record" "nick_mx" {
   type    = "MX"
   ttl     = 3600
   records = ["10 in1-smtp.messagingengine.com.", "20 in2-smtp.messagingengine.com."]
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_route53_record" "tombstone_a" {
@@ -90,6 +138,10 @@ resource "aws_route53_record" "tombstone_a" {
   type    = "A"
   ttl     = 3600
   records = [var.tombstone_ipv4_address]
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # resource "aws_route53_record" "tombstone_aaaa" {
@@ -109,6 +161,10 @@ resource "aws_route53_record" "txt" {
     "hosted-email-verify=8dqgaz7q",
     "v=spf1 include:spf.messagingengine.com -all",
   ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 

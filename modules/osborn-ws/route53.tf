@@ -60,6 +60,18 @@ resource "aws_route53_record" "family_cname" {
   }
 }
 
+resource "aws_route53_record" "github_pages_txt" {
+  zone_id = aws_route53_zone.this.id
+  name    = "_github-pages-challenge-nosborn"
+  type    = "TXT"
+  ttl     = 3600
+  records = ["c0ac31227dfd5dc8b09116e614aeab"]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "aws_route53_record" "lordbill47_cname" {
   zone_id = aws_route53_zone.this.id
   name    = "lordbill47"

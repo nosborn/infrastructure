@@ -46,6 +46,18 @@ resource "aws_route53_record" "caa" {
   }
 }
 
+resource "aws_route53_record" "dmarc_txt" {
+  zone_id = aws_route53_zone.this.id
+  name    = "_dmarc"
+  type    = "TXT"
+  ttl     = 3600
+  records = ["v=DMARC1; p=reject; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s; aspf=s;"]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "aws_route53_record" "fastmail_dkim_cname" {
   count = 3
 
@@ -60,12 +72,12 @@ resource "aws_route53_record" "fastmail_dkim_cname" {
   }
 }
 
-resource "aws_route53_record" "dmarc_txt" {
+resource "aws_route53_record" "github_pages_txt" {
   zone_id = aws_route53_zone.this.id
-  name    = "_dmarc"
+  name    = "_github-pages-challenge-nosborn"
   type    = "TXT"
   ttl     = 3600
-  records = ["v=DMARC1; p=reject; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s; aspf=s;"]
+  records = ["de87a448513d87221daff1890659a6"]
 
   lifecycle {
     prevent_destroy = true
