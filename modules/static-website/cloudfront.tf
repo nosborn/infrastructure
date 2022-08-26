@@ -19,6 +19,7 @@ resource "aws_cloudfront_distribution" "this" {
   comment             = var.domain_name
   default_root_object = var.default_root_object
   enabled             = true
+  http_version        = "http2and3"
   is_ipv6_enabled     = true
   price_class         = "PriceClass_100"
   tags                = var.tags
