@@ -1,5 +1,5 @@
 version: STSv1
 mode: enforce
-mx: in1-smtp.messagingengine.com
-mx: in2-smtp.messagingengine.com
+mx: mx01.mail.icloud.com
+mx: mx02.mail.icloud.com
 max_age: 86400

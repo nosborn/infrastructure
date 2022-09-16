@@ -30,7 +30,10 @@ resource "aws_route53_record" "bing_cname" {
   name    = "7f33c9bdcbfc881a50d3f5db24af19e9"
   type    = "CNAME"
   ttl     = 3600
-  records = ["verify.bing.com"]
+
+  records = [
+    "verify.bing.com",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -42,6 +45,7 @@ resource "aws_route53_record" "caa" {
   name    = ""
   type    = "CAA"
   ttl     = 3600
+
   records = [
     "0 issue \"amazon.com\"",
     "0 issue \"amazonaws.com\"",
@@ -63,21 +67,10 @@ resource "aws_route53_record" "dmarc_txt" {
   name    = "_dmarc"
   type    = "TXT"
   ttl     = 3600
-  records = ["v=DMARC1; p=reject; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s; aspf=s;"]
 
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "aws_route53_record" "fastmail_dkim_cname" {
-  count = 3
-
-  zone_id = aws_route53_zone.this.id
-  name    = format("fm%d._domainkey", count.index + 1)
-  type    = "CNAME"
-  ttl     = 3600
-  records = [format("fm%d.osborn.io.dkim.fmhosted.com", count.index + 1)]
+  records = [
+    "v=DMARC1; p=reject; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s; aspf=s;",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -89,7 +82,10 @@ resource "aws_route53_record" "github_pages_txt" {
   name    = "_github-pages-challenge-nosborn"
   type    = "TXT"
   ttl     = 3600
-  records = ["87a77c9df408562ad10e043fcab8d5"]
+
+  records = [
+    "87a77c9df408562ad10e043fcab8d5",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -101,7 +97,10 @@ resource "aws_route53_record" "keybase_txt" {
   name    = "_keybase"
   type    = "TXT"
   ttl     = 3600
-  records = ["keybase-site-verification=H4Tg4vG9nr9YFoI-3bZoq6TTFU2s3ZKwRxA8I9GMBg4"]
+
+  records = [
+    "keybase-site-verification=H4Tg4vG9nr9YFoI-3bZoq6TTFU2s3ZKwRxA8I9GMBg4",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -113,7 +112,11 @@ resource "aws_route53_record" "mx" {
   name    = ""
   type    = "MX"
   ttl     = 3600
-  records = ["10 in1-smtp.messagingengine.com.", "20 in2-smtp.messagingengine.com."]
+
+  records = [
+    "10 mx01.mail.icloud.com.",
+    "10 mx02.mail.icloud.com.",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -125,7 +128,57 @@ resource "aws_route53_record" "nick_mx" {
   name    = "nick"
   type    = "MX"
   ttl     = 3600
-  records = ["10 in1-smtp.messagingengine.com.", "20 in2-smtp.messagingengine.com."]
+
+  records = [
+    "10 mx01.mail.icloud.com.",
+    "10 mx02.mail.icloud.com.",
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_route53_record" "nick_sig1_domainkey_cname" {
+  zone_id = aws_route53_zone.this.id
+  name    = "sig1._domainkey.nick"
+  type    = "CNAME"
+  ttl     = 3600
+
+  records = [
+    "sig1.dkim.nick.osborn.io.at.icloudmailadmin.com.",
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_route53_record" "nick_txt" {
+  zone_id = aws_route53_zone.this.id
+  name    = "nick"
+  type    = "TXT"
+  ttl     = 3600
+
+  records = [
+    "apple-domain=864XkC8mHsdlUA7Q",
+    "v=spf1 include:icloud.com ~all",
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_route53_record" "sig1_domainkey_cname" {
+  zone_id = aws_route53_zone.this.id
+  name    = "sig1._domainkey"
+  type    = "CNAME"
+  ttl     = 3600
+
+  records = [
+    "sig1.dkim.osborn.io.at.icloudmailadmin.com.",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -137,7 +190,10 @@ resource "aws_route53_record" "tombstone_a" {
   name    = "tombstone"
   type    = "A"
   ttl     = 3600
-  records = [var.tombstone_ipv4_address]
+
+  records = [
+    var.tombstone_ipv4_address,
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -156,17 +212,19 @@ resource "aws_route53_record" "txt" {
   name    = ""
   type    = "TXT"
   ttl     = 3600
+
   records = [
+    "apple-domain=LhyS4pqHWL1l8vPv",
     "google-site-verification=7sk8qJzYVrVYBq6gk135CfGRaLAa2fH5hWhEVEBNgqI",
     "hosted-email-verify=8dqgaz7q",
-    "v=spf1 include:spf.messagingengine.com -all",
+    "v=spf1 include:icloud.com ~all", # TODO: "v=spf1 include:icloud.com -all",
+    # "v=spf1 include:spf.messagingengine.com -all",
   ]
 
   lifecycle {
     prevent_destroy = true
   }
 }
-
 
 resource "aws_route53_hosted_zone_dnssec" "this" {
   depends_on = [
