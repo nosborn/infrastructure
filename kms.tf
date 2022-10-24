@@ -12,12 +12,24 @@ resource "aws_kms_key" "dnssec" {
   }
 }
 
+resource "aws_kms_alias" "dnssec" {
+  provider = aws.us-east-1
+
+  name          = "alias/dnssec"
+  target_key_id = aws_kms_key.dnssec.key_id
+}
+
 resource "aws_kms_key" "main" {
   deletion_window_in_days = 7
 
   lifecycle {
     create_before_destroy = true
   }
+}
+
+resource "aws_kms_alias" "main" {
+  name          = "alias/main"
+  target_key_id = aws_kms_key.main.key_id
 }
 
 data "aws_iam_policy_document" "kms_key_dnssec" {

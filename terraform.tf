@@ -1,12 +1,3 @@
-resource "aws_kms_key" "terraform_state" {
-  description         = "Terraform State"
-  enable_key_rotation = true
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
 resource "aws_s3_bucket" "terraform" {
   bucket_prefix = "terraform-"
 }
