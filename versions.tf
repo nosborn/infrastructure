@@ -14,7 +14,7 @@ terraform {
 
     github = {
       source  = "integrations/github"
-      version = "5.8.0"
+      version = "5.9.1"
     }
 
     http = {
