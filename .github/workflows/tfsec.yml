@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v3.2.0
 
       - name: Run tfsec
         uses: aquasecurity/tfsec-sarif-action@v0.1.4
