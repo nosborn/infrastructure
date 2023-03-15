@@ -8,4 +8,3 @@
 .envrc
 .terraform/
 .terraform.d/
-.terraform.lock.hcl
