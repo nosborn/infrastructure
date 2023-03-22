@@ -1,27 +1,24 @@
 ---
-name: tfsec
+name: Scorecard supply-chain security
 
 on:
-  pull_request:
-    branches:
-      - main
+  branch_protection_rule:
   push:
     branches:
       - main
   schedule:
-    - cron: 44 2 * * 6
+    - cron: 33 14 * * 1
 
 permissions: read-all
 
 jobs:
-  tfsec:
-    name: Run tfsec SARIF report
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-    if: github.actor != 'dependabot[bot]'
+  analysis:
+    name: Scorecard analysis
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      security-events: write
 
     steps:
       - name: Check out the repository
@@ -30,9 +27,11 @@ jobs:
           persist-credentials: false
 
       - name: Run analysis
-        uses: aquasecurity/tfsec-sarif-action@v0.1.4
+        uses: ossf/scorecard-action@v2.1.2
         with:
-          sarif_file: results.sarif
+          publish_results: false
+          results_file: results.sarif
+          results_format: sarif
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3.1.0
@@ -42,6 +41,6 @@ jobs:
           retention-days: 5
 
       - name: Upload to code-scanning
-        uses: github/codeql-action/upload-sarif@v2.2.7
+        uses: github/codeql-action/upload-sarif@v2.2.4
         with:
           sarif_file: results.sarif
