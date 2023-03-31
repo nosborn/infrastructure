@@ -1,9 +1,11 @@
 variable "account_alias" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 variable "aws_allowed_account_id" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 variable "pgp_key" {
