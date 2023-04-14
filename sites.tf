@@ -3,7 +3,7 @@ module "go_teddit_net" {
 
   providers = {
     aws           = aws
-    aws.us-east-1 = aws.us-east-1
+    aws.us_east_1 = aws.us_east_1
   }
 
   dmarc_aggregate_reporting_address = "em4yo1kb@ag.ap.dmarcian.com"
@@ -20,7 +20,7 @@ module "osborn_io" {
 
   providers = {
     aws           = aws
-    aws.us-east-1 = aws.us-east-1
+    aws.us_east_1 = aws.us_east_1
   }
 
   dmarc_aggregate_reporting_address  = "em4yo1kb@ag.ap.dmarcian.com"
@@ -47,7 +47,7 @@ module "redzebraconsulting_com" {
 
   providers = {
     aws           = aws
-    aws.us-east-1 = aws.us-east-1
+    aws.us_east_1 = aws.us_east_1
   }
 
   key_management_service_arn = aws_kms_key.dnssec.arn

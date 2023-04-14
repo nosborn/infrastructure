@@ -3,7 +3,7 @@ module "acm_certificate" {
 
   providers = {
     aws           = aws
-    aws.us-east-1 = aws.us-east-1
+    aws.us_east_1 = aws.us_east_1
   }
 
   domain_name               = var.domain_name

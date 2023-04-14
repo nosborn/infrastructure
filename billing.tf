@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_metric_alarm" "billing" {
-  provider = aws.us-east-1
+  provider = aws.us_east_1
 
   alarm_name          = "awsbilling-AWS-Service-Charges-total"
   comparison_operator = "GreaterThanThreshold"

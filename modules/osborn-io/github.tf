@@ -16,7 +16,7 @@ resource "github_repository" "www" {
     }
 
     secret_scanning_push_protection {
-      status = "enabled"
+      status = "disabled" # FIXME: "enabled" doesn't stick
     }
   }
 }

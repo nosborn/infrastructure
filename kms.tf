@@ -1,5 +1,5 @@
 resource "aws_kms_key" "dnssec" {
-  provider = aws.us-east-1
+  provider = aws.us_east_1
 
   description              = "DNSSEC"
   key_usage                = "SIGN_VERIFY"
@@ -13,7 +13,7 @@ resource "aws_kms_key" "dnssec" {
 }
 
 resource "aws_kms_alias" "dnssec" {
-  provider = aws.us-east-1
+  provider = aws.us_east_1
 
   name          = "alias/dnssec"
   target_key_id = aws_kms_key.dnssec.key_id

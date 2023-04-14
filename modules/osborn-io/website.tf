@@ -7,7 +7,7 @@ module "website" {
 
   providers = {
     aws           = aws
-    aws.us-east-1 = aws.us-east-1
+    aws.us_east_1 = aws.us_east_1
   }
 
   content_security_policy = "default-src 'none'; style-src 'self'; img-src 'self'; manifest-src 'self'; report-uri https://osborn.report-uri.com/r/d/csp/enforce"
