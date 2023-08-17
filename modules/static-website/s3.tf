@@ -5,11 +5,6 @@ resource "aws_s3_bucket" "this" {
   tags          = var.tags
 }
 
-resource "aws_s3_bucket_acl" "this" {
-  bucket = aws_s3_bucket.this.id
-  acl    = "private"
-}
-
 resource "aws_s3_bucket_lifecycle_configuration" "this" {
   bucket = aws_s3_bucket.this.id
 
@@ -24,6 +19,14 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
     noncurrent_version_expiration {
       noncurrent_days = 7
     }
+  }
+}
+
+resource "aws_s3_bucket_ownership_controls" "this" {
+  bucket = aws_s3_bucket.this.id
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
   }
 }
 
