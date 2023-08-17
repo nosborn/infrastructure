@@ -84,10 +84,20 @@ data "aws_iam_policy_document" "this" {
   statement {
     actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.this.arn}/*"]
+    sid       = "AllowCloudFrontServicePrincipalReadOnly"
+
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+
+      values = [
+        aws_cloudfront_distribution.this.arn,
+      ]
+    }
 
     principals {
-      type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.this.iam_arn]
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
     }
   }
 }

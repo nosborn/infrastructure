@@ -5,14 +5,6 @@ locals {
   })
 }
 
-resource "aws_cloudfront_origin_access_identity" "this" {
-  comment = var.domain_name
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
 # tfsec:ignore:aws-cloudfront-enable-waf
 resource "aws_cloudfront_distribution" "this" {
   aliases             = compact(concat([var.domain_name], var.redirect_domain_names))
@@ -25,7 +17,7 @@ resource "aws_cloudfront_distribution" "this" {
   tags                = var.tags
 
   default_cache_behavior {
-    allowed_methods            = ["GET", "HEAD"]
+    allowed_methods            = ["GET", "HEAD", "OPTIONS"]
     cached_methods             = ["GET", "HEAD"]
     response_headers_policy_id = aws_cloudfront_response_headers_policy.this.id
     target_origin_id           = "s3"
@@ -50,12 +42,9 @@ resource "aws_cloudfront_distribution" "this" {
   }
 
   origin {
-    domain_name = aws_s3_bucket.this.bucket_regional_domain_name
-    origin_id   = "s3"
-
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.this.cloudfront_access_identity_path
-    }
+    domain_name              = aws_s3_bucket.this.bucket_regional_domain_name
+    origin_access_control_id = aws_cloudfront_origin_access_control.this.id
+    origin_id                = "s3"
   }
 
   restrictions {
@@ -69,6 +58,13 @@ resource "aws_cloudfront_distribution" "this" {
     minimum_protocol_version = "TLSv1.2_2021"
     ssl_support_method       = "sni-only"
   }
+}
+
+resource "aws_cloudfront_origin_access_control" "this" {
+  name                              = var.domain_name
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
 }
 
 resource "aws_cloudfront_response_headers_policy" "this" {
