@@ -4,14 +4,14 @@ resource "aws_cloudtrail" "main" {
     aws_s3_bucket_policy.cloudtrail,
   ]
 
-  name                          = "Global"
-  s3_bucket_name                = aws_s3_bucket.cloudtrail.id
   cloud_watch_logs_group_arn    = "${aws_cloudwatch_log_group.cloudtrail.arn}:*"
   cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_logs.arn
   enable_log_file_validation    = true
   enable_logging                = true
   include_global_service_events = true
   is_multi_region_trail         = true
+  name                          = "Global"
+  s3_bucket_name                = aws_s3_bucket.cloudtrail.id
 }
 
 resource "aws_cloudwatch_log_group" "cloudtrail" {
@@ -26,8 +26,8 @@ resource "aws_iam_role" "cloudtrail_logs" {
 
 resource "aws_iam_role_policy" "cloudtrail_logs" {
   name_prefix = "CloudTrailPolicyForCloudWatchLogs-"
-  role        = aws_iam_role.cloudtrail_logs.name
   policy      = data.aws_iam_policy_document.cloudtrail_logs.json
+  role        = aws_iam_role.cloudtrail_logs.name
 }
 
 resource "aws_s3_bucket" "cloudtrail" {
@@ -93,30 +93,51 @@ resource "aws_s3_bucket_versioning" "cloudtrail" {
 
 data "aws_iam_policy_document" "cloudtrail" {
   statement {
-    sid       = "AWSCloudTrailAclCheck"
-    actions   = ["s3:GetBucketAcl"]
-    resources = [aws_s3_bucket.cloudtrail.arn]
+    sid = "AWSCloudTrailAclCheck"
+
+    actions = [
+      "s3:GetBucketAcl",
+    ]
+
+    resources = [
+      aws_s3_bucket.cloudtrail.arn,
+    ]
 
     principals {
-      type        = "Service"
-      identifiers = ["cloudtrail.amazonaws.com"]
+      type = "Service"
+
+      identifiers = [
+        "cloudtrail.amazonaws.com",
+      ]
     }
   }
 
   statement {
-    sid       = "AWSCloudTrailWrite"
-    actions   = ["s3:PutObject"]
-    resources = ["${aws_s3_bucket.cloudtrail.arn}/*"]
+    sid = "AWSCloudTrailWrite"
+
+    actions = [
+      "s3:PutObject",
+    ]
+
+    resources = [
+      "${aws_s3_bucket.cloudtrail.arn}/*",
+    ]
 
     principals {
-      type        = "Service"
-      identifiers = ["cloudtrail.amazonaws.com"]
+      type = "Service"
+
+      identifiers = [
+        "cloudtrail.amazonaws.com",
+      ]
     }
 
     condition {
       test     = "StringEquals"
       variable = "s3:x-amz-acl"
-      values   = ["bucket-owner-full-control"]
+
+      values = [
+        "bucket-owner-full-control",
+      ]
     }
   }
 }
@@ -124,26 +145,43 @@ data "aws_iam_policy_document" "cloudtrail" {
 data "aws_iam_policy_document" "cloudtrail_logs" {
   # tfsec:ignore:aws-iam-no-policy-wildcards
   statement {
-    sid       = "AWSCloudTrailCreateLogStream2014110"
-    actions   = ["logs:CreateLogStream"]
-    resources = ["${aws_cloudwatch_log_group.cloudtrail.arn}:log-stream:*"]
+    sid = "AWSCloudTrailCreateLogStream2014110"
+
+    actions = [
+      "logs:CreateLogStream",
+    ]
+
+    resources = [
+      "${aws_cloudwatch_log_group.cloudtrail.arn}:log-stream:*",
+    ]
   }
 
   # tfsec:ignore:aws-iam-no-policy-wildcards
   statement {
-    sid       = "AWSCloudTrailPutLogEvents20141101"
-    actions   = ["logs:PutLogEvents"]
-    resources = ["${aws_cloudwatch_log_group.cloudtrail.arn}:log-stream:*"]
+    sid = "AWSCloudTrailPutLogEvents20141101"
+
+    actions = [
+      "logs:PutLogEvents",
+    ]
+
+    resources = [
+      "${aws_cloudwatch_log_group.cloudtrail.arn}:log-stream:*",
+    ]
   }
 }
 
 data "aws_iam_policy_document" "cloudtrail_logs_assume_role" {
   statement {
-    actions = ["sts:AssumeRole"]
+    actions = [
+      "sts:AssumeRole",
+    ]
 
     principals {
-      type        = "Service"
-      identifiers = ["cloudtrail.amazonaws.com"]
+      type = "Service"
+
+      identifiers = [
+        "cloudtrail.amazonaws.com",
+      ]
     }
   }
 }

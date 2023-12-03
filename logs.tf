@@ -24,9 +24,9 @@ resource "aws_s3_bucket_ownership_controls" "logs" {
 }
 
 resource "aws_s3_bucket_public_access_block" "logs" {
-  bucket                  = aws_s3_bucket.logs.id
   block_public_acls       = true
   block_public_policy     = true
+  bucket                  = aws_s3_bucket.logs.id
   ignore_public_acls      = true
   restrict_public_buckets = true
 }

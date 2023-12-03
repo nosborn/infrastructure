@@ -35,9 +35,9 @@ resource "aws_s3_bucket_policy" "terraform" {
 }
 
 resource "aws_s3_bucket_public_access_block" "terraform" {
-  bucket                  = aws_s3_bucket.terraform.id
   block_public_acls       = true
   block_public_policy     = true
+  bucket                  = aws_s3_bucket.terraform.id
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
@@ -65,20 +65,33 @@ resource "aws_s3_bucket_versioning" "terraform" {
 
 data "aws_iam_policy_document" "terraform" {
   statement {
-    actions   = ["s3:*"]
-    effect    = "Deny"
-    resources = [aws_s3_bucket.terraform.arn, "${aws_s3_bucket.terraform.arn}/*"]
-    sid       = "AllowSSLRequestsOnly"
+    effect = "Deny"
+    sid    = "AllowSSLRequestsOnly"
+
+    actions = [
+      "s3:*",
+    ]
+
+    resources = [
+      "${aws_s3_bucket.terraform.arn}/*",
+      aws_s3_bucket.terraform.arn,
+    ]
 
     condition {
       test     = "Bool"
-      values   = ["false"]
       variable = "aws:SecureTransport"
+
+      values = [
+        "false",
+      ]
     }
 
     principals {
-      type        = "*"
-      identifiers = ["*"]
+      type = "*"
+
+      identifiers = [
+        "*",
+      ]
     }
   }
 }

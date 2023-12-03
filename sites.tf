@@ -26,8 +26,8 @@ module "osborn_io" {
   dmarc_aggregate_reporting_address  = "em4yo1kb@ag.ap.dmarcian.com"
   github_openid_connect_provider_arn = aws_iam_openid_connect_provider.github.arn
   key_management_service_arn         = aws_kms_key.dnssec.arn
-  tombstone_ipv4_address             = "132.147.72.92"
   tls_json_reporting_address         = "em4yo1kb@tls.ap.dmarcian.com"
+  tombstone_ipv4_address             = "132.147.72.92"
 
   tags = {
     Site = "osborn.io"

@@ -32,7 +32,7 @@ resource "aws_cloudfront_distribution" "this" {
     }
 
     dynamic "function_association" {
-      for_each = length(var.redirect_domain_names) > 0 ? [true] : []
+      for_each = length(var.redirect_domain_names) > 0 ? ["1"] : []
 
       content {
         event_type   = "viewer-request"
