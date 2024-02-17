@@ -15,3 +15,5 @@ provider "aws" {
     var.aws_allowed_account_id,
   ]
 }
+
+provider "vultr" {}
