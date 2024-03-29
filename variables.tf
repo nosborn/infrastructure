@@ -8,11 +8,22 @@ variable "aws_allowed_account_id" {
   sensitive = true
 }
 
-variable "pgp_key" {
-  type = string
+variable "tf_github_token" {
+  type      = string
+  sensitive = true
 }
 
-variable "tf_github_token" {
+variable "tombstone_ipv4_address" {
+  type      = string
+  sensitive = true
+}
+
+variable "vultr_api_key" {
+  type      = string
+  sensitive = true
+}
+
+variable "vultr_ssh_key" {
   type      = string
   sensitive = true
 }

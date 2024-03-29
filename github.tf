@@ -12,10 +12,18 @@ resource "github_actions_secret" "aws_role_to_assume" {
   secret_name     = "AWS_ROLE_TO_ASSUME"
 }
 
+# tfsec:ignore:github-actions-no-plain-text-action-secrets
 resource "github_actions_secret" "tf_github_token" {
   plaintext_value = var.tf_github_token # FIXME
   repository      = "infrastructure"
   secret_name     = "TF_GITHUB_TOKEN"
+}
+
+# tfsec:ignore:github-actions-no-plain-text-action-secrets
+resource "github_actions_secret" "tombstone_ipv4_address" {
+  plaintext_value = var.tombstone_ipv4_address
+  repository      = "infrastructure"
+  secret_name     = "TOMBSTONE_IPV4_ADDRESS"
 }
 
 # tfsec:ignore:github-actions-no-plain-text-action-secrets
@@ -32,8 +40,16 @@ resource "github_dependabot_secret" "aws_role_to_assume" {
   secret_name     = "AWS_ROLE_TO_ASSUME"
 }
 
+# tfsec:ignore:github-actions-no-plain-text-action-secrets
 resource "github_dependabot_secret" "tf_github_token" {
   plaintext_value = var.tf_github_token # FIXME
   repository      = "infrastructure"
   secret_name     = "TF_GITHUB_TOKEN"
+}
+
+# tfsec:ignore:github-actions-no-plain-text-action-secrets
+resource "github_dependabot_secret" "tombstone_ipv4_address" {
+  plaintext_value = var.tombstone_ipv4_address
+  repository      = "infrastructure"
+  secret_name     = "TOMBSTONE_IPV4_ADDRESS"
 }
