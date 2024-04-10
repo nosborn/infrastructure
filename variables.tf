@@ -17,13 +17,3 @@ variable "tombstone_ipv4_address" {
   type      = string
   sensitive = true
 }
-
-variable "vultr_api_key" {
-  type      = string
-  sensitive = true
-}
-
-variable "vultr_ssh_key" {
-  type      = string
-  sensitive = true
-}
