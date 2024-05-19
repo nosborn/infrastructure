@@ -7,6 +7,11 @@ terraform {
       version = "5.52.0"
     }
 
+    cloudinit = {
+      source  = "hashicorp/cloudinit"
+      version = "2.3.4"
+    }
+
     # b2 = {
     #   source  = "Backblaze/b2"
     #   version = "0.8.1"
@@ -30,6 +35,11 @@ terraform {
     tls = {
       source  = "hashicorp/tls"
       version = "4.0.5"
+    }
+
+    vultr = {
+      source  = "vultr/vultr"
+      version = "2.20.1"
     }
   }
 }
