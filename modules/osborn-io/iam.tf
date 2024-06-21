@@ -1,3 +1,69 @@
+resource "aws_iam_user" "dns_updater" {
+  name = "dns-updater"
+}
+
+resource "aws_iam_access_key" "dns_updater" {
+  user = aws_iam_user.dns_updater.name
+}
+
+resource "aws_iam_user_policy" "dns_updater" {
+  name   = "dns-updater"
+  policy = data.aws_iam_policy_document.dns_updater.json
+  user   = aws_iam_user.dns_updater.name
+}
+
+data "aws_iam_policy_document" "dns_updater" {
+  statement {
+    actions = [
+      "route53:ChangeResourceRecordSets",
+    ]
+
+    resources = [
+      aws_route53_zone.this.arn,
+    ]
+
+    condition {
+      test     = "ForAllValues:StringEquals"
+      variable = "route53:ChangeResourceRecordSetsActions"
+
+      values = [
+        "CREATE",
+        "UPSERT",
+      ]
+    }
+
+    condition {
+      test     = "ForAllValues:StringEquals"
+      variable = "route53:ChangeResourceRecordSetsRecordTypes"
+
+      values = [
+        "A",
+        "AAAA",
+      ]
+    }
+  }
+
+  statement {
+    actions = [
+      "route53:GetChange",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
+
+  statement {
+    actions = [
+      "route53:ListResourceRecordSets",
+    ]
+
+    resources = [
+      aws_route53_zone.this.arn,
+    ]
+  }
+}
+
 resource "aws_iam_role" "github_actions" {
   assume_role_policy    = data.aws_iam_policy_document.github_actions_trust.json
   force_detach_policies = true

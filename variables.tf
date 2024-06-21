@@ -12,8 +12,3 @@ variable "tf_github_token" {
   type      = string
   sensitive = true
 }
-
-variable "tombstone_ipv4_address" {
-  type      = string
-  sensitive = true
-}

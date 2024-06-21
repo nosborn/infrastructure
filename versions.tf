@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.52.0"
+      version = "5.55.0"
     }
 
     cloudinit = {
@@ -19,12 +19,12 @@ terraform {
 
     github = {
       source  = "integrations/github"
-      version = "6.2.1"
+      version = "6.2.2"
     }
 
     http = {
       source  = "hashicorp/http"
-      version = "3.4.2"
+      version = "3.4.3"
     }
 
     random = {
@@ -39,7 +39,7 @@ terraform {
 
     vultr = {
       source  = "vultr/vultr"
-      version = "2.20.1"
+      version = "2.21.0"
     }
   }
 }

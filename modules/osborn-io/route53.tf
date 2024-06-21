@@ -26,10 +26,10 @@ resource "aws_route53_zone" "this" {
 }
 
 resource "aws_route53_record" "bing_cname" {
-  zone_id = aws_route53_zone.this.id
   name    = "7f33c9bdcbfc881a50d3f5db24af19e9"
-  type    = "CNAME"
   ttl     = 3600
+  type    = "CNAME"
+  zone_id = aws_route53_zone.this.id
 
   records = [
     "verify.bing.com",
@@ -41,10 +41,10 @@ resource "aws_route53_record" "bing_cname" {
 }
 
 resource "aws_route53_record" "caa" {
-  zone_id = aws_route53_zone.this.id
   name    = ""
-  type    = "CAA"
   ttl     = 3600
+  type    = "CAA"
+  zone_id = aws_route53_zone.this.id
 
   records = [
     "0 issue \"amazon.com\"",
@@ -63,10 +63,10 @@ resource "aws_route53_record" "caa" {
 }
 
 resource "aws_route53_record" "dmarc_txt" {
-  zone_id = aws_route53_zone.this.id
   name    = "_dmarc"
-  type    = "TXT"
   ttl     = 3600
+  type    = "TXT"
+  zone_id = aws_route53_zone.this.id
 
   records = [
     "v=DMARC1; p=reject; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s; aspf=s;",
@@ -78,10 +78,10 @@ resource "aws_route53_record" "dmarc_txt" {
 }
 
 resource "aws_route53_record" "github_pages_txt" {
-  zone_id = aws_route53_zone.this.id
   name    = "_github-pages-challenge-nosborn"
-  type    = "TXT"
   ttl     = 3600
+  type    = "TXT"
+  zone_id = aws_route53_zone.this.id
 
   records = [
     "87a77c9df408562ad10e043fcab8d5",
@@ -93,10 +93,10 @@ resource "aws_route53_record" "github_pages_txt" {
 }
 
 resource "aws_route53_record" "keybase_txt" {
-  zone_id = aws_route53_zone.this.id
   name    = "_keybase"
-  type    = "TXT"
   ttl     = 3600
+  type    = "TXT"
+  zone_id = aws_route53_zone.this.id
 
   records = [
     "keybase-site-verification=H4Tg4vG9nr9YFoI-3bZoq6TTFU2s3ZKwRxA8I9GMBg4",
@@ -108,10 +108,10 @@ resource "aws_route53_record" "keybase_txt" {
 }
 
 resource "aws_route53_record" "mx" {
-  zone_id = aws_route53_zone.this.id
   name    = ""
-  type    = "MX"
   ttl     = 3600
+  type    = "MX"
+  zone_id = aws_route53_zone.this.id
 
   records = [
     "10 mx01.mail.icloud.com.",
@@ -124,10 +124,10 @@ resource "aws_route53_record" "mx" {
 }
 
 resource "aws_route53_record" "nick_mx" {
-  zone_id = aws_route53_zone.this.id
   name    = "nick"
-  type    = "MX"
   ttl     = 3600
+  type    = "MX"
+  zone_id = aws_route53_zone.this.id
 
   records = [
     "10 mx01.mail.icloud.com.",
@@ -140,10 +140,10 @@ resource "aws_route53_record" "nick_mx" {
 }
 
 resource "aws_route53_record" "nick_sig1_domainkey_cname" {
-  zone_id = aws_route53_zone.this.id
   name    = "sig1._domainkey.nick"
-  type    = "CNAME"
   ttl     = 3600
+  type    = "CNAME"
+  zone_id = aws_route53_zone.this.id
 
   records = [
     "sig1.dkim.nick.osborn.io.at.icloudmailadmin.com.",
@@ -155,10 +155,10 @@ resource "aws_route53_record" "nick_sig1_domainkey_cname" {
 }
 
 resource "aws_route53_record" "nick_txt" {
-  zone_id = aws_route53_zone.this.id
   name    = "nick"
-  type    = "TXT"
   ttl     = 3600
+  type    = "TXT"
+  zone_id = aws_route53_zone.this.id
 
   records = [
     "apple-domain=864XkC8mHsdlUA7Q",
@@ -185,14 +185,15 @@ resource "aws_route53_record" "sig1_domainkey_cname" {
   }
 }
 
-resource "aws_route53_record" "tombstone_a" {
-  zone_id = aws_route53_zone.this.id
+resource "aws_route53_record" "tombstone_caa" {
   name    = "tombstone"
-  type    = "A"
-  ttl     = 3600
+  ttl     = 60
+  type    = "CAA"
+  zone_id = aws_route53_zone.this.id
 
   records = [
-    var.tombstone_ipv4_address,
+    "0 issue \"letsencrypt.org;validationmethods=http-01\"",
+    "0 issuewild \";\"",
   ]
 
   lifecycle {
@@ -200,25 +201,17 @@ resource "aws_route53_record" "tombstone_a" {
   }
 }
 
-# resource "aws_route53_record" "tombstone_aaaa" {
-#   zone_id = aws_route53_zone.this.id
-#   name    = "tombstone"
-#   type    = "AAAA"
-#   records = [var.tombstone_ipv6_address]
-# }
-
 resource "aws_route53_record" "txt" {
-  zone_id = aws_route53_zone.this.id
   name    = ""
-  type    = "TXT"
   ttl     = 3600
+  type    = "TXT"
+  zone_id = aws_route53_zone.this.id
 
   records = [
     "apple-domain=LhyS4pqHWL1l8vPv",
     "google-site-verification=7sk8qJzYVrVYBq6gk135CfGRaLAa2fH5hWhEVEBNgqI",
     "hosted-email-verify=8dqgaz7q",
-    "v=spf1 include:icloud.com ~all", # TODO: "v=spf1 include:icloud.com -all",
-    # "v=spf1 include:spf.messagingengine.com -all",
+    "v=spf1 include:icloud.com -all",
   ]
 
   lifecycle {
@@ -227,11 +220,11 @@ resource "aws_route53_record" "txt" {
 }
 
 resource "aws_route53_hosted_zone_dnssec" "this" {
+  hosted_zone_id = aws_route53_zone.this.id
+
   depends_on = [
     aws_route53_key_signing_key.this
   ]
-
-  hosted_zone_id = aws_route53_zone.this.id
 }
 
 resource "aws_route53_key_signing_key" "this" {

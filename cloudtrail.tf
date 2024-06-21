@@ -1,9 +1,4 @@
 resource "aws_cloudtrail" "main" {
-  depends_on = [
-    aws_iam_role_policy.cloudtrail_logs,
-    aws_s3_bucket_policy.cloudtrail,
-  ]
-
   cloud_watch_logs_group_arn    = "${aws_cloudwatch_log_group.cloudtrail.arn}:*"
   cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_logs.arn
   enable_log_file_validation    = true
@@ -12,6 +7,11 @@ resource "aws_cloudtrail" "main" {
   is_multi_region_trail         = true
   name                          = "Global"
   s3_bucket_name                = aws_s3_bucket.cloudtrail.id
+
+  depends_on = [
+    aws_iam_role_policy.cloudtrail_logs,
+    aws_s3_bucket_policy.cloudtrail,
+  ]
 }
 
 resource "aws_cloudwatch_log_group" "cloudtrail" {

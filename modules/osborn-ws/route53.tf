@@ -22,6 +22,7 @@ resource "aws_route53_record" "caa" {
   name    = ""
   type    = "CAA"
   ttl     = 3600
+
   records = [
     "0 issue \"comodoca.com\"",
     "0 issue \"digicert.com\"",
@@ -41,7 +42,10 @@ resource "aws_route53_record" "domainkey_google_txt" {
   name    = "google._domainkey"
   type    = "TXT"
   ttl     = 3600
-  records = ["v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtUP/vIbWUwcSdl9NHS878BrrvqFMmXkg5+wjq2BRak5vEy8a0OCdWuOwbXJ9n4qLr1WCKoejzISEMUtRtBcb/RFpMgTXFyvtlYXC4fWiV89ATeQWR3vhPLIVfZMXJmurlzvUYg+aLhWW56P5aU+qrc8dkC0uh91xdk8d7ZBNJkhXw2UqAUTPk\" \"PJtLOGCvfDxfaovvwKl8QAwYtoRA8PNRI88MamrZapYQR5jCIkizZbcSxhFAG0PUFmC+36Bj3kkgKns6r2eaqG3oofP9xgq1dPYSZxf0pcbC5GQzNTVTMiVG8ZA9DHEX3CtQfNz9R3Ct1741wARgvUGbXYFxznXKQIDAQAB"]
+
+  records = [
+    "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtUP/vIbWUwcSdl9NHS878BrrvqFMmXkg5+wjq2BRak5vEy8a0OCdWuOwbXJ9n4qLr1WCKoejzISEMUtRtBcb/RFpMgTXFyvtlYXC4fWiV89ATeQWR3vhPLIVfZMXJmurlzvUYg+aLhWW56P5aU+qrc8dkC0uh91xdk8d7ZBNJkhXw2UqAUTPk\" \"PJtLOGCvfDxfaovvwKl8QAwYtoRA8PNRI88MamrZapYQR5jCIkizZbcSxhFAG0PUFmC+36Bj3kkgKns6r2eaqG3oofP9xgq1dPYSZxf0pcbC5GQzNTVTMiVG8ZA9DHEX3CtQfNz9R3Ct1741wARgvUGbXYFxznXKQIDAQAB",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -53,7 +57,10 @@ resource "aws_route53_record" "family_cname" {
   name    = "family"
   type    = "CNAME"
   ttl     = 3600
-  records = ["ghs.googlehosted.com"]
+
+  records = [
+    "ghs.googlehosted.com",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -65,7 +72,10 @@ resource "aws_route53_record" "github_pages_txt" {
   name    = "_github-pages-challenge-nosborn"
   type    = "TXT"
   ttl     = 3600
-  records = ["c0ac31227dfd5dc8b09116e614aeab"]
+
+  records = [
+    "c0ac31227dfd5dc8b09116e614aeab",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -77,7 +87,10 @@ resource "aws_route53_record" "lordbill47_cname" {
   name    = "lordbill47"
   type    = "CNAME"
   ttl     = 3600
-  records = ["ghs.googlehosted.com"]
+
+  records = [
+    "ghs.googlehosted.com",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -89,6 +102,7 @@ resource "aws_route53_record" "mx" {
   name    = ""
   type    = "MX"
   ttl     = 3600
+
   records = [
     "1 aspmx.l.google.com",
     "5 alt1.aspmx.l.google.com",
@@ -107,7 +121,10 @@ resource "aws_route53_record" "test_cname" {
   name    = "test"
   type    = "CNAME"
   ttl     = 3600
-  records = ["ghs.googlehosted.com"]
+
+  records = [
+    "ghs.googlehosted.com",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -171,6 +188,7 @@ resource "aws_route53_record" "txt" {
   name    = ""
   type    = "TXT"
   ttl     = 3600
+
   records = [
     "keybase-site-verification=Ja5bgvX88XlN7aKAcL28I5VAXfNNdy90VAyEvamgkQE",
     "v=spf1 include:_spf.google.com ~all",
@@ -186,7 +204,10 @@ resource "aws_route53_record" "ww1_cname" {
   name    = "ww1"
   type    = "CNAME"
   ttl     = 3600
-  records = ["ghs.googlehosted.com"]
+
+  records = [
+    "ghs.googlehosted.com",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -198,7 +219,10 @@ resource "aws_route53_record" "www_cname" {
   name    = "www"
   type    = "CNAME"
   ttl     = 3600
-  records = ["ghs.googlehosted.com"]
+
+  records = [
+    "ghs.googlehosted.com",
+  ]
 
   lifecycle {
     prevent_destroy = true

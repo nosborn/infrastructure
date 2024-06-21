@@ -51,10 +51,6 @@
 # }
 
 # resource "aws_cloudfront_distribution" "website" {
-#   depends_on = [
-#     aws_s3_bucket.this,
-#   ]
-#
 #   enabled             = true
 #   is_ipv6_enabled     = true
 #   default_root_object = "index.html"
@@ -133,4 +129,8 @@
 #   }
 #
 #   wait_for_deployment = false
+#
+#   depends_on = [
+#     aws_s3_bucket.this,
+#   ]
 # }

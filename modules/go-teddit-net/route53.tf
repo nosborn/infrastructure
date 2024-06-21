@@ -112,11 +112,11 @@ resource "aws_route53_record" "txt" {
 }
 
 resource "aws_route53_hosted_zone_dnssec" "this" {
+  hosted_zone_id = aws_route53_zone.this.id
+
   depends_on = [
     aws_route53_key_signing_key.this
   ]
-
-  hosted_zone_id = aws_route53_zone.this.id
 }
 
 resource "aws_route53_key_signing_key" "this" {

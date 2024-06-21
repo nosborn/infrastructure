@@ -1,10 +1,6 @@
 module "website" {
   source = "../static-website"
 
-  depends_on = [
-    aws_route53_record.caa,
-  ]
-
   providers = {
     aws           = aws
     aws.us_east_1 = aws.us_east_1
@@ -16,4 +12,8 @@ module "website" {
   redirect_domain_names   = ["www.osborn.io"]
   tags                    = var.tags
   zone_id                 = aws_route53_zone.this.id
+
+  depends_on = [
+    aws_route53_record.caa,
+  ]
 }
