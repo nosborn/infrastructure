@@ -36,6 +36,11 @@ module "osborn_io" {
 module "osborn_ws" {
   source = "./modules/osborn-ws"
 
+  providers = {
+    aws           = aws
+    aws.us_east_1 = aws.us_east_1
+  }
+
   tags = {
     Site = "osborn.ws"
   }

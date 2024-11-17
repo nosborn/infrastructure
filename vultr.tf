@@ -16,15 +16,6 @@ resource "vultr_firewall_rule" "icmp_v6" {
   subnet_size       = 0
 }
 
-resource "vultr_firewall_rule" "ssh" {
-  firewall_group_id = vultr_firewall_group.main.id
-  ip_type           = "v4"
-  port              = "22"
-  protocol          = "tcp"
-  subnet            = "0.0.0.0"
-  subnet_size       = 0
-}
-
 resource "vultr_firewall_rule" "ssh_v6" {
   firewall_group_id = vultr_firewall_group.main.id
   ip_type           = "v6"

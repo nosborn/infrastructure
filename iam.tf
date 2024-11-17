@@ -27,14 +27,27 @@ resource "aws_iam_openid_connect_provider" "github" {
 }
 
 resource "aws_iam_role" "github_actions_workflow" {
-  assume_role_policy    = data.aws_iam_policy_document.assume_github_actions_workflow.json
-  force_detach_policies = true
-  name_prefix           = "github-actions-workflow-"
+  assume_role_policy = data.aws_iam_policy_document.assume_github_actions_workflow.json
+  name_prefix        = "github-actions-workflow-"
+}
 
-  managed_policy_arns = [
+resource "aws_iam_role_policy_attachments_exclusive" "github_actions_workflow" {
+  role_name = aws_iam_role.github_actions_workflow.name
+
+  policy_arns = [
     "arn:aws:iam::aws:policy/ReadOnlyAccess",
     aws_iam_policy.terraform_state.arn,
   ]
+}
+
+resource "aws_iam_role_policy_attachment" "github_actions_workflow" {
+  for_each = toset([
+    "arn:aws:iam::aws:policy/ReadOnlyAccess",
+    aws_iam_policy.terraform_state.arn,
+  ])
+
+  policy_arn = each.key
+  role       = aws_iam_role.github_actions_workflow.name
 }
 
 resource "aws_iam_policy" "terraform_state" {

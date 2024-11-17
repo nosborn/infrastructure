@@ -67,11 +67,21 @@ data "aws_iam_policy_document" "dns_updater" {
 resource "aws_iam_role" "github_actions" {
   assume_role_policy    = data.aws_iam_policy_document.github_actions_trust.json
   force_detach_policies = true
-  managed_policy_arns   = [aws_iam_policy.github_actions.arn]
   name_prefix           = "github-actions-"
   tags                  = var.tags
+}
 
-  inline_policy {}
+resource "aws_iam_role_policy_attachment" "github_actions" {
+  policy_arn = aws_iam_policy.github_actions.arn
+  role       = aws_iam_role.github_actions.name
+}
+
+resource "aws_iam_role_policy_attachments_exclusive" "github_actions" {
+  role_name = aws_iam_role.github_actions.name
+
+  policy_arns = [
+    aws_iam_policy.github_actions.arn,
+  ]
 }
 
 resource "aws_iam_policy" "github_actions" {
@@ -82,41 +92,68 @@ resource "aws_iam_policy" "github_actions" {
 
 data "aws_iam_policy_document" "github_actions" {
   statement {
-    actions   = ["cloudfront:CreateInvalidation"]
-    resources = [module.website.cloudfront_distribution_arn]
+    actions = [
+      "cloudfront:CreateInvalidation",
+    ]
+
+    resources = [
+      module.website.cloudfront_distribution_arn,
+    ]
   }
 
   statement {
-    actions   = ["s3:ListBucket"]
-    resources = [module.website.content_bucket_arn]
+    actions = [
+      "s3:ListBucket",
+    ]
+
+    resources = [
+      module.website.content_bucket_arn,
+    ]
   }
 
-  # tfsec:ignore:aws-iam-no-policy-wildcards
-  statement {
-    actions   = ["s3:DeleteObject", "s3:GetObject", "s3:PutObject"]
-    resources = ["${module.website.content_bucket_arn}/*"]
+  statement { # tfsec:ignore:aws-iam-no-policy-wildcards
+    actions = [
+      "s3:DeleteObject",
+      "s3:GetObject",
+      "s3:PutObject",
+    ]
+
+    resources = [
+      "${module.website.content_bucket_arn}/*",
+    ]
   }
 }
 
 data "aws_iam_policy_document" "github_actions_trust" {
   statement {
-    actions = ["sts:AssumeRoleWithWebIdentity"]
+    actions = [
+      "sts:AssumeRoleWithWebIdentity",
+    ]
 
     condition {
       test     = "StringEquals"
-      values   = ["sts.amazonaws.com"]
       variable = "token.actions.githubusercontent.com:aud"
+
+      values = [
+        "sts.amazonaws.com",
+      ]
     }
 
     condition {
       test     = "StringEquals"
-      values   = ["repo:${github_repository.www.full_name}:environment:${github_repository_environment.www_live.environment}"]
       variable = "token.actions.githubusercontent.com:sub"
+
+      values = [
+        "repo:${github_repository.www.full_name}:environment:${github_repository_environment.www_live.environment}",
+      ]
     }
 
     principals {
-      type        = "Federated"
-      identifiers = [var.github_openid_connect_provider_arn]
+      type = "Federated"
+
+      identifiers = [
+        var.github_openid_connect_provider_arn,
+      ]
     }
   }
 }
