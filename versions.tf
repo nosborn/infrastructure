@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.9"
+  required_version = "~> 1.10"
 
   required_providers {
     aws = {
@@ -7,10 +7,10 @@ terraform {
       version = "5.78.0"
     }
 
-    cloudinit = {
-      source  = "hashicorp/cloudinit"
-      version = "2.3.5"
-    }
+    # cloudinit = {
+    #   source  = "hashicorp/cloudinit"
+    #   version = "2.3.5"
+    # }
 
     # b2 = {
     #   source  = "Backblaze/b2"
@@ -27,7 +27,7 @@ terraform {
       version = "3.4.5"
     }
 
-    random = {
+    random = { # tflint-ignore: terraform_unused_required_providers
       source  = "hashicorp/random"
       version = "3.6.3"
     }
