@@ -57,8 +57,11 @@ data "aws_iam_policy_document" "kms_key_dnssec" {
 
     # condition {
     #   test     = "ArnLike"
-    #   values   = ["arn:aws:route53:::hostedzone/*"]
     #   variable = "aws:SourceArn"
+    #
+    #   values   = [
+    #     "arn:aws:route53:::hostedzone/*",
+    #   ]
     # }
 
     principals {

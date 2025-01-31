@@ -64,27 +64,46 @@ resource "aws_s3_bucket_versioning" "this" {
 
 data "aws_iam_policy_document" "this" {
   statement {
-    actions   = ["s3:*"]
-    effect    = "Deny"
-    resources = [aws_s3_bucket.this.arn, "${aws_s3_bucket.this.arn}/*"]
-    sid       = "AllowSSLRequestsOnly"
+    effect = "Deny"
+    sid    = "AllowSSLRequestsOnly"
+
+    actions = [
+      "s3:*",
+    ]
+
+    resources = [
+      "${aws_s3_bucket.this.arn}/*",
+      aws_s3_bucket.this.arn,
+    ]
 
     condition {
       test     = "Bool"
-      values   = ["false"]
       variable = "aws:SecureTransport"
+
+      values = [
+        "false",
+      ]
     }
 
     principals {
-      type        = "*"
-      identifiers = ["*"]
+      type = "*"
+
+      identifiers = [
+        "*",
+      ]
     }
   }
 
   statement {
-    actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.this.arn}/*"]
-    sid       = "AllowCloudFrontServicePrincipalReadOnly"
+    sid = "AllowCloudFrontServicePrincipalReadOnly"
+
+    actions = [
+      "s3:GetObject",
+    ]
+
+    resources = [
+      "${aws_s3_bucket.this.arn}/*",
+    ]
 
     condition {
       test     = "StringEquals"
@@ -96,8 +115,11 @@ data "aws_iam_policy_document" "this" {
     }
 
     principals {
-      type        = "Service"
-      identifiers = ["cloudfront.amazonaws.com"]
+      type = "Service"
+
+      identifiers = [
+        "cloudfront.amazonaws.com",
+      ]
     }
   }
 }

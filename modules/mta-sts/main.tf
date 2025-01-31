@@ -18,7 +18,10 @@ resource "aws_route53_record" "mta_sts" {
   name    = "_mta-sts"
   type    = "TXT"
   ttl     = 3600
-  records = ["v=STSv1; id=${var.id}"]
+
+  records = [
+    "v=STSv1; id=${var.id}",
+  ]
 }
 
 resource "aws_route53_record" "tls" {
@@ -26,7 +29,10 @@ resource "aws_route53_record" "tls" {
   name    = "_smtp._tls"
   type    = "TXT"
   ttl     = 3600
-  records = ["v=TLSRPTv1; rua=mailto:${var.tls_json_reporting_address}"]
+
+  records = [
+    "v=TLSRPTv1; rua=mailto:${var.tls_json_reporting_address}",
+  ]
 }
 
 resource "aws_s3_object" "this" {

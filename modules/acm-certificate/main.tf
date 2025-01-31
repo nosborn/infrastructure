@@ -24,7 +24,10 @@ resource "aws_route53_record" "this" {
   name    = each.value.name
   type    = each.value.type
   ttl     = 60
-  records = [each.value.record]
+
+  records = [
+    each.value.record,
+  ]
 }
 
 resource "aws_acm_certificate_validation" "this" {

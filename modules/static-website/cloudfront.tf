@@ -17,11 +17,20 @@ resource "aws_cloudfront_distribution" "this" {
   tags                = var.tags
 
   default_cache_behavior {
-    allowed_methods            = ["GET", "HEAD", "OPTIONS"]
-    cached_methods             = ["GET", "HEAD"]
     response_headers_policy_id = aws_cloudfront_response_headers_policy.this.id
     target_origin_id           = "s3"
     viewer_protocol_policy     = "redirect-to-https"
+
+    allowed_methods = [
+      "GET",
+      "HEAD",
+      "OPTIONS",
+    ]
+
+    cached_methods = [
+      "GET",
+      "HEAD",
+    ]
 
     forwarded_values {
       query_string = false

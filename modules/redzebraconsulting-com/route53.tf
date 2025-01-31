@@ -30,6 +30,7 @@ resource "aws_route53_record" "caa" {
   name    = ""
   type    = "CAA"
   ttl     = 3600
+
   records = [
     "0 issue \";\"",
     "0 issuewild \";\"",
@@ -45,7 +46,10 @@ resource "aws_route53_record" "dkim_txt" {
   name    = "*._domainkey"
   type    = "TXT"
   ttl     = 3600
-  records = ["v=DKIM1; p="]
+
+  records = [
+    "v=DKIM1; p=",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -57,7 +61,10 @@ resource "aws_route53_record" "dmarc_txt" {
   name    = "_dmarc"
   type    = "TXT"
   ttl     = 3600
-  records = ["v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s;"]
+
+  records = [
+    "v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s;",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -69,7 +76,10 @@ resource "aws_route53_record" "github_pages_txt" {
   name    = "_github-pages-challenge-nosborn"
   type    = "TXT"
   ttl     = 3600
-  records = ["e8257f895251dd0482c291a3bbfe51"]
+
+  records = [
+    "e8257f895251dd0482c291a3bbfe51",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -81,7 +91,10 @@ resource "aws_route53_record" "mx" {
   name    = ""
   type    = "MX"
   ttl     = 3600
-  records = ["0 ."]
+
+  records = [
+    "0 .",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -93,7 +106,10 @@ resource "aws_route53_record" "txt" {
   name    = ""
   type    = "TXT"
   ttl     = 3600
-  records = ["v=spf1 -all"]
+
+  records = [
+    "v=spf1 -all",
+  ]
 
   lifecycle {
     prevent_destroy = true
@@ -119,13 +135,13 @@ resource "aws_route53_key_signing_key" "this" {
 }
 
 resource "random_string" "ksk" {
+  length  = 32
+  special = false
+
   keepers = {
     hosted_zone_id             = aws_route53_zone.this.id
     key_management_service_arn = var.key_management_service_arn
   }
-
-  length  = 32
-  special = false
 
   lifecycle {
     create_before_destroy = true
