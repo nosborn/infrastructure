@@ -1,20 +1,3 @@
-module "go_teddit_net" {
-  source = "./modules/go-teddit-net"
-
-  providers = {
-    aws           = aws
-    aws.us_east_1 = aws.us_east_1
-  }
-
-  dmarc_aggregate_reporting_address = "em4yo1kb@ag.ap.dmarcian.com"
-  key_management_service_arn        = aws_kms_key.dnssec.arn
-  tls_json_reporting_address        = "em4yo1kb@tls.ap.dmarcian.com"
-
-  tags = {
-    Site = "go-teddit.net"
-  }
-}
-
 module "osborn_io" {
   source = "./modules/osborn-io"
 
