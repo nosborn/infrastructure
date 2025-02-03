@@ -20,5 +20,3 @@ resource "aws_cloudwatch_metric_alarm" "billing" {
     Currency = "USD"
   }
 }
-
-data "aws_caller_identity" "current" {}

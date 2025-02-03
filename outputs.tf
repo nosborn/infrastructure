@@ -1,16 +1,12 @@
-output "logs_bucket_id" {
-  description = "The name of the bucket."
-  value       = aws_s3_bucket.logs.id
+output "dns_updater_scaleway_access_key" {
+  description = "The access Key of the IAM API key."
+  value       = scaleway_iam_api_key.dns_updater.access_key
+  sensitive   = true
 }
 
-output "osborn_io_dns_updater_access_key_id" {
-  description = "Access key ID."
-  value       = module.osborn_io.dns_updater_access_key_id
-}
-
-output "osborn_io_dns_updater_access_key_secret" {
-  description = "Secret access key."
-  value       = module.osborn_io.dns_updater_access_key_secret
+output "dns_updater_scaleway_secret_key" {
+  description = "The secret Key of the IAM API key."
+  value       = scaleway_iam_api_key.dns_updater.secret_key
   sensitive   = true
 }
 

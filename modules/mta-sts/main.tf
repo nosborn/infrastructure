@@ -1,52 +1,35 @@
-module "website" {
-  source = "../static-website"
-
-  providers = {
-    aws           = aws
-    aws.us_east_1 = aws.us_east_1
-  }
-
-  content_security_policy           = "default-src 'none'; report-uri https://osborn.report-uri.com/r/d/csp/enforce"
-  domain_name                       = "mta-sts.${var.domain_name}"
-  strict_transport_security_preload = var.strict_transport_security_preload
-  tags                              = var.tags
-  zone_id                           = var.zone_id
+resource "scaleway_domain_record" "mta_sts" {
+  data     = "v=STSv1; id=${var.id}"
+  dns_zone = var.domain_name
+  name     = "_mta-sts"
+  type     = "TXT"
 }
 
-resource "aws_route53_record" "mta_sts" {
-  zone_id = var.zone_id
-  name    = "_mta-sts"
-  type    = "TXT"
-  ttl     = 3600
+resource "scaleway_container" "this" {
+  cpu_limit      = 100
+  deploy         = true
+  http_option    = "redirected"
+  max_scale      = 1
+  memory_limit   = 128
+  min_scale      = 1
+  name           = "mta-sts"
+  namespace_id   = var.container_namespace_id
+  registry_image = "${var.container_registry_endpoint}/mta-sts:latest"
+}
 
-  records = [
-    "v=STSv1; id=${var.id}",
+resource "scaleway_domain_record" "alias" {
+  data     = "${scaleway_container.this.domain_name}."
+  dns_zone = var.domain_name
+  name     = "mta-sts"
+  ttl      = 300
+  type     = "ALIAS"
+}
+
+resource "scaleway_container_domain" "this" {
+  container_id = scaleway_container.this.id
+  hostname     = "mta-sts.${var.domain_name}"
+
+  depends_on = [
+    scaleway_domain_record.alias,
   ]
-}
-
-resource "aws_route53_record" "tls" {
-  zone_id = var.zone_id
-  name    = "_smtp._tls"
-  type    = "TXT"
-  ttl     = 3600
-
-  records = [
-    "v=TLSRPTv1; rua=mailto:${var.tls_json_reporting_address}",
-  ]
-}
-
-resource "aws_s3_object" "this" {
-  for_each = toset([
-    ".well-known/mta-sts.txt",
-    "ping.txt",
-    "robots.txt",
-  ])
-
-  bucket                 = module.website.content_bucket_id
-  content_type           = "plain/text"
-  key                    = each.value
-  server_side_encryption = "AES256"
-  source                 = "${path.module}/content/${each.value}"
-  source_hash            = filemd5("${path.module}/content/${each.value}")
-  tags                   = var.tags
 }

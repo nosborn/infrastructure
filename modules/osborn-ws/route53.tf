@@ -10,7 +10,6 @@ resource "aws_route53_zone" "this" {
   name              = "osborn.ws"
   delegation_set_id = aws_route53_delegation_set.this.id
   force_destroy     = true
-  tags              = var.tags
 
   lifecycle {
     prevent_destroy = true
@@ -122,6 +121,21 @@ resource "aws_route53_record" "mx" {
     "5 alt2.aspmx.l.google.com",
     "10 alt3.aspmx.l.google.com",
     "10 alt4.aspmx.l.google.com",
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_route53_record" "scaleway_challenge_txt" {
+  name    = "_scaleway-challenge"
+  ttl     = 300
+  type    = "TXT"
+  zone_id = aws_route53_zone.this.id
+
+  records = [
+    "f0f7644e-e772-4937-8851-02c14a1f7aeb",
   ]
 
   lifecycle {

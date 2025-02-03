@@ -1,45 +1,21 @@
 module "osborn_io" {
   source = "./modules/osborn-io"
 
-  providers = {
-    aws           = aws
-    aws.us_east_1 = aws.us_east_1
-  }
-
-  dmarc_aggregate_reporting_address  = "em4yo1kb@ag.ap.dmarcian.com"
-  github_openid_connect_provider_arn = aws_iam_openid_connect_provider.github.arn
-  key_management_service_arn         = aws_kms_key.dnssec.arn
-  tls_json_reporting_address         = "em4yo1kb@tls.ap.dmarcian.com"
-
-  tags = {
-    Site = "osborn.io"
-  }
+  caa_iodef_url                     = var.caa_iodef_url
+  dependabot_scaleway_api_key       = scaleway_iam_api_key.dependabot.secret_key
+  dmarc_aggregate_reporting_address = "em4yo1kb@ag.ap.dmarcian.com"
+  github_actions_scaleway_api_key   = scaleway_iam_api_key.github_actions.secret_key
 }
 
 module "osborn_ws" {
   source = "./modules/osborn-ws"
 
-  providers = {
-    aws           = aws
-    aws.us_east_1 = aws.us_east_1
-  }
-
-  tags = {
-    Site = "osborn.ws"
-  }
+  caa_iodef_url                     = var.caa_iodef_url
+  dmarc_aggregate_reporting_address = "em4yo1kb@ag.ap.dmarcian.com"
 }
 
 module "redzebraconsulting_com" {
   source = "./modules/redzebraconsulting-com"
 
-  providers = {
-    aws           = aws
-    aws.us_east_1 = aws.us_east_1
-  }
-
-  key_management_service_arn = aws_kms_key.dnssec.arn
-
-  tags = {
-    Site = "redzebraconsulting.com"
-  }
+  caa_iodef_url = var.caa_iodef_url
 }

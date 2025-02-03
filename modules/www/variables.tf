@@ -22,15 +22,6 @@ variable "github_actions_scaleway_api_key" {
   sensitive = true
 }
 
-variable "id" {
+variable "scaleway_dns_zone" {
   type = string
-
-  validation {
-    condition     = length(var.id) >= 1 && length(var.id) <= 32 && length(regexall("[^0-9A-Za-z]", var.id)) == 0
-    error_message = "The id value must be 1–32 alphanumeric characters."
-  }
-}
-
-variable "mx_fqdns" {
-  type = list(string)
 }

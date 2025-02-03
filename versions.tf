@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.84.0"
+      version = "5.86.0"
     }
 
     # cloudinit = {
@@ -32,14 +32,19 @@ terraform {
       version = "3.6.3"
     }
 
+    scaleway = {
+      source  = "scaleway/scaleway"
+      version = "2.49.0"
+    }
+
+    time = {
+      source  = "hashicorp/time"
+      version = "0.12.1"
+    }
+
     tls = {
       source  = "hashicorp/tls"
       version = "4.0.6"
-    }
-
-    vultr = {
-      source  = "vultr/vultr"
-      version = "2.23.1"
     }
   }
 }

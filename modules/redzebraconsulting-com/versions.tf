@@ -1,17 +1,8 @@
-terraform {
+terraform { # tflint-ignore: terraform_required_version
   required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "5.84.0"
-
-      configuration_aliases = [
-        aws.us_east_1,
-      ]
-    }
-
-    random = {
-      source  = "hashicorp/random"
-      version = "3.6.3"
+    scaleway = {
+      source  = "scaleway/scaleway"
+      version = "2.49.0"
     }
   }
 }
