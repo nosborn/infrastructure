@@ -13,6 +13,14 @@
 # }
 
 # resource "b2_application_key" "dependabot" {
-#   capabilities = ["listAllBucketNames", "listBuckets", "listKeys", "readBucketEncryption", "readBucketRetentions", "readBuckets"]
-#   key_name     = "Dependabot"
+#   key_name = "Dependabot"
+#
+#   capabilities = [
+#     "listAllBucketNames",
+#     "listBuckets",
+#     "listKeys",
+#     "readBucketEncryption",
+#     "readBucketRetentions",
+#     "readBuckets",
+#   ]
 # }
