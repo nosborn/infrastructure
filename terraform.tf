@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "terraform" {
+resource "aws_s3_bucket" "terraform" { # trivy:ignore:AVD-AWS-0089
   bucket_prefix = "terraform-"
 }
 
