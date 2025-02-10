@@ -1,4 +1,4 @@
-resource "github_repository" "this" {
+resource "github_repository" "this" { # trivy:ignore:AVD-GIT-0003
   allow_merge_commit     = false
   allow_update_branch    = true
   delete_branch_on_merge = true
@@ -8,6 +8,16 @@ resource "github_repository" "this" {
   has_wiki               = false
   name                   = "mta-sts.${var.domain_name}"
   visibility             = "private"
+
+  # security_and_analysis {
+  #   secret_scanning {
+  #     status = "enabled"
+  #   }
+  #
+  #   secret_scanning_push_protection {
+  #     status = "enabled"
+  #   }
+  # }
 }
 
 resource "github_repository_file" "policy" {
