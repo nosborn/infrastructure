@@ -157,7 +157,7 @@ resource "scaleway_iam_policy" "dependabot_resources" {
     ]
 
     project_ids = [
-      data.scaleway_account_project.default.id,
+      var.scw_project_id,
     ]
   }
 }
@@ -180,7 +180,7 @@ resource "scaleway_iam_policy" "dns_updater" {
     ]
 
     project_ids = [
-      data.scaleway_account_project.default.id,
+      var.scw_project_id,
     ]
   }
 }
@@ -219,7 +219,7 @@ resource "scaleway_iam_policy" "github_actions_resources" {
     ]
 
     project_ids = [
-      data.scaleway_account_project.default.id,
+      var.scw_project_id,
     ]
   }
 }

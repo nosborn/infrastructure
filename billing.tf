@@ -10,7 +10,7 @@ resource "aws_cloudwatch_metric_alarm" "billing" {
   namespace           = "AWS/Billing"
   period              = 21600
   statistic           = "Maximum"
-  threshold           = 25
+  threshold           = 10
 
   alarm_actions = [
     "arn:aws:sns:us-east-1:${data.aws_caller_identity.current.account_id}:NotifyMe",
