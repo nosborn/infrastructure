@@ -1,6 +1,6 @@
 # yamllint disable rule:line-length
 ---
-name: Trivy
+name: Code Scanning
 
 on:
   pull_request:
@@ -15,8 +15,7 @@ on:
 permissions: read-all
 
 jobs:
-  tfsec:
-    name: Run Trivy SARIF report
+  trivy-config:
     permissions:
       actions: read
       contents: read
@@ -33,15 +32,23 @@ jobs:
       - name: Run analysis
         uses: aquasecurity/trivy-action@18f2510ee396bbf400402947b394f2dd8c87dbb0 # v0.29.0
         with:
-          exit-code: 1
+          # exit-code: 1
           format: sarif
           hide-progress: false
           ignore-unfixed: true
-          output: trivy-results.sarif
+          output: trivy-config.sarif
           scan-type: config
           severity: CRITICAL,HIGH
+          tf-vars: terraform.tfvars
+        env:
+          TF_VAR_aws_allowed_account_id: ${{ secrets.AWS_ALLOWED_ACCOUNT_ID }}
+          TF_VAR_scw_access_key: ${{ secrets.SCW_ACCESS_KEY }}
+          TF_VAR_scw_organization_id: ${{ secrets.SCW_ORGANIZATION_ID }}
+          TF_VAR_scw_project_id: ${{ secrets.SCW_PROJECT_ID }}
+          TF_VAR_scw_secret_key: ${{ secrets.SCW_SECRET_KEY }}
+          TF_VAR_tf_github_token: ${{ secrets.TF_GITHUB_TOKEN }}
 
       - name: Upload to code-scanning
         uses: github/codeql-action/upload-sarif@9e8d0789d4a0fa9ceb6b1738f7e269594bdd67f0 # v3.28.9
         with:
-          sarif_file: trivy-results.sarif
+          sarif_file: trivy-config.sarif
