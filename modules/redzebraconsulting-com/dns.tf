@@ -42,6 +42,17 @@ resource "scaleway_domain_record" "dmarc_txt" {
   }
 }
 
+resource "scaleway_domain_record" "github_pages_txt" {
+  data     = "e8257f895251dd0482c291a3bbfe51"
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "_github-pages-challenge-nosborn"
+  type     = "TXT"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "scaleway_domain_record" "mx" {
   data     = "."
   dns_zone = data.scaleway_domain_zone.this.domain
