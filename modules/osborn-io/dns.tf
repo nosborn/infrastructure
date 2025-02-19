@@ -21,7 +21,7 @@ resource "scaleway_domain_record" "caa_iodef" {
 }
 
 resource "scaleway_domain_record" "caa_issue" {
-  data     = "0 issue \"letsencrypt.org;validationmethods=http-01\""
+  data     = "0 issue \"letsencrypt.org\""
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = ""
   type     = "CAA"

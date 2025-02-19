@@ -1,24 +1,14 @@
-variable "account_alias" { # tflint-ignore: terraform_documented_variables
-  type      = string
-  sensitive = true
+variable "b2_application_key" {
+  description = "B2 Application Key."
+  type        = string
+  sensitive   = true
 }
 
-variable "aws_allowed_account_id" { # tflint-ignore: terraform_documented_variables
-  type      = string
-  sensitive = true
+variable "b2_application_key_id" {
+  description = "B2 Application Key ID."
+  type        = string
+  sensitive   = true
 }
-
-# variable "b2_application_key" {
-#   description = "B2 Application Key."
-#   type        = string
-#   sensitive   = true
-# }
-
-# variable "b2_application_key_id" {
-#   description = "B2 Application Key ID."
-#   type        = string
-#   sensitive   = true
-# }
 
 variable "caa_iodef_url" { # tflint-ignore: terraform_documented_variables
   type = string

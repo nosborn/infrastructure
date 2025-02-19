@@ -9,8 +9,3 @@ output "dns_updater_scaleway_secret_key" {
   value       = scaleway_iam_api_key.dns_updater.secret_key
   sensitive   = true
 }
-
-output "osborn_ws_name_servers" {
-  description = "A list of name servers in associated (or default) delegation set."
-  value       = module.osborn_ws.name_servers
-}
