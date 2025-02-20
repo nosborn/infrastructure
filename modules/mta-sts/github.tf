@@ -1,23 +1,31 @@
-resource "github_repository" "this" { # trivy:ignore:AVD-GIT-0003
-  allow_merge_commit     = false
-  allow_update_branch    = true
-  delete_branch_on_merge = true
-  has_discussions        = false
-  has_issues             = false
-  has_projects           = false
-  has_wiki               = false
-  name                   = "mta-sts.${var.domain_name}"
-  visibility             = "private"
+resource "github_repository" "this" { # tfsec:ignore:github-repositories-private
+  allow_merge_commit                      = false
+  allow_squash_merge                      = false
+  allow_update_branch                     = true
+  archive_on_destroy                      = true
+  delete_branch_on_merge                  = true
+  has_discussions                         = false
+  has_issues                              = false
+  has_projects                            = false
+  has_wiki                                = false
+  ignore_vulnerability_alerts_during_read = true
+  name                                    = "mta-sts.${var.domain_name}"
+  visibility                              = "public"
+  vulnerability_alerts                    = true
 
-  # security_and_analysis {
-  #   secret_scanning {
-  #     status = "enabled"
-  #   }
-  #
-  #   secret_scanning_push_protection {
-  #     status = "enabled"
-  #   }
-  # }
+  topics = [
+    "static-website",
+  ]
+
+  security_and_analysis {
+    secret_scanning {
+      status = "enabled"
+    }
+
+    secret_scanning_push_protection {
+      status = "enabled"
+    }
+  }
 }
 
 resource "github_repository_file" "policy" {
