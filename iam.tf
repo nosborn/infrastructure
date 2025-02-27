@@ -40,7 +40,7 @@ resource "scaleway_iam_policy" "dependabot_resources" {
     ]
 
     project_ids = [
-      var.scw_project_id,
+      data.scaleway_account_project.default.project_id,
     ]
   }
 }
@@ -63,7 +63,7 @@ resource "scaleway_iam_policy" "dns_updater" {
     ]
 
     project_ids = [
-      var.scw_project_id,
+      data.scaleway_account_project.default.project_id,
     ]
   }
 }
@@ -102,7 +102,7 @@ resource "scaleway_iam_policy" "github_actions_resources" {
     ]
 
     project_ids = [
-      var.scw_project_id,
+      data.scaleway_account_project.default.project_id,
     ]
   }
 }
@@ -114,4 +114,8 @@ resource "scaleway_iam_api_key" "github_actions" {
 
 resource "time_rotating" "every_90_days" {
   rotation_days = 90
+}
+
+data "scaleway_account_project" "default" {
+  name = "default"
 }
