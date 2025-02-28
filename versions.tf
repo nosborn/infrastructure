@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.10"
+  required_version = "~> 1.11"
 
   required_providers {
     b2 = {
@@ -7,14 +7,14 @@ terraform {
       version = "0.10.0"
     }
 
-    github = {
+    github = { # tflint-ignore: terraform_unused_required_providers
       source  = "integrations/github"
       version = "6.5.0"
     }
 
     scaleway = {
       source  = "scaleway/scaleway"
-      version = "2.49.0"
+      version = "2.50.0"
     }
 
     time = {
