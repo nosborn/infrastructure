@@ -9,19 +9,22 @@ variable "container_registry_endpoint" {
 }
 
 variable "dependabot_scaleway_api_key" {
-  type      = string
-  sensitive = true
+  description = "The secret Key of the IAM API key."
+  type        = string
+  sensitive   = true
 }
 
-variable "domain_name" {
+variable "domain_name" { # tflint-ignore: terraform_documented_variables
   type = string
 }
 
 variable "github_actions_scaleway_api_key" {
-  type      = string
-  sensitive = true
+  description = "The secret Key of the IAM API key."
+  type        = string
+  sensitive   = true
 }
 
 variable "scaleway_dns_zone" {
-  type = string
+  description = "The DNS zone of the domain."
+  type        = string
 }

@@ -6,7 +6,7 @@ module "www" {
   dependabot_scaleway_api_key     = var.dependabot_scaleway_api_key
   domain_name                     = "osborn.ws"
   github_actions_scaleway_api_key = var.github_actions_scaleway_api_key
-  scaleway_dns_zone               = "osborn.ws"
+  scaleway_dns_zone               = data.scaleway_domain_zone.this.id
 
   depends_on = [
     scaleway_domain_record.caa_iodef,
