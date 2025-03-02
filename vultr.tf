@@ -48,3 +48,13 @@ resource "vultr_ssh_key" "main" {
   name    = "20240617"
   ssh_key = trimspace(file("~/.ssh/id_ed25519-vultr-20240617.pub"))
 }
+
+data "vultr_os" "debian_12" {
+  filter {
+    name = "name"
+
+    values = [
+      "Debian 12 x64 (bookworm)",
+    ]
+  }
+}

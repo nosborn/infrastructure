@@ -5,9 +5,9 @@ resource "vultr_instance" "proxy_in" {
   firewall_group_id = vultr_firewall_group.main.id
   hostname          = "proxy-in.osborn.io"
   label             = "proxy-in.osborn.io"
-  os_id             = 2136 # Debian 12 x64 (bookworm)
+  os_id             = data.vultr_os.debian_12.id
   plan              = "vc2-1c-1gb"
-  region            = "bom"
+  region            = "bom" # Mumbai
 
   ssh_key_ids = [
     vultr_ssh_key.main.id,
@@ -35,6 +35,7 @@ resource "scaleway_domain_record" "proxy_in_a" {
   data     = vultr_instance.proxy_in.main_ip
   dns_zone = module.osborn_io.scaleway_domain_zone_id
   name     = "proxy-in"
+  ttl      = 60
   type     = "A"
 }
 
@@ -42,6 +43,7 @@ resource "scaleway_domain_record" "proxy_in_aaaa" {
   data     = vultr_instance.proxy_in.v6_main_ip
   dns_zone = module.osborn_io.scaleway_domain_zone_id
   name     = "proxy-in"
+  ttl      = 60
   type     = "AAAA"
 }
 

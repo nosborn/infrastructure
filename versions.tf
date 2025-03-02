@@ -9,7 +9,7 @@ terraform {
 
     github = { # tflint-ignore: terraform_unused_required_providers
       source  = "integrations/github"
-      version = "6.5.0"
+      version = "6.6.0"
     }
 
     scaleway = {
