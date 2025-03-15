@@ -14,17 +14,17 @@ terraform {
 
     scaleway = {
       source  = "scaleway/scaleway"
-      version = "2.50.0"
+      version = "2.51.0"
     }
 
     time = {
       source  = "hashicorp/time"
-      version = "0.12.1"
+      version = "0.13.0"
     }
 
     vultr = {
       source  = "vultr/vultr"
-      version = "2.23.1"
+      version = "2.25.0"
     }
   }
 }
