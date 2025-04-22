@@ -1,3 +1,14 @@
+resource "scaleway_domain_record" "atproto_txt" { # BlueSky verification
+  data     = "did=did:plc:q43v3sapoehpy52prsp6sbvr"
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "_atproto"
+  type     = "TXT"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "scaleway_domain_record" "bing_cname" {
   data     = "verify.bing.com."
   dns_zone = data.scaleway_domain_zone.this.domain
