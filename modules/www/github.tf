@@ -104,30 +104,15 @@ resource "github_repository_ruleset" "default_branch" {
   }
 }
 
-# tfsec:ignore:github-actions-no-plain-text-action-secrets
-resource "github_actions_secret" "container_registry_endpoint" {
-  plaintext_value = var.container_registry_endpoint
-  repository      = github_repository.this.name
-  secret_name     = "CONTAINER_REGISTRY_ENDPOINT"
-}
+resource "github_repository_webhook" "this" {
+  repository = github_repository.this.name
 
-# tfsec:ignore:github-actions-no-plain-text-action-secrets
-resource "github_actions_secret" "scaleway_api_key" {
-  plaintext_value = var.github_actions_scaleway_api_key
-  repository      = github_repository.this.name
-  secret_name     = "SCALEWAY_API_KEY"
-}
+  events = [
+    "push",
+  ]
 
-# tfsec:ignore:github-actions-no-plain-text-action-secrets
-resource "github_dependabot_secret" "container_registry_endpoint" {
-  plaintext_value = var.container_registry_endpoint
-  repository      = github_repository.this.name
-  secret_name     = "CONTAINER_REGISTRY_ENDPOINT"
-}
-
-# tfsec:ignore:github-actions-no-plain-text-action-secrets
-resource "github_dependabot_secret" "scaleway_api_key" {
-  plaintext_value = var.dependabot_scaleway_api_key
-  repository      = github_repository.this.name
-  secret_name     = "SCALEWAY_API_KEY"
+  configuration {
+    content_type = "json"
+    url          = "https://builder.statichost.eu/${var.statichost_site_name}"
+  }
 }

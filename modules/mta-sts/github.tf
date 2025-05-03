@@ -28,12 +28,23 @@ resource "github_repository" "this" { # tfsec:ignore:github-repositories-private
   }
 }
 
+resource "github_repository_webhook" "this" {
+  repository = github_repository.this.name
+
+  events = [
+    "push",
+  ]
+
+  configuration {
+    content_type = "json"
+    url          = "https://builder.statichost.eu/${var.statichost_site_name}"
+  }
+}
+
 resource "github_repository_file" "policy" {
-  branch = "main"
-  # commit_author       = "Terraform"
-  # commit_email        = "terraform@osborn.io"
+  branch              = "main"
   commit_message      = "Update MTA-STS policy"
-  file                = "html/.well-known/mta-sts.txt"
+  file                = "public/.well-known/mta-sts.txt"
   overwrite_on_create = true
   repository          = github_repository.this.name
 
@@ -45,32 +56,4 @@ mx: ${fqdn}
 %{endfor~}
 max_age: 86400
 EOT
-}
-
-# tfsec:ignore:github-actions-no-plain-text-action-secrets
-resource "github_actions_secret" "container_registry_endpoint" {
-  plaintext_value = var.container_registry_endpoint
-  repository      = github_repository.this.name
-  secret_name     = "CONTAINER_REGISTRY_ENDPOINT"
-}
-
-# tfsec:ignore:github-actions-no-plain-text-action-secrets
-resource "github_actions_secret" "scaleway_api_key" {
-  plaintext_value = var.github_actions_scaleway_api_key
-  repository      = github_repository.this.name
-  secret_name     = "SCALEWAY_API_KEY"
-}
-
-# tfsec:ignore:github-actions-no-plain-text-action-secrets
-resource "github_dependabot_secret" "container_registry_endpoint" {
-  plaintext_value = var.container_registry_endpoint
-  repository      = github_repository.this.name
-  secret_name     = "CONTAINER_REGISTRY_ENDPOINT"
-}
-
-# tfsec:ignore:github-actions-no-plain-text-action-secrets
-resource "github_dependabot_secret" "scaleway_api_key" {
-  plaintext_value = var.dependabot_scaleway_api_key
-  repository      = github_repository.this.name
-  secret_name     = "SCALEWAY_API_KEY"
 }
