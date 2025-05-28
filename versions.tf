@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.11"
+  required_version = "~> 1.12"
 
   required_providers {
     b2 = {
@@ -14,12 +14,12 @@ terraform {
 
     scaleway = {
       source  = "scaleway/scaleway"
-      version = "2.53.0"
+      version = "2.54.0"
     }
 
     time = {
       source  = "hashicorp/time"
-      version = "0.13.0"
+      version = "0.13.1"
     }
 
     vultr = {

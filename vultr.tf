@@ -20,6 +20,7 @@ resource "vultr_firewall_rule" "tcp_v4" {
   for_each = toset([
     "22",
     "443",
+    "6443",
   ])
 
   firewall_group_id = vultr_firewall_group.main.id
@@ -34,6 +35,7 @@ resource "vultr_firewall_rule" "tcp_v6" {
   for_each = toset([
     "22",
     "443",
+    "6443",
   ])
 
   firewall_group_id = vultr_firewall_group.main.id

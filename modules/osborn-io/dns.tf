@@ -187,6 +187,50 @@ resource "scaleway_domain_record" "txt" {
   }
 }
 
+resource "scaleway_domain_record" "tombstone_mx" {
+  for_each = toset([
+    "mx01.mail.icloud.com.",
+    "mx02.mail.icloud.com.",
+  ])
+
+  data     = each.key
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "tombstone"
+  priority = 10
+  type     = "MX"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "scaleway_domain_record" "tombstone_sig1_domainkey_cname" {
+  data     = "sig1.dkim.tombstone.osborn.io.at.icloudmailadmin.com."
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "sig1._domainkey.tombstone"
+  type     = "CNAME"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "scaleway_domain_record" "tombstone_txt" {
+  for_each = toset([
+    "apple-domain=ymQqXtRROTfMmcEx",
+    "v=spf1 include:icloud.com ~all",
+  ])
+
+  data     = each.key
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "tombstone"
+  type     = "TXT"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 data "scaleway_domain_zone" "this" {
   domain    = "osborn.io"
   subdomain = ""

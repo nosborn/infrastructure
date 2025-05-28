@@ -1,13 +1,13 @@
-resource "vultr_instance" "proxy_in" {
+resource "vultr_instance" "proxy_nl" {
   activation_email  = false
   backups           = "disabled"
   enable_ipv6       = true
   firewall_group_id = vultr_firewall_group.main.id
-  hostname          = "proxy-in.osborn.io"
-  label             = "proxy-in.osborn.io"
+  hostname          = "proxy-nl.osborn.io"
+  label             = "proxy-nl.osborn.io"
   os_id             = data.vultr_os.debian_12.id
   plan              = "vc2-1c-1gb"
-  region            = "bom" # Mumbai
+  region            = "ams" # Amsterdam
 
   ssh_key_ids = [
     vultr_ssh_key.main.id,
@@ -31,45 +31,45 @@ resource "vultr_instance" "proxy_in" {
   }
 }
 
-resource "scaleway_domain_record" "proxy_in_a" {
-  data     = vultr_instance.proxy_in.main_ip
+resource "scaleway_domain_record" "proxy_nl_a" {
+  data     = vultr_instance.proxy_nl.main_ip
   dns_zone = module.osborn_io.scaleway_domain_zone_id
-  name     = "proxy-in"
+  name     = "proxy-nl"
   ttl      = 60
   type     = "A"
 }
 
-resource "scaleway_domain_record" "proxy_in_aaaa" {
-  data     = vultr_instance.proxy_in.v6_main_ip
+resource "scaleway_domain_record" "proxy_nl_aaaa" {
+  data     = vultr_instance.proxy_nl.v6_main_ip
   dns_zone = module.osborn_io.scaleway_domain_zone_id
-  name     = "proxy-in"
+  name     = "proxy-nl"
   ttl      = 60
   type     = "AAAA"
 }
 
-resource "scaleway_domain_record" "proxy_in_mx" {
+resource "scaleway_domain_record" "proxy_nl_mx" {
   data     = "."
   dns_zone = module.osborn_io.scaleway_domain_zone_id
-  name     = "proxy-in"
+  name     = "proxy-nl"
   priority = 0
   type     = "MX"
 }
 
-resource "scaleway_domain_record" "proxy_in_txt" {
+resource "scaleway_domain_record" "proxy_nl_txt" {
   data     = "v=spf1 -all"
   dns_zone = module.osborn_io.scaleway_domain_zone_id
-  name     = "proxy-in"
+  name     = "proxy-nl"
   type     = "TXT"
 }
 
-resource "vultr_reverse_ipv4" "proxy_in" {
-  instance_id = vultr_instance.proxy_in.id
-  ip          = vultr_instance.proxy_in.main_ip
-  reverse     = scaleway_domain_record.proxy_in_a.fqdn
+resource "vultr_reverse_ipv4" "proxy_nl" {
+  instance_id = vultr_instance.proxy_nl.id
+  ip          = vultr_instance.proxy_nl.main_ip
+  reverse     = scaleway_domain_record.proxy_nl_a.fqdn
 }
 
-resource "vultr_reverse_ipv6" "proxy_in" {
-  instance_id = vultr_instance.proxy_in.id
-  ip          = vultr_instance.proxy_in.v6_main_ip
-  reverse     = scaleway_domain_record.proxy_in_aaaa.fqdn
+resource "vultr_reverse_ipv6" "proxy_nl" {
+  instance_id = vultr_instance.proxy_nl.id
+  ip          = vultr_instance.proxy_nl.v6_main_ip
+  reverse     = scaleway_domain_record.proxy_nl_aaaa.fqdn
 }
