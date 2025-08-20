@@ -14,7 +14,7 @@ terraform {
 
     scaleway = {
       source  = "scaleway/scaleway"
-      version = "2.57.0"
+      version = "2.59.0"
     }
 
     time = {
@@ -24,7 +24,7 @@ terraform {
 
     vultr = {
       source  = "vultr/vultr"
-      version = "2.26.0"
+      version = "2.27.1"
     }
   }
 }
