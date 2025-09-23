@@ -49,22 +49,22 @@ resource "vultr_ssh_key" "main" {
   ssh_key = trimspace(file("~/.ssh/id_ed25519-vultr-20240617.pub"))
 }
 
-#data "vultr_os" "debian_12" {
-#  filter {
-#    name = "name"
-#
-#    values = [
-#      "Debian 12 x64 (bookworm)",
-#    ]
-#  }
-#}
-
-data "vultr_os" "openbsd_7_7" {
+data "vultr_os" "debian_13" {
   filter {
     name = "name"
 
     values = [
-      "OpenBSD 7.7 x64",
+      "Debian 13 x64 (trixie)",
     ]
   }
 }
+
+#data "vultr_os" "openbsd_7_7" {
+#  filter {
+#    name = "name"
+#
+#    values = [
+#      "OpenBSD 7.7 x64",
+#    ]
+#  }
+#}

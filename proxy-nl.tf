@@ -5,7 +5,7 @@
 #  firewall_group_id = vultr_firewall_group.main.id
 #  hostname          = "proxy-nl.osborn.io"
 #  label             = "proxy-nl.osborn.io"
-#  os_id             = data.vultr_os.debian_12.id
+#  os_id             = data.vultr_os.debian_13.id
 #  plan              = "vc2-1c-1gb"
 #  region            = "ams" # Amsterdam
 #
