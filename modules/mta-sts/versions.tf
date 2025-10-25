@@ -7,7 +7,7 @@ terraform { # tflint-ignore: terraform_required_version
 
     scaleway = {
       source  = "scaleway/scaleway"
-      version = "2.60.4"
+      version = "2.60.5"
     }
   }
 }
