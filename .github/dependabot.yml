@@ -1,13 +1,18 @@
 ---
 version: 2
 
+multi-ecosystem-groups:
+  infrastructure:
+    schedule:
+      interval: weekly
+
 updates:
   - package-ecosystem: github-actions
     directory: /
-    schedule:
-      interval: daily
+    multi-ecosystem-group: infrastructure
 
   - package-ecosystem: terraform
-    directory: /
-    schedule:
-      interval: daily
+    directories:
+      - /
+      - /modules/*
+    multi-ecosystem-group: infrastructure
