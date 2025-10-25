@@ -9,10 +9,14 @@ multi-ecosystem-groups:
 updates:
   - package-ecosystem: github-actions
     directory: /
+    patterns:
+      - "*"
     multi-ecosystem-group: infrastructure
 
   - package-ecosystem: terraform
     directories:
       - /
       - /modules/*
+    patterns:
+      - "*"
     multi-ecosystem-group: infrastructure
