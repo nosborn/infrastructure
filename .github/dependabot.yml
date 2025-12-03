@@ -5,14 +5,14 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
 
   - package-ecosystem: terraform
     directories:
       - /
       - /modules/*
     schedule:
-      interval: weekly
+      interval: monthly
     groups:
       b2-provider:
         patterns:
