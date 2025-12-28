@@ -2,6 +2,11 @@ terraform {
   required_version = "~> 1.14"
 
   required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "6.27.0"
+    }
+
     b2 = {
       source  = "Backblaze/b2"
       version = "0.10.0"
@@ -14,7 +19,7 @@ terraform {
 
     scaleway = {
       source  = "scaleway/scaleway"
-      version = "2.64.0"
+      version = "2.65.1"
     }
 
     time = {
@@ -24,7 +29,7 @@ terraform {
 
     vultr = {
       source  = "vultr/vultr"
-      version = "2.27.1"
+      version = "2.28.0"
     }
   }
 }

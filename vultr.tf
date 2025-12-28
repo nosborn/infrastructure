@@ -58,13 +58,3 @@ data "vultr_os" "debian_13" {
     ]
   }
 }
-
-#data "vultr_os" "openbsd_7_7" {
-#  filter {
-#    name = "name"
-#
-#    values = [
-#      "OpenBSD 7.7 x64",
-#    ]
-#  }
-#}
