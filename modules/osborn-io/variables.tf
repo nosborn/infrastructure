@@ -9,3 +9,11 @@ variable "dmarc_aggregate_reporting_address" { # tflint-ignore: terraform_docume
 variable "statichost_site_name" { # tflint-ignore: terraform_documented_variables
   type = string
 }
+
+variable "tombstone_ipv4_address" { # tflint-ignore: terraform_documented_variables
+  type = string
+}
+
+variable "tombstone_ipv6_address" { # tflint-ignore: terraform_documented_variables
+  type = string
+}

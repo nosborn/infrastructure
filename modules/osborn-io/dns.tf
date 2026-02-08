@@ -187,6 +187,28 @@ resource "scaleway_domain_record" "txt" {
   }
 }
 
+resource "scaleway_domain_record" "tombstone_a" {
+  data     = var.tombstone_ipv4_address
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "tombstone"
+  type     = "A"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "scaleway_domain_record" "tombstone_aaaa" {
+  data     = var.tombstone_ipv6_address
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "tombstone"
+  type     = "AAAA"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "scaleway_domain_record" "tombstone_mx" {
   for_each = toset([
     "mx01.mail.icloud.com.",

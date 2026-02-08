@@ -1,19 +1,18 @@
 resource "github_repository" "this" { # tfsec:ignore:github-repositories-private
-  allow_merge_commit                      = false
-  allow_squash_merge                      = false
-  allow_update_branch                     = true
-  archive_on_destroy                      = true
-  delete_branch_on_merge                  = true
-  description                             = "Source for [https://www.${var.domain_name}]."
-  has_discussions                         = false
-  has_issues                              = false
-  has_projects                            = false
-  has_wiki                                = false
-  ignore_vulnerability_alerts_during_read = true
-  license_template                        = "mit"
-  name                                    = "www.${var.domain_name}"
-  visibility                              = "public"
-  vulnerability_alerts                    = true
+  allow_merge_commit     = false
+  allow_squash_merge     = false
+  allow_update_branch    = true
+  archive_on_destroy     = true
+  delete_branch_on_merge = true
+  description            = "Source for [https://www.${var.domain_name}]."
+  has_discussions        = false
+  has_issues             = false
+  has_projects           = false
+  has_wiki               = false
+  license_template       = "mit"
+  name                   = "www.${var.domain_name}"
+  visibility             = "public"
+  vulnerability_alerts   = true
 
   topics = [
     "static-website",
