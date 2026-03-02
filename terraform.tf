@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "6.31.0"
+      version = "6.34.0"
     }
 
     b2 = {
@@ -24,7 +24,7 @@ terraform {
 
     vultr = {
       source  = "vultr/vultr"
-      version = "2.28.1"
+      version = "2.30.0"
     }
   }
 }

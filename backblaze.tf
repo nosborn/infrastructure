@@ -14,8 +14,11 @@ resource "b2_bucket" "cloudsync" {
 }
 
 resource "b2_application_key" "cloudsync" {
-  bucket_id = b2_bucket.cloudsync.id
-  key_name  = "CloudSync"
+  key_name = "CloudSync"
+
+  bucket_ids = [
+    b2_bucket.cloudsync.id,
+  ]
 
   capabilities = [
     "deleteFiles",
@@ -43,8 +46,11 @@ resource "b2_bucket" "diskstation" {
 }
 
 resource "b2_application_key" "hyperbackup" {
-  bucket_id = b2_bucket.diskstation.id
-  key_name  = "HyperBackup"
+  key_name = "HyperBackup"
+
+  bucket_ids = [
+    b2_bucket.diskstation.id,
+  ]
 
   capabilities = [
     "deleteFiles",
