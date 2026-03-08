@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "6.34.0"
+      version = "6.35.1"
     }
 
     b2 = {
@@ -14,7 +14,7 @@ terraform {
 
     scaleway = {
       source  = "scaleway/scaleway"
-      version = "2.69.0"
+      version = "2.70.1"
     }
 
     time = {
@@ -24,7 +24,7 @@ terraform {
 
     vultr = {
       source  = "vultr/vultr"
-      version = "2.30.0"
+      version = "2.30.1"
     }
   }
 }

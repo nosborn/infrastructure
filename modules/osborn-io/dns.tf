@@ -147,6 +147,72 @@ resource "scaleway_domain_record" "nick_txt" {
   }
 }
 
+resource "scaleway_domain_record" "pds_a" {
+  data     = var.tombstone_ipv4_address
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "pds"
+  type     = "A"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "scaleway_domain_record" "pds_aaaa" {
+  data     = var.tombstone_ipv6_address
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "pds"
+  type     = "AAAA"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "scaleway_domain_record" "pds_https" {
+  data     = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "pds"
+  type     = "HTTPS"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "scaleway_domain_record" "pds_wildcard_a" {
+  data     = var.tombstone_ipv4_address
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "*.pds"
+  type     = "A"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "scaleway_domain_record" "pds_wildcard_aaaa" {
+  data     = var.tombstone_ipv6_address
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "*.pds"
+  type     = "AAAA"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "scaleway_domain_record" "pds_wildcard_https" {
+  data     = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "*.pds"
+  type     = "HTTPS"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "scaleway_domain_record" "scaleway_challenge_txt" {
   data     = "7b7f1412-4d04-43f4-8adf-0af970dd42f7"
   dns_zone = data.scaleway_domain_zone.this.domain
@@ -203,6 +269,17 @@ resource "scaleway_domain_record" "tombstone_aaaa" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "tombstone"
   type     = "AAAA"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "scaleway_domain_record" "tombstone_https" {
+  data     = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
+  dns_zone = data.scaleway_domain_zone.this.domain
+  name     = "tombstone"
+  type     = "HTTPS"
 
   lifecycle {
     prevent_destroy = true
