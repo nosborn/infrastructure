@@ -37,29 +37,6 @@ resource "scaleway_iam_api_key" "dependabot" {
   application_id = scaleway_iam_application.dependabot.id
 }
 
-resource "scaleway_iam_application" "dns_updater" {
-  name = "DNS Updater"
-}
-
-resource "scaleway_iam_policy" "dns_updater" {
-  application_id = scaleway_iam_application.dns_updater.id
-  name           = "DNS Updater"
-
-  rule {
-    permission_set_names = [
-      "DomainsDNSFullAccess",
-    ]
-
-    project_ids = [
-      data.scaleway_account_project.default.project_id,
-    ]
-  }
-}
-
-resource "scaleway_iam_api_key" "dns_updater" {
-  application_id = scaleway_iam_application.dns_updater.id
-}
-
 resource "scaleway_iam_application" "github_actions" {
   name = "GitHub Actions"
 }
