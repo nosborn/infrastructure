@@ -12,6 +12,11 @@ terraform {
       version = "0.12.1"
     }
 
+    hcloud = {
+      source  = "hetznercloud/hcloud"
+      version = "1.60.1"
+    }
+
     scaleway = {
       source  = "scaleway/scaleway"
       version = "2.70.1"
