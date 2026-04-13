@@ -443,10 +443,6 @@ resource "scaleway_domain_record" "atproto_txt" { # BlueSky verification
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "_atproto"
   type     = "TXT"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "bing_cname" {
@@ -454,10 +450,6 @@ resource "scaleway_domain_record" "bing_cname" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "7f33c9bdcbfc881a50d3f5db24af19e9"
   type     = "CNAME"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "caa_iodef" {
@@ -465,10 +457,6 @@ resource "scaleway_domain_record" "caa_iodef" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = ""
   type     = "CAA"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "caa_issue" {
@@ -476,10 +464,6 @@ resource "scaleway_domain_record" "caa_issue" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = ""
   type     = "CAA"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "caa_issuewild" {
@@ -487,10 +471,6 @@ resource "scaleway_domain_record" "caa_issuewild" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = ""
   type     = "CAA"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "dmarc_txt" {
@@ -498,10 +478,6 @@ resource "scaleway_domain_record" "dmarc_txt" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "_dmarc"
   type     = "TXT"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "github_pages_txt" {
@@ -509,10 +485,6 @@ resource "scaleway_domain_record" "github_pages_txt" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "_github-pages-challenge-nosborn"
   type     = "TXT"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "keybase_txt" {
@@ -520,10 +492,6 @@ resource "scaleway_domain_record" "keybase_txt" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "_keybase"
   type     = "TXT"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "mx" {
@@ -537,10 +505,6 @@ resource "scaleway_domain_record" "mx" {
   name     = ""
   priority = 10
   type     = "MX"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "nick_mx" {
@@ -554,10 +518,6 @@ resource "scaleway_domain_record" "nick_mx" {
   name     = "nick"
   priority = 10
   type     = "MX"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "nick_sig1_domainkey_cname" {
@@ -565,10 +525,6 @@ resource "scaleway_domain_record" "nick_sig1_domainkey_cname" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "sig1._domainkey.nick"
   type     = "CNAME"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "nick_txt" {
@@ -581,76 +537,6 @@ resource "scaleway_domain_record" "nick_txt" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "nick"
   type     = "TXT"
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "scaleway_domain_record" "pds_a" {
-  data     = var.tombstone_ipv4_address
-  dns_zone = data.scaleway_domain_zone.this.domain
-  name     = "pds"
-  type     = "A"
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "scaleway_domain_record" "pds_aaaa" {
-  data     = var.tombstone_ipv6_address
-  dns_zone = data.scaleway_domain_zone.this.domain
-  name     = "pds"
-  type     = "AAAA"
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "scaleway_domain_record" "pds_https" {
-  data     = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
-  dns_zone = data.scaleway_domain_zone.this.domain
-  name     = "pds"
-  type     = "HTTPS"
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "scaleway_domain_record" "pds_wildcard_a" {
-  data     = var.tombstone_ipv4_address
-  dns_zone = data.scaleway_domain_zone.this.domain
-  name     = "*.pds"
-  type     = "A"
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "scaleway_domain_record" "pds_wildcard_aaaa" {
-  data     = var.tombstone_ipv6_address
-  dns_zone = data.scaleway_domain_zone.this.domain
-  name     = "*.pds"
-  type     = "AAAA"
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "scaleway_domain_record" "pds_wildcard_https" {
-  data     = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
-  dns_zone = data.scaleway_domain_zone.this.domain
-  name     = "*.pds"
-  type     = "HTTPS"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "scaleway_challenge_txt" {
@@ -658,10 +544,6 @@ resource "scaleway_domain_record" "scaleway_challenge_txt" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "_scaleway-challenge"
   type     = "TXT"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "sig1_domainkey_cname" {
@@ -669,10 +551,6 @@ resource "scaleway_domain_record" "sig1_domainkey_cname" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "sig1._domainkey"
   type     = "CNAME"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "txt" {
@@ -687,10 +565,6 @@ resource "scaleway_domain_record" "txt" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = ""
   type     = "TXT"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "tombstone_a" {
@@ -698,10 +572,6 @@ resource "scaleway_domain_record" "tombstone_a" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "tombstone"
   type     = "A"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "tombstone_aaaa" {
@@ -709,10 +579,6 @@ resource "scaleway_domain_record" "tombstone_aaaa" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "tombstone"
   type     = "AAAA"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "tombstone_https" {
@@ -720,10 +586,6 @@ resource "scaleway_domain_record" "tombstone_https" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "tombstone"
   type     = "HTTPS"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "tombstone_mx" {
@@ -737,10 +599,6 @@ resource "scaleway_domain_record" "tombstone_mx" {
   name     = "tombstone"
   priority = 10
   type     = "MX"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "tombstone_sig1_domainkey_cname" {
@@ -748,10 +606,6 @@ resource "scaleway_domain_record" "tombstone_sig1_domainkey_cname" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "sig1._domainkey.tombstone"
   type     = "CNAME"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "scaleway_domain_record" "tombstone_txt" {
@@ -764,10 +618,6 @@ resource "scaleway_domain_record" "tombstone_txt" {
   dns_zone = data.scaleway_domain_zone.this.domain
   name     = "tombstone"
   type     = "TXT"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 data "scaleway_domain_zone" "this" {

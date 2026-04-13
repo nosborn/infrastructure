@@ -1,25 +1,37 @@
-resource "scaleway_domain_record" "a" {
+resource "hcloud_zone_rrset" "a" {
   for_each = toset([
-    "",
+    "@",
     "www",
   ])
 
-  data     = "95.217.26.94"
-  dns_zone = var.domain_name
-  name     = each.key
-  ttl      = 60
-  type     = "A"
+  name = each.key
+  type = "A"
+  zone = var.domain_name
+
+  records = [
+    {
+      value = "95.217.26.94"
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
-resource "scaleway_domain_record" "aaaa" {
+resource "hcloud_zone_rrset" "aaaa" {
   for_each = toset([
-    "",
+    "@",
     "www",
   ])
 
-  data     = "2a01:4f9:c01f:8002::"
-  dns_zone = var.domain_name
-  name     = each.key
-  ttl      = 60
-  type     = "AAAA"
+  name = each.key
+  type = "AAAA"
+  zone = var.domain_name
+
+  records = [
+    {
+      value = "2a01:4f9:c01f:8002::"
+    },
+  ]
 }

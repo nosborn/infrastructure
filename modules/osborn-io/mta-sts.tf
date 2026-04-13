@@ -1,13 +1,12 @@
 module "mta_sts" {
   source = "../mta-sts"
 
-  domain_name          = data.scaleway_domain_zone.this.domain
+  domain_name          = hcloud_zone.this.name
   id                   = "20220916115504Z"
-  mx_fqdns             = [for v in scaleway_domain_record.mx : trimsuffix(v.data, ".")]
+  mx_fqdns             = [for v in hcloud_zone_rrset.mx.records : trimsuffix(split(" ", v.value)[1], ".")]
   statichost_site_name = "mta-sts-osborn-io"
 
   depends_on = [
-    scaleway_domain_record.caa_iodef,
-    scaleway_domain_record.caa_issue,
+    hcloud_zone_rrset.caa,
   ]
 }

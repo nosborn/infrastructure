@@ -5,9 +5,9 @@ terraform { # tflint-ignore: terraform_required_version
       version = "6.11.1"
     }
 
-    scaleway = {
-      source  = "scaleway/scaleway"
-      version = "2.70.1"
+    hcloud = {
+      source  = "hetznercloud/hcloud"
+      version = "1.60.1"
     }
   }
 }

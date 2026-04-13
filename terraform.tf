@@ -2,29 +2,9 @@ terraform {
   required_version = "~> 1.14"
 
   required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "6.39.0"
-    }
-
     b2 = {
       source  = "Backblaze/b2"
       version = "0.12.1"
-    }
-
-    hcloud = {
-      source  = "hetznercloud/hcloud"
-      version = "1.60.1"
-    }
-
-    scaleway = {
-      source  = "scaleway/scaleway"
-      version = "2.70.1"
-    }
-
-    time = {
-      source  = "hashicorp/time"
-      version = "0.13.1"
     }
   }
 }

@@ -26,9 +26,6 @@ updates:
       scaleway-provider:
         patterns:
           - scaleway/scaleway
-      time-provider:
-        patterns:
-          - hashicorp/time
       other-providers:
         patterns:
           - "*"
