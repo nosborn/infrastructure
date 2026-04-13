@@ -26,10 +26,5 @@ terraform {
       source  = "hashicorp/time"
       version = "0.13.1"
     }
-
-    vultr = {
-      source  = "vultr/vultr"
-      version = "2.30.1"
-    }
   }
 }

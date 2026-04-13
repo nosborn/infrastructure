@@ -29,9 +29,6 @@ updates:
       time-provider:
         patterns:
           - hashicorp/time
-      vultr-provider:
-        patterns:
-          - vultr/vultr
       other-providers:
         patterns:
           - "*"
