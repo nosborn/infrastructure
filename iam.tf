@@ -77,29 +77,6 @@ resource "scaleway_iam_api_key" "github_actions" {
   expires_at     = time_rotating.every_90_days.rotation_rfc3339
 }
 
-resource "scaleway_iam_application" "lego" {
-  name = "Lego"
-}
-
-resource "scaleway_iam_policy" "lego" {
-  application_id = scaleway_iam_application.lego.id
-  name           = "Lego"
-
-  rule {
-    permission_set_names = [
-      "DomainsDNSFullAccess",
-    ]
-
-    project_ids = [
-      data.scaleway_account_project.default.project_id,
-    ]
-  }
-}
-
-resource "scaleway_iam_api_key" "lego" {
-  application_id = scaleway_iam_application.lego.id
-}
-
 resource "time_rotating" "every_90_days" {
   rotation_days = 90
 }
