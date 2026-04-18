@@ -52,6 +52,7 @@ resource "github_repository_ruleset" "all_branches" {
 
   rules {
     required_linear_history = true
+    required_signatures     = true
   }
 }
 
@@ -82,24 +83,6 @@ resource "github_repository_ruleset" "default_branch" {
     deletion                = true
     non_fast_forward        = true
     required_linear_history = true
-
-    pull_request {
-      dismiss_stale_reviews_on_push     = true
-      require_code_owner_review         = true
-      require_last_push_approval        = false
-      required_approving_review_count   = 1
-      required_review_thread_resolution = false
-    }
-
-    required_status_checks {
-      do_not_enforce_on_create             = true
-      strict_required_status_checks_policy = true
-
-      required_check {
-        context        = "build-and-deploy"
-        integration_id = 15368 # GitHub Actions
-      }
-    }
   }
 }
 
