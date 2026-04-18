@@ -23,9 +23,6 @@ updates:
       github-provider:
         patterns:
           - integrations/github
-      scaleway-provider:
-        patterns:
-          - scaleway/scaleway
       other-providers:
         patterns:
           - "*"
