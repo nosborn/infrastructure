@@ -183,101 +183,101 @@ resource "hcloud_zone_rrset" "nick_txt" {
   }
 }
 
-resource "hcloud_zone_rrset" "pds_a" {
-  zone = hcloud_zone.this.name
-  name = "pds"
-  type = "A"
+# resource "hcloud_zone_rrset" "pds_a" {
+#   zone = hcloud_zone.this.name
+#   name = "pds"
+#   type = "A"
+#
+#   records = [
+#     {
+#       value = var.tombstone_ipv4_address
+#     },
+#   ]
+#
+#   lifecycle {
+#     prevent_destroy = true
+#   }
+# }
 
-  records = [
-    {
-      value = var.tombstone_ipv4_address
-    },
-  ]
+# resource "hcloud_zone_rrset" "pds_aaaa" {
+#   zone = hcloud_zone.this.name
+#   name = "pds"
+#   type = "AAAA"
+#
+#   records = [
+#     {
+#       value = var.tombstone_ipv6_address
+#     },
+#   ]
+#
+#   lifecycle {
+#     prevent_destroy = true
+#   }
+# }
 
-  lifecycle {
-    prevent_destroy = true
-  }
-}
+# resource "hcloud_zone_rrset" "pds_https" {
+#   zone = hcloud_zone.this.name
+#   name = "pds"
+#   type = "HTTPS"
+#
+#   records = [
+#     {
+#       value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
+#     },
+#   ]
+#
+#   lifecycle {
+#     prevent_destroy = true
+#   }
+# }
 
-resource "hcloud_zone_rrset" "pds_aaaa" {
-  zone = hcloud_zone.this.name
-  name = "pds"
-  type = "AAAA"
+# resource "hcloud_zone_rrset" "pds_wildcard_a" {
+#   zone = hcloud_zone.this.name
+#   name = "*.pds"
+#   type = "A"
+#
+#   records = [
+#     {
+#       value = var.tombstone_ipv4_address
+#     },
+#   ]
+#
+#   lifecycle {
+#     prevent_destroy = true
+#   }
+# }
 
-  records = [
-    {
-      value = var.tombstone_ipv6_address
-    },
-  ]
+# resource "hcloud_zone_rrset" "pds_wildcard_aaaa" {
+#   zone = hcloud_zone.this.name
+#   name = "*.pds"
+#   type = "AAAA"
+#
+#   records = [
+#     {
+#       value = var.tombstone_ipv6_address
+#     },
+#   ]
+#
+#   lifecycle {
+#     prevent_destroy = true
+#   }
+# }
 
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "hcloud_zone_rrset" "pds_https" {
-  zone = hcloud_zone.this.name
-  name = "pds"
-  type = "HTTPS"
-
-  records = [
-    {
-      value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
-    },
-  ]
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "hcloud_zone_rrset" "pds_wildcard_a" {
-  zone = hcloud_zone.this.name
-  name = "*.pds"
-  type = "A"
-
-  records = [
-    {
-      value = var.tombstone_ipv4_address
-    },
-  ]
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "hcloud_zone_rrset" "pds_wildcard_aaaa" {
-  zone = hcloud_zone.this.name
-  name = "*.pds"
-  type = "AAAA"
-
-  records = [
-    {
-      value = var.tombstone_ipv6_address
-    },
-  ]
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "hcloud_zone_rrset" "pds_wildcard_https" {
-  zone = hcloud_zone.this.name
-  name = "*.pds"
-  type = "HTTPS"
-
-  records = [
-    {
-      value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
-    },
-  ]
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
+# resource "hcloud_zone_rrset" "pds_wildcard_https" {
+#   zone = hcloud_zone.this.name
+#   name = "*.pds"
+#   type = "HTTPS"
+#
+#   records = [
+#     {
+#       value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
+#     },
+#   ]
+#
+#   lifecycle {
+#     prevent_destroy = true
+#   }
+# }
 
 resource "hcloud_zone_rrset" "scaleway_challenge_txt" {
   zone = hcloud_zone.this.name
@@ -311,31 +311,6 @@ resource "hcloud_zone_rrset" "sig1_domainkey_cname" {
   }
 }
 
-resource "hcloud_zone_rrset" "txt" {
-  zone = hcloud_zone.this.name
-  name = "@"
-  type = "TXT"
-
-  records = [
-    {
-      value = provider::hcloud::txt_record("apple-domain=LhyS4pqHWL1l8vPv")
-    },
-    {
-      value = provider::hcloud::txt_record("google-site-verification=7sk8qJzYVrVYBq6gk135CfGRaLAa2fH5hWhEVEBNgqI")
-    },
-    {
-      value = provider::hcloud::txt_record("hosted-email-verify=8dqgaz7q")
-    },
-    {
-      value = provider::hcloud::txt_record("v=spf1 include:icloud.com -all")
-    },
-  ]
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
 resource "hcloud_zone_rrset" "tombstone_a" {
   zone = hcloud_zone.this.name
   name = "tombstone"
@@ -360,6 +335,28 @@ resource "hcloud_zone_rrset" "tombstone_aaaa" {
   records = [
     {
       value = var.tombstone_ipv6_address
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "hcloud_zone_rrset" "tombstone_caa" {
+  zone = hcloud_zone.this.name
+  name = "tombstone"
+  type = "CAA"
+
+  records = [
+    {
+      value = "0 iodef \"${var.caa_iodef_url}\""
+    },
+    {
+      value = "0 issue \"letsencrypt.org;validationmethods=tls-alpn-01\""
+    },
+    {
+      value = "0 issuewild \";\""
     },
   ]
 
@@ -430,6 +427,31 @@ resource "hcloud_zone_rrset" "tombstone_txt" {
     },
     {
       value = provider::hcloud::txt_record("v=spf1 include:icloud.com ~all")
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "hcloud_zone_rrset" "txt" {
+  zone = hcloud_zone.this.name
+  name = "@"
+  type = "TXT"
+
+  records = [
+    {
+      value = provider::hcloud::txt_record("apple-domain=LhyS4pqHWL1l8vPv")
+    },
+    {
+      value = provider::hcloud::txt_record("google-site-verification=7sk8qJzYVrVYBq6gk135CfGRaLAa2fH5hWhEVEBNgqI")
+    },
+    {
+      value = provider::hcloud::txt_record("hosted-email-verify=8dqgaz7q")
+    },
+    {
+      value = provider::hcloud::txt_record("v=spf1 include:icloud.com -all")
     },
   ]
 
