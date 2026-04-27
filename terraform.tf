@@ -6,5 +6,15 @@ terraform {
       source  = "Backblaze/b2"
       version = "0.12.1"
     }
+
+    hcloud = {
+      source  = "hetznercloud/hcloud"
+      version = "1.62.0"
+    }
+
+    random = {
+      source  = "hashicorp/random"
+      version = "3.8.1"
+    }
   }
 }

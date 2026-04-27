@@ -12,7 +12,6 @@ resource "github_repository" "this" { # tfsec:ignore:github-repositories-private
   license_template       = "mit"
   name                   = "www.${var.domain_name}"
   visibility             = "public"
-  vulnerability_alerts   = true
 
   topics = [
     "static-website",
@@ -33,6 +32,11 @@ resource "github_repository" "this" { # tfsec:ignore:github-repositories-private
 #   branch     = "main"
 #   repository = github_repository.www.name
 # }
+
+resource "github_repository_vulnerability_alerts" "this" {
+  repository = github_repository.this.name
+  enabled    = true
+}
 
 resource "github_repository_ruleset" "all_branches" {
   enforcement = "active"

@@ -1,4 +1,4 @@
-resource "b2_bucket" "diskstation" {
+resource "b2_bucket" "diskstation" { # DEPRECATED
   bucket_name = "io-osborn-diskstation"
   bucket_type = "allPrivate"
 
@@ -13,7 +13,7 @@ resource "b2_bucket" "diskstation" {
   }
 }
 
-resource "b2_bucket" "hyperbackup" {
+resource "b2_bucket" "hyperbackup" { # DEPRECATED
   bucket_name = "io-osborn-hyperbackup"
   bucket_type = "allPrivate"
 
@@ -23,7 +23,7 @@ resource "b2_bucket" "hyperbackup" {
   }
 }
 
-resource "b2_application_key" "cloudsync" {
+resource "b2_application_key" "cloudsync" { # DEPRECATED
   key_name = "CloudSync"
 
   bucket_ids = [
@@ -40,7 +40,7 @@ resource "b2_application_key" "cloudsync" {
   ]
 }
 
-resource "b2_application_key" "hyperbackup" {
+resource "b2_application_key" "hyperbackup" { # DEPRECATED
   key_name = "HyperBackup"
 
   bucket_ids = [

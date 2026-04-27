@@ -10,7 +10,6 @@ resource "github_repository" "this" { # tfsec:ignore:github-repositories-private
   has_wiki               = false
   name                   = "mta-sts.${var.domain_name}"
   visibility             = "public"
-  vulnerability_alerts   = true
 
   topics = [
     "static-website",
@@ -25,6 +24,11 @@ resource "github_repository" "this" { # tfsec:ignore:github-repositories-private
       status = "enabled"
     }
   }
+}
+
+resource "github_repository_vulnerability_alerts" "this" {
+  repository = github_repository.this.name
+  enabled    = true
 }
 
 resource "github_repository_webhook" "this" {
