@@ -2,7 +2,7 @@ terraform { # tflint-ignore: terraform_required_version
   required_providers {
     github = {
       source  = "integrations/github"
-      version = "6.12.0"
+      version = "6.12.1"
     }
 
     hcloud = {
