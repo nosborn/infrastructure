@@ -1,8 +1,3 @@
-moved {
-  from = module.redzebraconsulting_com.hcloud_zone.this
-  to   = hcloud_zone.com_redzebraconsulting
-}
-
 resource "hcloud_zone" "com_redzebraconsulting" {
   name              = "redzebraconsulting.com"
   mode              = "primary"
@@ -11,11 +6,6 @@ resource "hcloud_zone" "com_redzebraconsulting" {
   lifecycle {
     prevent_destroy = true
   }
-}
-
-moved {
-  from = module.redzebraconsulting_com.hcloud_zone_rrset.caa
-  to   = hcloud_zone_rrset.com_redzebraconsulting_caa
 }
 
 resource "hcloud_zone_rrset" "com_redzebraconsulting_caa" {
@@ -37,11 +27,6 @@ resource "hcloud_zone_rrset" "com_redzebraconsulting_caa" {
   }
 }
 
-moved {
-  from = module.redzebraconsulting_com.hcloud_zone_rrset.domainkey_txt
-  to   = hcloud_zone_rrset.com_redzebraconsulting_domainkey_txt
-}
-
 resource "hcloud_zone_rrset" "com_redzebraconsulting_domainkey_txt" {
   zone = hcloud_zone.com_redzebraconsulting.name
   name = "*._domainkey"
@@ -56,11 +41,6 @@ resource "hcloud_zone_rrset" "com_redzebraconsulting_domainkey_txt" {
   lifecycle {
     prevent_destroy = true
   }
-}
-
-moved {
-  from = module.redzebraconsulting_com.hcloud_zone_rrset.dmarc_txt
-  to   = hcloud_zone_rrset.com_redzebraconsulting_dmarc_txt
 }
 
 resource "hcloud_zone_rrset" "com_redzebraconsulting_dmarc_txt" {
@@ -79,11 +59,6 @@ resource "hcloud_zone_rrset" "com_redzebraconsulting_dmarc_txt" {
   }
 }
 
-moved {
-  from = module.redzebraconsulting_com.hcloud_zone_rrset.github_pages_txt
-  to   = hcloud_zone_rrset.com_redzebraconsulting_github_pages_txt
-}
-
 resource "hcloud_zone_rrset" "com_redzebraconsulting_github_pages_txt" {
   zone = hcloud_zone.com_redzebraconsulting.name
   name = "_github-pages-challenge-nosborn"
@@ -100,11 +75,6 @@ resource "hcloud_zone_rrset" "com_redzebraconsulting_github_pages_txt" {
   }
 }
 
-moved {
-  from = module.redzebraconsulting_com.hcloud_zone_rrset.mx
-  to   = hcloud_zone_rrset.com_redzebraconsulting_mx
-}
-
 resource "hcloud_zone_rrset" "com_redzebraconsulting_mx" {
   zone = hcloud_zone.com_redzebraconsulting.name
   name = "@"
@@ -119,11 +89,6 @@ resource "hcloud_zone_rrset" "com_redzebraconsulting_mx" {
   lifecycle {
     prevent_destroy = true
   }
-}
-
-moved {
-  from = module.redzebraconsulting_com.hcloud_zone_rrset.txt
-  to   = hcloud_zone_rrset.com_redzebraconsulting_txt
 }
 
 resource "hcloud_zone_rrset" "com_redzebraconsulting_txt" {

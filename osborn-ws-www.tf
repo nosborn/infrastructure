@@ -1,8 +1,3 @@
-moved {
-  from = module.osborn_ws.module.www.github_repository.this
-  to   = github_repository.ws_osborn_www
-}
-
 resource "github_repository" "ws_osborn_www" { # tfsec:ignore:github-repositories-private
   allow_merge_commit     = false
   allow_squash_merge     = false
@@ -33,26 +28,6 @@ resource "github_repository" "ws_osborn_www" { # tfsec:ignore:github-repositorie
   }
 }
 
-# resource "github_branch_default" "ws_osborn_www" {
-#   branch     = "main"
-#   repository = github_repository.ws_osborn_www.name
-# }
-
-moved {
-  from = module.osborn_ws.module.www.github_repository_vulnerability_alerts.this
-  to   = github_repository_vulnerability_alerts.ws_osborn_www
-}
-
-resource "github_repository_vulnerability_alerts" "ws_osborn_www" {
-  repository = github_repository.ws_osborn_www.name
-  enabled    = true
-}
-
-moved {
-  from = module.osborn_ws.module.www.github_repository_ruleset.all_branches
-  to   = github_repository_ruleset.ws_osborn_www_all_branches
-}
-
 resource "github_repository_ruleset" "ws_osborn_www_all_branches" {
   enforcement = "active"
   name        = "All Branches"
@@ -73,11 +48,6 @@ resource "github_repository_ruleset" "ws_osborn_www_all_branches" {
     required_linear_history = true
     required_signatures     = true
   }
-}
-
-moved {
-  from = module.osborn_ws.module.www.github_repository_ruleset.default_branch
-  to   = github_repository_ruleset.ws_osborn_www_default_branch
 }
 
 resource "github_repository_ruleset" "ws_osborn_www_default_branch" {
@@ -110,9 +80,9 @@ resource "github_repository_ruleset" "ws_osborn_www_default_branch" {
   }
 }
 
-moved {
-  from = module.osborn_ws.module.www.github_repository_webhook.this
-  to   = github_repository_webhook.ws_osborn_www_statichost
+resource "github_repository_vulnerability_alerts" "ws_osborn_www" {
+  repository = github_repository.ws_osborn_www.name
+  enabled    = true
 }
 
 resource "github_repository_webhook" "ws_osborn_www_statichost" {
@@ -126,11 +96,6 @@ resource "github_repository_webhook" "ws_osborn_www_statichost" {
     content_type = "json"
     url          = "https://builder.statichost.eu/www-osborn-ws"
   }
-}
-
-moved {
-  from = module.osborn_ws.module.www.hcloud_zone_rrset.a["@"]
-  to   = hcloud_zone_rrset.ws_osborn_a
 }
 
 resource "hcloud_zone_rrset" "ws_osborn_a" {
@@ -149,11 +114,6 @@ resource "hcloud_zone_rrset" "ws_osborn_a" {
   }
 }
 
-moved {
-  from = module.osborn_ws.module.www.hcloud_zone_rrset.aaaa["@"]
-  to   = hcloud_zone_rrset.ws_osborn_aaaa
-}
-
 resource "hcloud_zone_rrset" "ws_osborn_aaaa" {
   name = "@"
   type = "AAAA"
@@ -166,11 +126,6 @@ resource "hcloud_zone_rrset" "ws_osborn_aaaa" {
   ]
 }
 
-moved {
-  from = module.osborn_ws.module.www.hcloud_zone_rrset.https["@"]
-  to   = hcloud_zone_rrset.ws_osborn_https
-}
-
 resource "hcloud_zone_rrset" "ws_osborn_https" {
   name = "@"
   type = "HTTPS"
@@ -181,11 +136,6 @@ resource "hcloud_zone_rrset" "ws_osborn_https" {
       value = "0 www.${hcloud_zone.ws_osborn.name}."
     },
   ]
-}
-
-moved {
-  from = module.osborn_ws.module.www.hcloud_zone_rrset.a["www"]
-  to   = hcloud_zone_rrset.ws_osborn_www_a
 }
 
 resource "hcloud_zone_rrset" "ws_osborn_www_a" {
@@ -204,11 +154,6 @@ resource "hcloud_zone_rrset" "ws_osborn_www_a" {
   }
 }
 
-moved {
-  from = module.osborn_ws.module.www.hcloud_zone_rrset.aaaa["www"]
-  to   = hcloud_zone_rrset.ws_osborn_www_aaaa
-}
-
 resource "hcloud_zone_rrset" "ws_osborn_www_aaaa" {
   name = "www"
   type = "AAAA"
@@ -219,11 +164,6 @@ resource "hcloud_zone_rrset" "ws_osborn_www_aaaa" {
       value = local.statichost_ipv6_address
     },
   ]
-}
-
-moved {
-  from = module.osborn_ws.module.www.hcloud_zone_rrset.https["www"]
-  to   = hcloud_zone_rrset.ws_osborn_www_https
 }
 
 resource "hcloud_zone_rrset" "ws_osborn_www_https" {

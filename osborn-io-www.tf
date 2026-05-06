@@ -28,16 +28,6 @@ resource "github_repository" "io_osborn_www" { # tfsec:ignore:github-repositorie
   }
 }
 
-# resource "github_branch_default" "io_osborn_www" {
-#   branch     = "main"
-#   repository = github_repository.io_osborn_www.name
-# }
-
-resource "github_repository_vulnerability_alerts" "io_osborn_www" {
-  repository = github_repository.io_osborn_www.name
-  enabled    = true
-}
-
 resource "github_repository_ruleset" "io_osborn_www_all_branches" {
   enforcement = "active"
   name        = "All Branches"
@@ -88,6 +78,11 @@ resource "github_repository_ruleset" "io_osborn_www_default_branch" {
     non_fast_forward        = true
     required_linear_history = true
   }
+}
+
+resource "github_repository_vulnerability_alerts" "io_osborn_www" {
+  repository = github_repository.io_osborn_www.name
+  enabled    = true
 }
 
 resource "github_repository_webhook" "io_osborn_www_statichost" {

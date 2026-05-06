@@ -4,6 +4,7 @@ resource "github_repository" "io_osborn_mta_sts" { # tfsec:ignore:github-reposit
   allow_update_branch    = true
   archive_on_destroy     = true
   delete_branch_on_merge = true
+  description            = "Source for [https://mta-sts.${hcloud_zone.io_osborn.name}]."
   has_discussions        = false
   has_issues             = false
   has_projects           = false
@@ -12,6 +13,7 @@ resource "github_repository" "io_osborn_mta_sts" { # tfsec:ignore:github-reposit
   visibility             = "public"
 
   topics = [
+    "mta-sts",
     "static-website",
   ]
 
@@ -23,6 +25,58 @@ resource "github_repository" "io_osborn_mta_sts" { # tfsec:ignore:github-reposit
     secret_scanning_push_protection {
       status = "enabled"
     }
+  }
+}
+
+resource "github_repository_ruleset" "io_osborn_mta_sts_all_branches" {
+  enforcement = "active"
+  name        = "All Branches"
+  repository  = github_repository.io_osborn_mta_sts.name
+  target      = "branch"
+
+  conditions {
+    ref_name {
+      exclude = []
+
+      include = [
+        "~ALL",
+      ]
+    }
+  }
+
+  rules {
+    required_linear_history = true
+    required_signatures     = false # Terraform doesn't sign commits
+  }
+}
+
+resource "github_repository_ruleset" "io_osborn_mta_sts_default_branch" {
+  enforcement = "active"
+  name        = "Default Branch"
+  repository  = github_repository.io_osborn_mta_sts.name
+  target      = "branch"
+
+  conditions {
+    ref_name {
+      exclude = []
+
+      include = [
+        "~DEFAULT_BRANCH",
+      ]
+    }
+  }
+
+  bypass_actors {
+    actor_id    = 5 # admin
+    actor_type  = "RepositoryRole"
+    bypass_mode = "always"
+  }
+
+  rules {
+    creation                = true
+    deletion                = true
+    non_fast_forward        = true
+    required_linear_history = true
   }
 }
 

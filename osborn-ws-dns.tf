@@ -1,8 +1,3 @@
-moved {
-  from = module.osborn_ws.hcloud_zone.this
-  to   = hcloud_zone.ws_osborn
-}
-
 resource "hcloud_zone" "ws_osborn" {
   name              = "osborn.ws"
   mode              = "primary"
@@ -11,11 +6,6 @@ resource "hcloud_zone" "ws_osborn" {
   lifecycle {
     prevent_destroy = true
   }
-}
-
-moved {
-  from = module.osborn_ws.hcloud_zone_rrset.caa
-  to   = hcloud_zone_rrset.ws_osborn_caa
 }
 
 resource "hcloud_zone_rrset" "ws_osborn_caa" {
@@ -40,11 +30,6 @@ resource "hcloud_zone_rrset" "ws_osborn_caa" {
   }
 }
 
-moved {
-  from = module.osborn_ws.hcloud_zone_rrset.dmarc_txt
-  to   = hcloud_zone_rrset.ws_osborn_dmarc_txt
-}
-
 resource "hcloud_zone_rrset" "ws_osborn_dmarc_txt" {
   zone = hcloud_zone.ws_osborn.name
   name = "_dmarc"
@@ -59,11 +44,6 @@ resource "hcloud_zone_rrset" "ws_osborn_dmarc_txt" {
   lifecycle {
     prevent_destroy = true
   }
-}
-
-moved {
-  from = module.osborn_ws.hcloud_zone_rrset.domainkey_google_txt
-  to   = hcloud_zone_rrset.ws_osborn_domainkey_google_txt
 }
 
 resource "hcloud_zone_rrset" "ws_osborn_domainkey_google_txt" {
@@ -90,11 +70,6 @@ resource "hcloud_zone_rrset" "ws_osborn_domainkey_google_txt" {
   }
 }
 
-moved {
-  from = module.osborn_ws.hcloud_zone_rrset.family_cname
-  to   = hcloud_zone_rrset.ws_osborn_family_cname
-}
-
 resource "hcloud_zone_rrset" "ws_osborn_family_cname" {
   zone = hcloud_zone.ws_osborn.name
   name = "family"
@@ -109,11 +84,6 @@ resource "hcloud_zone_rrset" "ws_osborn_family_cname" {
   lifecycle {
     prevent_destroy = true
   }
-}
-
-moved {
-  from = module.osborn_ws.hcloud_zone_rrset.github_pages_txt
-  to   = hcloud_zone_rrset.ws_osborn_github_pages_txt
 }
 
 resource "hcloud_zone_rrset" "ws_osborn_github_pages_txt" {
@@ -132,11 +102,6 @@ resource "hcloud_zone_rrset" "ws_osborn_github_pages_txt" {
   }
 }
 
-moved {
-  from = module.osborn_ws.hcloud_zone_rrset.lordbill47_cname
-  to   = hcloud_zone_rrset.ws_osborn_lordbill47_cname
-}
-
 resource "hcloud_zone_rrset" "ws_osborn_lordbill47_cname" {
   zone = hcloud_zone.ws_osborn.name
   name = "lordbill47"
@@ -151,11 +116,6 @@ resource "hcloud_zone_rrset" "ws_osborn_lordbill47_cname" {
   lifecycle {
     prevent_destroy = true
   }
-}
-
-moved {
-  from = module.osborn_ws.hcloud_zone_rrset.mx
-  to   = hcloud_zone_rrset.ws_osborn_mx
 }
 
 resource "hcloud_zone_rrset" "ws_osborn_mx" {
@@ -186,11 +146,6 @@ resource "hcloud_zone_rrset" "ws_osborn_mx" {
   }
 }
 
-moved {
-  from = module.osborn_ws.hcloud_zone_rrset.test_cname
-  to   = hcloud_zone_rrset.ws_osborn_test_cname
-}
-
 resource "hcloud_zone_rrset" "ws_osborn_test_cname" {
   zone = hcloud_zone.ws_osborn.name
   name = "test"
@@ -205,11 +160,6 @@ resource "hcloud_zone_rrset" "ws_osborn_test_cname" {
   lifecycle {
     prevent_destroy = true
   }
-}
-
-moved {
-  from = module.osborn_ws.hcloud_zone_rrset.test_dmarc_txt
-  to   = hcloud_zone_rrset.ws_osborn_test_dmarc_txt
 }
 
 resource "hcloud_zone_rrset" "ws_osborn_test_dmarc_txt" {
@@ -228,11 +178,6 @@ resource "hcloud_zone_rrset" "ws_osborn_test_dmarc_txt" {
   }
 }
 
-moved {
-  from = module.osborn_ws.hcloud_zone_rrset.test_dkim_txt
-  to   = hcloud_zone_rrset.ws_osborn_test_domainkey_txt
-}
-
 resource "hcloud_zone_rrset" "ws_osborn_test_domainkey_txt" {
   zone = hcloud_zone.ws_osborn.name
   name = "*._domainkey.test"
@@ -247,11 +192,6 @@ resource "hcloud_zone_rrset" "ws_osborn_test_domainkey_txt" {
   lifecycle {
     prevent_destroy = true
   }
-}
-
-moved {
-  from = module.osborn_ws.hcloud_zone_rrset.txt
-  to   = hcloud_zone_rrset.ws_osborn_txt
 }
 
 resource "hcloud_zone_rrset" "ws_osborn_txt" {
@@ -271,11 +211,6 @@ resource "hcloud_zone_rrset" "ws_osborn_txt" {
   lifecycle {
     prevent_destroy = true
   }
-}
-
-moved {
-  from = module.osborn_ws.hcloud_zone_rrset.ww1_cname
-  to   = hcloud_zone_rrset.ws_osborn_ww1_cname
 }
 
 resource "hcloud_zone_rrset" "ws_osborn_ww1_cname" {
