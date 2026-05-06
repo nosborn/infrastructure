@@ -6,6 +6,10 @@ variable "dmarc_aggregate_reporting_address" { # tflint-ignore: terraform_docume
   type = string
 }
 
+variable "tls_json_reporting_address" { # tflint-ignore: terraform_documented_variables
+  type = string
+}
+
 variable "tombstone_ipv4_address" { # tflint-ignore: terraform_documented_variables
   type = string
 }

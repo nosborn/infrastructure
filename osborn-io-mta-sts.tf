@@ -57,7 +57,7 @@ mode: enforce
 %{for record in hcloud_zone_rrset.io_osborn_mx.records~}
 mx: ${trimsuffix(split(" ", record.value)[1], ".")}
 %{endfor~}
-max_age: 86400
+max_age: 604800
 EOT
 }
 
@@ -97,6 +97,18 @@ resource "hcloud_zone_rrset" "io_osborn_mta_sts_txt" {
   records = [
     {
       value = provider::hcloud::txt_record("v=STSv1; id=${formatdate("YYYYMMDDhhmmssZ", time_static.io_osborn_mta_sts_id.rfc3339)}")
+    },
+  ]
+}
+
+resource "hcloud_zone_rrset" "io_osborn_tls_smtp_txt" {
+  name = "_smtp._tls"
+  type = "TXT"
+  zone = hcloud_zone.io_osborn.name
+
+  records = [
+    {
+      value = provider::hcloud::txt_record("v=TLSRPTv1; rua=mailto:${var.tls_json_reporting_address}")
     },
   ]
 }
