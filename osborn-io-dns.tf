@@ -1,4 +1,4 @@
-resource "hcloud_zone" "this" {
+resource "hcloud_zone" "io_osborn" {
   name              = "osborn.io"
   mode              = "primary"
   delete_protection = true
@@ -8,8 +8,8 @@ resource "hcloud_zone" "this" {
   }
 }
 
-resource "hcloud_zone_rrset" "atproto_txt" { # BlueSky verification
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_atproto_txt" { # BlueSky verification
+  zone = hcloud_zone.io_osborn.name
   name = "_atproto"
   type = "TXT"
 
@@ -24,8 +24,8 @@ resource "hcloud_zone_rrset" "atproto_txt" { # BlueSky verification
   }
 }
 
-resource "hcloud_zone_rrset" "bing_cname" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_bing_verify_cname" {
+  zone = hcloud_zone.io_osborn.name
   name = "7f33c9bdcbfc881a50d3f5db24af19e9"
   type = "CNAME"
 
@@ -40,8 +40,8 @@ resource "hcloud_zone_rrset" "bing_cname" {
   }
 }
 
-resource "hcloud_zone_rrset" "caa" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_caa" {
+  zone = hcloud_zone.io_osborn.name
   name = "@"
   type = "CAA"
 
@@ -62,8 +62,8 @@ resource "hcloud_zone_rrset" "caa" {
   }
 }
 
-resource "hcloud_zone_rrset" "dmarc_txt" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_dmarc_txt" {
+  zone = hcloud_zone.io_osborn.name
   name = "_dmarc"
   type = "TXT"
 
@@ -78,8 +78,90 @@ resource "hcloud_zone_rrset" "dmarc_txt" {
   }
 }
 
-resource "hcloud_zone_rrset" "github_pages_txt" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_git_a" {
+  zone = hcloud_zone.io_osborn.name
+  name = "git"
+  type = "A"
+
+  records = [
+    {
+      value = var.tombstone_ipv4_address
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "hcloud_zone_rrset" "io_osborn_git_aaaa" {
+  zone = hcloud_zone.io_osborn.name
+  name = "git"
+  type = "AAAA"
+
+  records = [
+    {
+      value = var.tombstone_ipv6_address
+    },
+  ]
+}
+
+resource "hcloud_zone_rrset" "io_osborn_git_caa" {
+  zone = hcloud_zone.io_osborn.name
+  name = "git"
+  type = "CAA"
+
+  records = [
+    {
+      value = "0 iodef \"${var.caa_iodef_url}\""
+    },
+    {
+      value = "0 issue \"letsencrypt.org;validationmethods=tls-alpn-01\""
+    },
+    {
+      value = "0 issuewild \";\""
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "hcloud_zone_rrset" "io_osborn_git_https" {
+  zone = hcloud_zone.io_osborn.name
+  name = "git"
+  type = "HTTPS"
+
+  records = [
+    {
+      value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "hcloud_zone_rrset" "io_osborn_git_mx" {
+  zone = hcloud_zone.io_osborn.name
+  name = "git"
+  type = "MX"
+
+  records = [
+    {
+      value = "0 ."
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "hcloud_zone_rrset" "io_osborn_github_pages_challenge_txt" {
+  zone = hcloud_zone.io_osborn.name
   name = "_github-pages-challenge-nosborn"
   type = "TXT"
 
@@ -94,8 +176,8 @@ resource "hcloud_zone_rrset" "github_pages_txt" {
   }
 }
 
-resource "hcloud_zone_rrset" "keybase_txt" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_keybase_txt" {
+  zone = hcloud_zone.io_osborn.name
   name = "_keybase"
   type = "TXT"
 
@@ -110,8 +192,8 @@ resource "hcloud_zone_rrset" "keybase_txt" {
   }
 }
 
-resource "hcloud_zone_rrset" "mx" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_mx" {
+  zone = hcloud_zone.io_osborn.name
   name = "@"
   type = "MX"
 
@@ -129,8 +211,8 @@ resource "hcloud_zone_rrset" "mx" {
   }
 }
 
-resource "hcloud_zone_rrset" "nick_mx" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_nick_mx" {
+  zone = hcloud_zone.io_osborn.name
   name = "nick"
   type = "MX"
 
@@ -148,8 +230,8 @@ resource "hcloud_zone_rrset" "nick_mx" {
   }
 }
 
-resource "hcloud_zone_rrset" "nick_sig1_domainkey_cname" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_nick_domainkey_sig1_cname" {
+  zone = hcloud_zone.io_osborn.name
   name = "sig1._domainkey.nick"
   type = "CNAME"
 
@@ -164,8 +246,8 @@ resource "hcloud_zone_rrset" "nick_sig1_domainkey_cname" {
   }
 }
 
-resource "hcloud_zone_rrset" "nick_txt" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_nick_txt" {
+  zone = hcloud_zone.io_osborn.name
   name = "nick"
   type = "TXT"
 
@@ -183,104 +265,8 @@ resource "hcloud_zone_rrset" "nick_txt" {
   }
 }
 
-# resource "hcloud_zone_rrset" "pds_a" {
-#   zone = hcloud_zone.this.name
-#   name = "pds"
-#   type = "A"
-#
-#   records = [
-#     {
-#       value = var.tombstone_ipv4_address
-#     },
-#   ]
-#
-#   lifecycle {
-#     prevent_destroy = true
-#   }
-# }
-
-# resource "hcloud_zone_rrset" "pds_aaaa" {
-#   zone = hcloud_zone.this.name
-#   name = "pds"
-#   type = "AAAA"
-#
-#   records = [
-#     {
-#       value = var.tombstone_ipv6_address
-#     },
-#   ]
-#
-#   lifecycle {
-#     prevent_destroy = true
-#   }
-# }
-
-# resource "hcloud_zone_rrset" "pds_https" {
-#   zone = hcloud_zone.this.name
-#   name = "pds"
-#   type = "HTTPS"
-#
-#   records = [
-#     {
-#       value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
-#     },
-#   ]
-#
-#   lifecycle {
-#     prevent_destroy = true
-#   }
-# }
-
-# resource "hcloud_zone_rrset" "pds_wildcard_a" {
-#   zone = hcloud_zone.this.name
-#   name = "*.pds"
-#   type = "A"
-#
-#   records = [
-#     {
-#       value = var.tombstone_ipv4_address
-#     },
-#   ]
-#
-#   lifecycle {
-#     prevent_destroy = true
-#   }
-# }
-
-# resource "hcloud_zone_rrset" "pds_wildcard_aaaa" {
-#   zone = hcloud_zone.this.name
-#   name = "*.pds"
-#   type = "AAAA"
-#
-#   records = [
-#     {
-#       value = var.tombstone_ipv6_address
-#     },
-#   ]
-#
-#   lifecycle {
-#     prevent_destroy = true
-#   }
-# }
-
-# resource "hcloud_zone_rrset" "pds_wildcard_https" {
-#   zone = hcloud_zone.this.name
-#   name = "*.pds"
-#   type = "HTTPS"
-#
-#   records = [
-#     {
-#       value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
-#     },
-#   ]
-#
-#   lifecycle {
-#     prevent_destroy = true
-#   }
-# }
-
-resource "hcloud_zone_rrset" "scaleway_challenge_txt" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_scaleway_challenge_txt" {
+  zone = hcloud_zone.io_osborn.name
   name = "_scaleway-challenge"
   type = "TXT"
 
@@ -295,8 +281,8 @@ resource "hcloud_zone_rrset" "scaleway_challenge_txt" {
   }
 }
 
-resource "hcloud_zone_rrset" "sig1_domainkey_cname" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_domainkey_sig1_cname" {
+  zone = hcloud_zone.io_osborn.name
   name = "sig1._domainkey"
   type = "CNAME"
 
@@ -311,8 +297,8 @@ resource "hcloud_zone_rrset" "sig1_domainkey_cname" {
   }
 }
 
-resource "hcloud_zone_rrset" "tombstone_a" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_tombstone_a" {
+  zone = hcloud_zone.io_osborn.name
   name = "tombstone"
   type = "A"
 
@@ -327,8 +313,8 @@ resource "hcloud_zone_rrset" "tombstone_a" {
   }
 }
 
-resource "hcloud_zone_rrset" "tombstone_aaaa" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_tombstone_aaaa" {
+  zone = hcloud_zone.io_osborn.name
   name = "tombstone"
   type = "AAAA"
 
@@ -343,8 +329,8 @@ resource "hcloud_zone_rrset" "tombstone_aaaa" {
   }
 }
 
-resource "hcloud_zone_rrset" "tombstone_caa" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_tombstone_caa" {
+  zone = hcloud_zone.io_osborn.name
   name = "tombstone"
   type = "CAA"
 
@@ -365,8 +351,8 @@ resource "hcloud_zone_rrset" "tombstone_caa" {
   }
 }
 
-resource "hcloud_zone_rrset" "tombstone_https" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_tombstone_https" {
+  zone = hcloud_zone.io_osborn.name
   name = "tombstone"
   type = "HTTPS"
 
@@ -381,8 +367,8 @@ resource "hcloud_zone_rrset" "tombstone_https" {
   }
 }
 
-resource "hcloud_zone_rrset" "tombstone_mx" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_tombstone_mx" {
+  zone = hcloud_zone.io_osborn.name
   name = "tombstone"
   type = "MX"
 
@@ -400,8 +386,8 @@ resource "hcloud_zone_rrset" "tombstone_mx" {
   }
 }
 
-resource "hcloud_zone_rrset" "tombstone_sig1_domainkey_cname" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_tombstone_domainkey_sig1_cname" {
+  zone = hcloud_zone.io_osborn.name
   name = "sig1._domainkey.tombstone"
   type = "CNAME"
 
@@ -416,8 +402,8 @@ resource "hcloud_zone_rrset" "tombstone_sig1_domainkey_cname" {
   }
 }
 
-resource "hcloud_zone_rrset" "tombstone_txt" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_tombstone_txt" {
+  zone = hcloud_zone.io_osborn.name
   name = "tombstone"
   type = "TXT"
 
@@ -435,8 +421,8 @@ resource "hcloud_zone_rrset" "tombstone_txt" {
   }
 }
 
-resource "hcloud_zone_rrset" "txt" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "io_osborn_txt" {
+  zone = hcloud_zone.io_osborn.name
   name = "@"
   type = "TXT"
 

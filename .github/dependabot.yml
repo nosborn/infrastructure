@@ -5,24 +5,9 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
 
   - package-ecosystem: terraform
-    directories:
-      - /
-      - /modules/*
+    directory: /
     schedule:
       interval: monthly
-    groups:
-      aws-provider:
-        patterns:
-          - hashicorp/aws
-      b2-provider:
-        patterns:
-          - Backblaze/b2
-      github-provider:
-        patterns:
-          - integrations/github
-      other-providers:
-        patterns:
-          - "*"

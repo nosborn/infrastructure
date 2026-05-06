@@ -1,4 +1,9 @@
-resource "hcloud_zone" "this" {
+moved {
+  from = module.osborn_ws.hcloud_zone.this
+  to   = hcloud_zone.ws_osborn
+}
+
+resource "hcloud_zone" "ws_osborn" {
   name              = "osborn.ws"
   mode              = "primary"
   delete_protection = true
@@ -8,8 +13,13 @@ resource "hcloud_zone" "this" {
   }
 }
 
-resource "hcloud_zone_rrset" "caa" {
-  zone = hcloud_zone.this.name
+moved {
+  from = module.osborn_ws.hcloud_zone_rrset.caa
+  to   = hcloud_zone_rrset.ws_osborn_caa
+}
+
+resource "hcloud_zone_rrset" "ws_osborn_caa" {
+  zone = hcloud_zone.ws_osborn.name
   name = "@"
   type = "CAA"
 
@@ -30,8 +40,13 @@ resource "hcloud_zone_rrset" "caa" {
   }
 }
 
-resource "hcloud_zone_rrset" "dmarc_txt" {
-  zone = hcloud_zone.this.name
+moved {
+  from = module.osborn_ws.hcloud_zone_rrset.dmarc_txt
+  to   = hcloud_zone_rrset.ws_osborn_dmarc_txt
+}
+
+resource "hcloud_zone_rrset" "ws_osborn_dmarc_txt" {
+  zone = hcloud_zone.ws_osborn.name
   name = "_dmarc"
   type = "TXT"
 
@@ -46,8 +61,13 @@ resource "hcloud_zone_rrset" "dmarc_txt" {
   }
 }
 
-resource "hcloud_zone_rrset" "domainkey_google_txt" {
-  zone = hcloud_zone.this.name
+moved {
+  from = module.osborn_ws.hcloud_zone_rrset.domainkey_google_txt
+  to   = hcloud_zone_rrset.ws_osborn_domainkey_google_txt
+}
+
+resource "hcloud_zone_rrset" "ws_osborn_domainkey_google_txt" {
+  zone = hcloud_zone.ws_osborn.name
   name = "google._domainkey"
   type = "TXT"
 
@@ -70,8 +90,13 @@ resource "hcloud_zone_rrset" "domainkey_google_txt" {
   }
 }
 
-resource "hcloud_zone_rrset" "family_cname" {
-  zone = hcloud_zone.this.name
+moved {
+  from = module.osborn_ws.hcloud_zone_rrset.family_cname
+  to   = hcloud_zone_rrset.ws_osborn_family_cname
+}
+
+resource "hcloud_zone_rrset" "ws_osborn_family_cname" {
+  zone = hcloud_zone.ws_osborn.name
   name = "family"
   type = "CNAME"
 
@@ -86,8 +111,13 @@ resource "hcloud_zone_rrset" "family_cname" {
   }
 }
 
-resource "hcloud_zone_rrset" "github_pages_txt" {
-  zone = hcloud_zone.this.name
+moved {
+  from = module.osborn_ws.hcloud_zone_rrset.github_pages_txt
+  to   = hcloud_zone_rrset.ws_osborn_github_pages_txt
+}
+
+resource "hcloud_zone_rrset" "ws_osborn_github_pages_txt" {
+  zone = hcloud_zone.ws_osborn.name
   name = "_github-pages-challenge-nosborn"
   type = "TXT"
 
@@ -102,8 +132,13 @@ resource "hcloud_zone_rrset" "github_pages_txt" {
   }
 }
 
-resource "hcloud_zone_rrset" "lordbill47_cname" {
-  zone = hcloud_zone.this.name
+moved {
+  from = module.osborn_ws.hcloud_zone_rrset.lordbill47_cname
+  to   = hcloud_zone_rrset.ws_osborn_lordbill47_cname
+}
+
+resource "hcloud_zone_rrset" "ws_osborn_lordbill47_cname" {
+  zone = hcloud_zone.ws_osborn.name
   name = "lordbill47"
   type = "CNAME"
 
@@ -118,8 +153,13 @@ resource "hcloud_zone_rrset" "lordbill47_cname" {
   }
 }
 
-resource "hcloud_zone_rrset" "mx" {
-  zone = hcloud_zone.this.name
+moved {
+  from = module.osborn_ws.hcloud_zone_rrset.mx
+  to   = hcloud_zone_rrset.ws_osborn_mx
+}
+
+resource "hcloud_zone_rrset" "ws_osborn_mx" {
+  zone = hcloud_zone.ws_osborn.name
   name = "@"
   type = "MX"
 
@@ -146,8 +186,13 @@ resource "hcloud_zone_rrset" "mx" {
   }
 }
 
-resource "hcloud_zone_rrset" "test_cname" {
-  zone = hcloud_zone.this.name
+moved {
+  from = module.osborn_ws.hcloud_zone_rrset.test_cname
+  to   = hcloud_zone_rrset.ws_osborn_test_cname
+}
+
+resource "hcloud_zone_rrset" "ws_osborn_test_cname" {
+  zone = hcloud_zone.ws_osborn.name
   name = "test"
   type = "CNAME"
 
@@ -162,24 +207,13 @@ resource "hcloud_zone_rrset" "test_cname" {
   }
 }
 
-resource "hcloud_zone_rrset" "test_dkim_txt" {
-  zone = hcloud_zone.this.name
-  name = "*._domainkey.test"
-  type = "TXT"
-
-  records = [
-    {
-      value = provider::hcloud::txt_record("v=DKIM1; p=")
-    },
-  ]
-
-  lifecycle {
-    prevent_destroy = true
-  }
+moved {
+  from = module.osborn_ws.hcloud_zone_rrset.test_dmarc_txt
+  to   = hcloud_zone_rrset.ws_osborn_test_dmarc_txt
 }
 
-resource "hcloud_zone_rrset" "test_dmarc_txt" {
-  zone = hcloud_zone.this.name
+resource "hcloud_zone_rrset" "ws_osborn_test_dmarc_txt" {
+  zone = hcloud_zone.ws_osborn.name
   name = "_dmarc.test"
   type = "TXT"
 
@@ -194,8 +228,34 @@ resource "hcloud_zone_rrset" "test_dmarc_txt" {
   }
 }
 
-resource "hcloud_zone_rrset" "txt" {
-  zone = hcloud_zone.this.name
+moved {
+  from = module.osborn_ws.hcloud_zone_rrset.test_dkim_txt
+  to   = hcloud_zone_rrset.ws_osborn_test_domainkey_txt
+}
+
+resource "hcloud_zone_rrset" "ws_osborn_test_domainkey_txt" {
+  zone = hcloud_zone.ws_osborn.name
+  name = "*._domainkey.test"
+  type = "TXT"
+
+  records = [
+    {
+      value = provider::hcloud::txt_record("v=DKIM1; p=")
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+moved {
+  from = module.osborn_ws.hcloud_zone_rrset.txt
+  to   = hcloud_zone_rrset.ws_osborn_txt
+}
+
+resource "hcloud_zone_rrset" "ws_osborn_txt" {
+  zone = hcloud_zone.ws_osborn.name
   name = "@"
   type = "TXT"
 
@@ -213,8 +273,13 @@ resource "hcloud_zone_rrset" "txt" {
   }
 }
 
-resource "hcloud_zone_rrset" "ww1_cname" {
-  zone = hcloud_zone.this.name
+moved {
+  from = module.osborn_ws.hcloud_zone_rrset.ww1_cname
+  to   = hcloud_zone_rrset.ws_osborn_ww1_cname
+}
+
+resource "hcloud_zone_rrset" "ws_osborn_ww1_cname" {
+  zone = hcloud_zone.ws_osborn.name
   name = "ww1"
   type = "CNAME"
 
