@@ -78,6 +78,72 @@ resource "hcloud_zone_rrset" "io_osborn_dmarc_txt" {
   }
 }
 
+resource "hcloud_zone_rrset" "io_osborn_flux_a" {
+  zone = hcloud_zone.io_osborn.name
+  name = "flux"
+  type = "A"
+
+  records = [
+    {
+      value = var.tombstone_ipv4_address
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+# resource "hcloud_zone_rrset" "io_osborn_flux_aaaa" {
+#   zone = hcloud_zone.io_osborn.name
+#   name = "flux"
+#   type = "AAAA"
+#
+#   records = [
+#     {
+#       value = var.tombstone_ipv6_address
+#     },
+#   ]
+# }
+
+resource "hcloud_zone_rrset" "io_osborn_flux_caa" {
+  zone = hcloud_zone.io_osborn.name
+  name = "flux"
+  type = "CAA"
+
+  records = [
+    {
+      value = "0 iodef \"${var.caa_iodef_url}\""
+    },
+    {
+      value = "0 issue \"letsencrypt.org;validationmethods=tls-alpn-01\""
+    },
+    {
+      value = "0 issuewild \";\""
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "hcloud_zone_rrset" "io_osborn_flux_https" {
+  zone = hcloud_zone.io_osborn.name
+  name = "flux"
+  type = "HTTPS"
+
+  records = [
+    {
+      value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address}" # ipv6hint=${var.tombstone_ipv6_address}"
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "hcloud_zone_rrset" "io_osborn_git_a" {
   zone = hcloud_zone.io_osborn.name
   name = "git"
@@ -94,17 +160,17 @@ resource "hcloud_zone_rrset" "io_osborn_git_a" {
   }
 }
 
-resource "hcloud_zone_rrset" "io_osborn_git_aaaa" {
-  zone = hcloud_zone.io_osborn.name
-  name = "git"
-  type = "AAAA"
-
-  records = [
-    {
-      value = var.tombstone_ipv6_address
-    },
-  ]
-}
+# resource "hcloud_zone_rrset" "io_osborn_git_aaaa" {
+#   zone = hcloud_zone.io_osborn.name
+#   name = "git"
+#   type = "AAAA"
+#
+#   records = [
+#     {
+#       value = var.tombstone_ipv6_address
+#     },
+#   ]
+# }
 
 resource "hcloud_zone_rrset" "io_osborn_git_caa" {
   zone = hcloud_zone.io_osborn.name
@@ -135,7 +201,7 @@ resource "hcloud_zone_rrset" "io_osborn_git_https" {
 
   records = [
     {
-      value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
+      value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address}" # ipv6hint=${var.tombstone_ipv6_address}"
     },
   ]
 
@@ -313,21 +379,21 @@ resource "hcloud_zone_rrset" "io_osborn_tombstone_a" {
   }
 }
 
-resource "hcloud_zone_rrset" "io_osborn_tombstone_aaaa" {
-  zone = hcloud_zone.io_osborn.name
-  name = "tombstone"
-  type = "AAAA"
-
-  records = [
-    {
-      value = var.tombstone_ipv6_address
-    },
-  ]
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
+# resource "hcloud_zone_rrset" "io_osborn_tombstone_aaaa" {
+#   zone = hcloud_zone.io_osborn.name
+#   name = "tombstone"
+#   type = "AAAA"
+#
+#   records = [
+#     {
+#       value = var.tombstone_ipv6_address
+#     },
+#   ]
+#
+#   lifecycle {
+#     prevent_destroy = true
+#   }
+# }
 
 resource "hcloud_zone_rrset" "io_osborn_tombstone_caa" {
   zone = hcloud_zone.io_osborn.name
@@ -358,7 +424,7 @@ resource "hcloud_zone_rrset" "io_osborn_tombstone_https" {
 
   records = [
     {
-      value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address} ipv6hint=${var.tombstone_ipv6_address}"
+      value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address}" # ipv6hint=${var.tombstone_ipv6_address}"
     },
   ]
 
