@@ -363,6 +363,124 @@ resource "hcloud_zone_rrset" "io_osborn_domainkey_sig1_cname" {
   }
 }
 
+resource "hcloud_zone_rrset" "io_osborn_social_a" {
+  zone = hcloud_zone.io_osborn.name
+  name = "social"
+  type = "A"
+
+  records = [
+    {
+      value = var.tombstone_ipv4_address
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+# resource "hcloud_zone_rrset" "io_osborn_social_aaaa" {
+#   zone = hcloud_zone.io_osborn.name
+#   name = "social"
+#   type = "AAAA"
+#
+#   records = [
+#     {
+#       value = var.tombstone_ipv6_address
+#     },
+#   ]
+#
+#   lifecycle {
+#     prevent_destroy = true
+#   }
+# }
+
+resource "hcloud_zone_rrset" "io_osborn_social_caa" {
+  zone = hcloud_zone.io_osborn.name
+  name = "social"
+  type = "CAA"
+
+  records = [
+    {
+      value = "0 iodef \"${var.caa_iodef_url}\""
+    },
+    {
+      value = "0 issue \"letsencrypt.org;validationmethods=tls-alpn-01\""
+    },
+    {
+      value = "0 issuewild \";\""
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "hcloud_zone_rrset" "io_osborn_social_https" {
+  zone = hcloud_zone.io_osborn.name
+  name = "social"
+  type = "HTTPS"
+
+  records = [
+    {
+      value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address}" # ipv6hint=${var.tombstone_ipv6_address}"
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "hcloud_zone_rrset" "io_osborn_social_wildcard_a" {
+  zone = hcloud_zone.io_osborn.name
+  name = "*.social"
+  type = "A"
+
+  records = [
+    {
+      value = var.tombstone_ipv4_address
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+# resource "hcloud_zone_rrset" "io_osborn_social_wildcard_aaaa" {
+#   zone = hcloud_zone.io_osborn.name
+#   name = "*.social"
+#   type = "AAAA"
+#
+#   records = [
+#     {
+#       value = var.tombstone_ipv6_address
+#     },
+#   ]
+#
+#   lifecycle {
+#     prevent_destroy = true
+#   }
+# }
+
+resource "hcloud_zone_rrset" "io_osborn_social_wildcard_https" {
+  zone = hcloud_zone.io_osborn.name
+  name = "*.social"
+  type = "HTTPS"
+
+  records = [
+    {
+      value = "1 . alpn=h2 ipv4hint=${var.tombstone_ipv4_address}" # ipv6hint=${var.tombstone_ipv6_address}"
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "hcloud_zone_rrset" "io_osborn_tombstone_a" {
   zone = hcloud_zone.io_osborn.name
   name = "tombstone"

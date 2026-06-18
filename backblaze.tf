@@ -13,16 +13,6 @@ resource "b2_bucket" "diskstation" { # DEPRECATED
   }
 }
 
-resource "b2_bucket" "hyperbackup" { # DEPRECATED
-  bucket_name = "io-osborn-hyperbackup"
-  bucket_type = "allPrivate"
-
-  lifecycle_rules {
-    file_name_prefix             = ""
-    days_from_hiding_to_deleting = 1 # "Keep only the last version"
-  }
-}
-
 resource "b2_application_key" "cloudsync" { # DEPRECATED
   key_name = "CloudSync"
 
@@ -32,24 +22,6 @@ resource "b2_application_key" "cloudsync" { # DEPRECATED
 
   capabilities = [
     "deleteFiles",
-    "listBuckets",
-    "listFiles",
-    "readBuckets",
-    "readFiles",
-    "writeFiles",
-  ]
-}
-
-resource "b2_application_key" "hyperbackup" { # DEPRECATED
-  key_name = "HyperBackup"
-
-  bucket_ids = [
-    b2_bucket.hyperbackup.id,
-  ]
-
-  capabilities = [
-    "deleteFiles",
-    "listAllBucketNames",
     "listBuckets",
     "listFiles",
     "readBuckets",
