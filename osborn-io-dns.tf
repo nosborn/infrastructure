@@ -47,9 +47,6 @@ resource "hcloud_zone_rrset" "io_osborn_caa" {
 
   records = [
     {
-      value = "0 iodef \"${var.caa_iodef_url}\""
-    },
-    {
       value = "0 issue \"letsencrypt.org\""
     },
     {
@@ -113,9 +110,6 @@ resource "hcloud_zone_rrset" "io_osborn_flux_caa" {
 
   records = [
     {
-      value = "0 iodef \"${var.caa_iodef_url}\""
-    },
-    {
       value = "0 issue \"letsencrypt.org;validationmethods=tls-alpn-01\""
     },
     {
@@ -178,9 +172,6 @@ resource "hcloud_zone_rrset" "io_osborn_git_caa" {
   type = "CAA"
 
   records = [
-    {
-      value = "0 iodef \"${var.caa_iodef_url}\""
-    },
     {
       value = "0 issue \"letsencrypt.org;validationmethods=tls-alpn-01\""
     },
@@ -277,6 +268,22 @@ resource "hcloud_zone_rrset" "io_osborn_mx" {
   }
 }
 
+resource "hcloud_zone_rrset" "io_osborn_nick_domainkey_sig1_cname" {
+  zone = hcloud_zone.io_osborn.name
+  name = "sig1._domainkey.nick"
+  type = "CNAME"
+
+  records = [
+    {
+      value = "sig1.dkim.nick.osborn.io.at.icloudmailadmin.com."
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "hcloud_zone_rrset" "io_osborn_nick_mx" {
   zone = hcloud_zone.io_osborn.name
   name = "nick"
@@ -288,22 +295,6 @@ resource "hcloud_zone_rrset" "io_osborn_nick_mx" {
     },
     {
       value = "10 mx02.mail.icloud.com."
-    },
-  ]
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "hcloud_zone_rrset" "io_osborn_nick_domainkey_sig1_cname" {
-  zone = hcloud_zone.io_osborn.name
-  name = "sig1._domainkey.nick"
-  type = "CNAME"
-
-  records = [
-    {
-      value = "sig1.dkim.nick.osborn.io.at.icloudmailadmin.com."
     },
   ]
 
@@ -401,9 +392,6 @@ resource "hcloud_zone_rrset" "io_osborn_social_caa" {
   type = "CAA"
 
   records = [
-    {
-      value = "0 iodef \"${var.caa_iodef_url}\""
-    },
     {
       value = "0 issue \"letsencrypt.org;validationmethods=tls-alpn-01\""
     },
@@ -519,9 +507,6 @@ resource "hcloud_zone_rrset" "io_osborn_tombstone_caa" {
   type = "CAA"
 
   records = [
-    {
-      value = "0 iodef \"${var.caa_iodef_url}\""
-    },
     {
       value = "0 issue \"letsencrypt.org;validationmethods=tls-alpn-01\""
     },

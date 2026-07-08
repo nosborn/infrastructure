@@ -15,9 +15,6 @@ resource "hcloud_zone_rrset" "com_redzebraconsulting_caa" {
 
   records = [
     {
-      value = "0 iodef \"${var.caa_iodef_url}\""
-    },
-    {
       value = "0 issue \";\""
     },
   ]
