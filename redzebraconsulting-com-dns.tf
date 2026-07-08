@@ -47,7 +47,7 @@ resource "hcloud_zone_rrset" "com_redzebraconsulting_dmarc_txt" {
 
   records = [
     {
-      value = provider::hcloud::txt_record("v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s;")
+      value = provider::hcloud::txt_record("v=DMARC1; p=reject; sp=reject; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s; aspf=s;")
     },
   ]
 

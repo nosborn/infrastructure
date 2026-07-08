@@ -34,7 +34,7 @@ resource "hcloud_zone_rrset" "ws_osborn_dmarc_txt" {
 
   records = [
     {
-      value = provider::hcloud::txt_record("v=DMARC1; p=none; rua=mailto:${var.dmarc_aggregate_reporting_address};")
+      value = provider::hcloud::txt_record("v=DMARC1; p=quarantine; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s; aspf=s;") # TODO: p=reject
     },
   ]
 
@@ -166,7 +166,7 @@ resource "hcloud_zone_rrset" "ws_osborn_test_dmarc_txt" {
 
   records = [
     {
-      value = provider::hcloud::txt_record("v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s;")
+      value = provider::hcloud::txt_record("v=DMARC1; p=reject; rua=mailto:${var.dmarc_aggregate_reporting_address}; adkim=s")
     },
   ]
 
@@ -201,7 +201,7 @@ resource "hcloud_zone_rrset" "ws_osborn_txt" {
       value = provider::hcloud::txt_record("keybase-site-verification=Ja5bgvX88XlN7aKAcL28I5VAXfNNdy90VAyEvamgkQE")
     },
     {
-      value = provider::hcloud::txt_record("v=spf1 include:_spf.google.com ~all")
+      value = provider::hcloud::txt_record("v=spf1 include:_spf.google.com -all")
     },
   ]
 
