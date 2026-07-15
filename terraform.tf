@@ -9,7 +9,7 @@ terraform {
 
     github = {
       source  = "integrations/github"
-      version = "6.12.1"
+      version = "6.13.0"
     }
 
     hcloud = {
@@ -29,7 +29,7 @@ terraform {
 
     vultr = {
       source  = "vultr/vultr"
-      version = "2.31.2"
+      version = "2.32.0"
     }
   }
 }

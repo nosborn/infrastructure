@@ -110,7 +110,7 @@ resource "hcloud_zone_rrset" "io_osborn_flux_caa" {
 
   records = [
     {
-      value = "0 issue \"letsencrypt.org;validationmethods=tls-alpn-01\""
+      value = "0 issue \"letsencrypt.org;validationmethods=http-01\""
     },
     {
       value = "0 issuewild \";\""
@@ -173,7 +173,7 @@ resource "hcloud_zone_rrset" "io_osborn_git_caa" {
 
   records = [
     {
-      value = "0 issue \"letsencrypt.org;validationmethods=tls-alpn-01\""
+      value = "0 issue \"letsencrypt.org;validationmethods=http-01\""
     },
     {
       value = "0 issuewild \";\""
@@ -393,7 +393,7 @@ resource "hcloud_zone_rrset" "io_osborn_social_caa" {
 
   records = [
     {
-      value = "0 issue \"letsencrypt.org;validationmethods=tls-alpn-01\""
+      value = "0 issue \"letsencrypt.org;validationmethods=http-01\""
     },
     {
       value = "0 issuewild \";\""
@@ -508,7 +508,7 @@ resource "hcloud_zone_rrset" "io_osborn_tombstone_caa" {
 
   records = [
     {
-      value = "0 issue \"letsencrypt.org;validationmethods=tls-alpn-01\""
+      value = "0 issue \"letsencrypt.org;validationmethods=http-01\""
     },
     {
       value = "0 issuewild \";\""
