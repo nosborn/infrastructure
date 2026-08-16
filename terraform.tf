@@ -2,11 +2,6 @@ terraform {
   required_version = "~> 1.15"
 
   required_providers {
-    b2 = {
-      source  = "Backblaze/b2"
-      version = "0.13.2"
-    }
-
     github = {
       source  = "integrations/github"
       version = "6.13.0"

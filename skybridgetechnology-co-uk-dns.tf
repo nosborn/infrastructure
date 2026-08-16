@@ -88,7 +88,7 @@ resource "hcloud_zone_rrset" "uk_co_skybridgetechnology_txt" {
       value = provider::hcloud::txt_record("apple-domain=2YOFYsxUeXxX9mxS")
     },
     {
-      value = provider::hcloud::txt_record("v=spf1 include:icloud.com -all")
+      value = provider::hcloud::txt_record("v=spf1 include:icloud.com ~all")
     },
   ]
 

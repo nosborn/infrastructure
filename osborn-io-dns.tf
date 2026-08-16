@@ -606,7 +606,7 @@ resource "hcloud_zone_rrset" "io_osborn_txt" {
       value = provider::hcloud::txt_record("hosted-email-verify=8dqgaz7q")
     },
     {
-      value = provider::hcloud::txt_record("v=spf1 include:icloud.com -all")
+      value = provider::hcloud::txt_record("v=spf1 include:icloud.com ~all")
     },
   ]
 

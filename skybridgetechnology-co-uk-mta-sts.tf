@@ -115,32 +115,20 @@ max_age: 604800
 EOT
 }
 
-resource "hcloud_zone_rrset" "uk_co_skybridgetechnology_mta_sts_a" {
+resource "hcloud_zone_rrset" "uk_co_skybridgetechnology_mta_sts_cname" {
   name = "mta-sts"
-  type = "A"
+  type = "CNAME"
   zone = hcloud_zone.uk_co_skybridgetechnology.name
 
   records = [
     {
-      value = "95.217.26.94"
+      value = "mta-sts-skybridgetechnology-co-uk.statichost.page."
     },
   ]
 
   lifecycle {
     prevent_destroy = true
   }
-}
-
-resource "hcloud_zone_rrset" "uk_co_skybridgetechnology_mta_sts_aaaa" {
-  name = "mta-sts"
-  type = "AAAA"
-  zone = hcloud_zone.uk_co_skybridgetechnology.name
-
-  records = [
-    {
-      value = "2a01:4f9:c01f:8002::"
-    },
-  ]
 }
 
 resource "hcloud_zone_rrset" "uk_co_skybridgetechnology_mta_sts_txt" {

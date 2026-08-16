@@ -126,60 +126,14 @@ resource "hcloud_zone_rrset" "io_osborn_aaaa" {
   ]
 }
 
-resource "hcloud_zone_rrset" "io_osborn_https" {
-  name = "@"
-  type = "HTTPS"
-  zone = hcloud_zone.io_osborn.name
-
-  records = [
-    {
-      value = "0 www.${hcloud_zone.io_osborn.name}.",
-    },
-  ]
-}
-
-resource "hcloud_zone_rrset" "io_osborn_www_a" {
+resource "hcloud_zone_rrset" "io_osborn_www_cname" {
   name = "www"
-  type = "A"
+  type = "CNAME"
   zone = hcloud_zone.io_osborn.name
 
   records = [
     {
-      value = local.statichost_ipv4_address
-    },
-  ]
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "hcloud_zone_rrset" "io_osborn_www_aaaa" {
-  name = "www"
-  type = "AAAA"
-  zone = hcloud_zone.io_osborn.name
-
-  records = [
-    {
-      value = local.statichost_ipv6_address
-    },
-  ]
-}
-
-resource "hcloud_zone_rrset" "io_osborn_www_https" {
-  name = "www"
-  type = "HTTPS"
-  zone = hcloud_zone.io_osborn.name
-
-  records = [
-    {
-      value = join(" ", [
-        "1",
-        ".",
-        "alpn=\"h3,h2\"",
-        "ipv4hint=${join(",", [for v in hcloud_zone_rrset.io_osborn_www_a.records : v.value])}",
-        "ipv6hint=${join(",", [for v in hcloud_zone_rrset.io_osborn_www_aaaa.records : v.value])}",
-      ])
+      value = "www-osborn-io.statichost.page.",
     },
   ]
 }
