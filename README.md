@@ -4,7 +4,7 @@
 
 ## Tools
 
-- [Terraform](https://terraform.io) 1.15
+- [Terraform](https://terraform.io) 1.16
 
 ## License
 
