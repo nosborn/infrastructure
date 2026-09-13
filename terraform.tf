@@ -9,17 +9,17 @@ terraform {
 
     hcloud = {
       source  = "hetznercloud/hcloud"
-      version = "1.68.0"
+      version = "1.69.0"
     }
 
     random = {
       source  = "hashicorp/random"
-      version = "3.9.0"
+      version = "3.9.1"
     }
 
     time = {
       source  = "hashicorp/time"
-      version = "0.14.1"
+      version = "0.14.2"
     }
 
     vultr = {

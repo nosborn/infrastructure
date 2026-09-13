@@ -469,6 +469,38 @@ resource "hcloud_zone_rrset" "io_osborn_social_wildcard_https" {
   }
 }
 
+resource "hcloud_zone_rrset" "io_osborn_starbase_a" {
+  zone = hcloud_zone.io_osborn.name
+  name = "starbase"
+  type = "A"
+
+  records = [
+    {
+      value = var.tombstone_ipv4_address
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "hcloud_zone_rrset" "io_osborn_starbase_caa" {
+  zone = hcloud_zone.io_osborn.name
+  name = "starbase"
+  type = "CAA"
+
+  records = [
+    {
+      value = "0 issue \";\""
+    },
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "hcloud_zone_rrset" "io_osborn_tombstone_a" {
   zone = hcloud_zone.io_osborn.name
   name = "tombstone"
