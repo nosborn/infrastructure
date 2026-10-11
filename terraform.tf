@@ -9,7 +9,7 @@ terraform {
 
     hcloud = {
       source  = "hetznercloud/hcloud"
-      version = "1.69.0"
+      version = "1.70.0"
     }
 
     random = {
@@ -24,7 +24,7 @@ terraform {
 
     vultr = {
       source  = "vultr/vultr"
-      version = "2.32.0"
+      version = "2.33.1"
     }
   }
 }

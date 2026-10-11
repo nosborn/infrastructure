@@ -1,13 +1,13 @@
-resource "vultr_instance" "proxy_de" {
+resource "vultr_instance" "proxy_nl" {
   activation_email  = false
   backups           = "disabled"
   enable_ipv6       = true
   firewall_group_id = vultr_firewall_group.main.id
-  hostname          = "proxy-de.osborn.io"
-  label             = "proxy-de.osborn.io"
+  hostname          = "proxy-nl.osborn.io"
+  label             = "proxy-nl.osborn.io"
   os_id             = data.vultr_os.debian_13.id
   plan              = "vc2-1c-1gb"
-  region            = "fra" # Frankfurt
+  region            = "ams" # Amsterdam
 
   ssh_key_ids = [
     vultr_ssh_key.main.id,
@@ -31,33 +31,33 @@ resource "vultr_instance" "proxy_de" {
   }
 }
 
-resource "hcloud_zone_rrset" "io_osborn_proxy_de_a" {
+resource "hcloud_zone_rrset" "io_osborn_proxy_nl_a" {
   zone = hcloud_zone.io_osborn.name
-  name = "proxy-de"
+  name = "proxy-nl"
   type = "A"
 
   records = [
     {
-      value = vultr_instance.proxy_de.main_ip
+      value = vultr_instance.proxy_nl.main_ip
     },
   ]
 }
 
-resource "hcloud_zone_rrset" "io_osborn_proxy_de_aaaa" {
+resource "hcloud_zone_rrset" "io_osborn_proxy_nl_aaaa" {
   zone = hcloud_zone.io_osborn.name
-  name = "proxy-de"
+  name = "proxy-nl"
   type = "AAAA"
 
   records = [
     {
-      value = vultr_instance.proxy_de.v6_main_ip
+      value = vultr_instance.proxy_nl.v6_main_ip
     },
   ]
 }
 
-resource "hcloud_zone_rrset" "io_osborn_proxy_de_caa" {
+resource "hcloud_zone_rrset" "io_osborn_proxy_nl_caa" {
   zone = hcloud_zone.io_osborn.name
-  name = "proxy-de"
+  name = "proxy-nl"
   type = "CAA"
 
   records = [
@@ -67,9 +67,9 @@ resource "hcloud_zone_rrset" "io_osborn_proxy_de_caa" {
   ]
 }
 
-resource "hcloud_zone_rrset" "io_osborn_proxy_de_mx" {
+resource "hcloud_zone_rrset" "io_osborn_proxy_nl_mx" {
   zone = hcloud_zone.io_osborn.name
-  name = "proxy-de"
+  name = "proxy-nl"
   type = "MX"
 
   records = [
@@ -79,9 +79,9 @@ resource "hcloud_zone_rrset" "io_osborn_proxy_de_mx" {
   ]
 }
 
-resource "hcloud_zone_rrset" "io_osborn_proxy_de_txt" {
+resource "hcloud_zone_rrset" "io_osborn_proxy_nl_txt" {
   zone = hcloud_zone.io_osborn.name
-  name = "proxy-de"
+  name = "proxy-nl"
   type = "TXT"
 
   records = [
@@ -91,14 +91,14 @@ resource "hcloud_zone_rrset" "io_osborn_proxy_de_txt" {
   ]
 }
 
-resource "vultr_reverse_ipv4" "proxy_de" {
-  instance_id = vultr_instance.proxy_de.id
-  ip          = vultr_instance.proxy_de.main_ip
-  reverse     = "${hcloud_zone_rrset.io_osborn_proxy_de_a.name}.${hcloud_zone.io_osborn.name}"
+resource "vultr_reverse_ipv4" "proxy_nl" {
+  instance_id = vultr_instance.proxy_nl.id
+  ip          = vultr_instance.proxy_nl.main_ip
+  reverse     = "${hcloud_zone_rrset.io_osborn_proxy_nl_a.name}.${hcloud_zone.io_osborn.name}"
 }
 
-resource "vultr_reverse_ipv6" "proxy_de" {
-  instance_id = vultr_instance.proxy_de.id
-  ip          = vultr_instance.proxy_de.v6_main_ip
-  reverse     = "${hcloud_zone_rrset.io_osborn_proxy_de_aaaa.name}.${hcloud_zone.io_osborn.name}"
+resource "vultr_reverse_ipv6" "proxy_nl" {
+  instance_id = vultr_instance.proxy_nl.id
+  ip          = vultr_instance.proxy_nl.v6_main_ip
+  reverse     = "${hcloud_zone_rrset.io_osborn_proxy_nl_aaaa.name}.${hcloud_zone.io_osborn.name}"
 }
