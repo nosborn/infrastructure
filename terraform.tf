@@ -24,7 +24,7 @@ terraform {
 
     vultr = {
       source  = "vultr/vultr"
-      version = "2.33.1"
+      version = "2.33.2"
     }
   }
 }
